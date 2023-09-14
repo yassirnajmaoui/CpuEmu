@@ -1,10 +1,9 @@
 #pragma once
 
+#include "Utils.hpp"
 #include <memory>
 
 class Node;
-
-typedef unsigned long long WireData;
 
 class Wire
 {

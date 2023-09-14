@@ -1,9 +1,8 @@
-#include "Units/AdderNode.hpp"
+#include "Units/Adder.hpp"
 #include "Types/Wire.hpp"
-
 #include "Utils.hpp"
 
-void AdderNode::ProcessInternal() const
+void Adder::ProcessInternal() const
 {
 	ASSERT(mInputWires[0] != nullptr, "Input wire 0 not set for AdderNode");
 	ASSERT(mInputWires[1] != nullptr, "Input wire 1 not set for AdderNode");

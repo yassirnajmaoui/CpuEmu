@@ -1,8 +1,6 @@
 #include "Types/Node.hpp"
 #include "Types/Wire.hpp"
 
-#include <iostream>
-
 void Node::Process()
 {
     ProcessInternal();

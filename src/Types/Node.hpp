@@ -22,7 +22,7 @@ public:
 	static std::shared_ptr<Wire> ConnectNodes(std::shared_ptr<Node> ppSendingNode, std::shared_ptr<Node> ppReceivingNode);
 	static std::shared_ptr<Wire> CreateInputWire(std::shared_ptr<Node> ppReceivingNode);
 	static std::shared_ptr<Wire> CreateOutputWire(std::shared_ptr<Node> ppSendingNode);
-
+	
 protected:
 	virtual void ProcessInternal() const = 0;
 

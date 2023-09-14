@@ -1,13 +1,17 @@
+#include "Types/Node.hpp"
+#include "Types/Wire.hpp"
+#include "Units/Adder.hpp"
+#include "Utils.hpp"
+
 #include <iostream>
-#include <Units/AdderNode.hpp>
-#include <Types/Wire.hpp>
+#include <memory>
 
 int main()
 {
-	auto adder1 = std::make_shared<AdderNode>();
-	auto adder2 = std::make_shared<AdderNode>();
-	auto adder3 = std::make_shared<AdderNode>();
-	auto adder4 = std::make_shared<AdderNode>();
+	auto adder1 = std::make_shared<Adder>();
+	auto adder2 = std::make_shared<Adder>();
+	auto adder3 = std::make_shared<Adder>();
+	auto adder4 = std::make_shared<Adder>();
 	
 	auto in1	= Node::CreateInputWire(adder1);
 	auto in2	= Node::CreateInputWire(adder1);
@@ -33,4 +37,6 @@ int main()
 	in5->SetDataReady();
 
 	std::cout << "out data: " << out->GetData() << std::endl;
+
+	return 0;
 }
