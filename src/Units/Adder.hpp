@@ -4,5 +4,15 @@
 
 class Adder : public Node
 {
-	void ProcessInternal() const override;
+public:
+	// Inputs
+	static constexpr size_t Input1Index = 0;
+	static constexpr size_t Input2Index = 1;
+
+	// Outputs
+	static constexpr size_t OutputIndex = 0;
+
+	Adder();
+protected:
+	void ProcessInternal() override;
 };

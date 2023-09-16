@@ -1,12 +1,20 @@
 #include "Units/ALU.hpp"
 #include "Types/Wire.hpp"
 
-void ALU::ProcessInternal() const
+ALU::ALU() :
+	Node(3, 2)
 {
-	WireData lControl = mpALUControl.lock()->GetData();
-	WireData lRD1 = mpReadData1.lock()->GetData();
-	WireData lRD2 = mpReadData2.lock()->GetData();
-	auto lpALUResultWire = mpALUResut.lock();
+}
+
+void ALU::ProcessInternal()
+{
+	WireData lRD1 = mInputWires[RD1Index]->GetData();
+	WireData lRD2 = mInputWires[RD2Index]->GetData();
+	WireData lControl = mInputWires[ALUControlIndex]->GetData();
+
+	auto lpALUResultWire = mOutputWires[ALUResultIndex];
+	auto lpALUZeroWire = mOutputWires[ALUZeroIndex];
+
 	switch (lControl)
 	{
 	case ALUOP_ADD:
@@ -39,8 +47,9 @@ void ALU::ProcessInternal() const
 	default:
 		break;
 	}
+	
 	if(lpALUResultWire->GetData() == 0)
 	{
-		mpZero.lock()->SetData(1);
+		lpALUZeroWire->SetData(1);
 	}
 }

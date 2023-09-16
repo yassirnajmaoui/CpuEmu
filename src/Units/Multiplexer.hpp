@@ -4,7 +4,10 @@
 
 class Multiplexer : public Node
 {
-// Note: The first input has to always be the Control
 public:
-	void ProcessInternal() const override;
+	static constexpr size_t InputSelectionIndex = 0;
+
+	Multiplexer(size_t pNumberOfInputs);
+protected:
+	void ProcessInternal() override;
 };

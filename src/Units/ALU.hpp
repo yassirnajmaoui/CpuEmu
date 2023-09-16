@@ -15,15 +15,17 @@ constexpr WireData ALUOP_AND = 0b111;
 
 class ALU : public Node
 {
+public:
+	// Inputs
+	static constexpr size_t RD1Index = 0;
+	static constexpr size_t RD2Index = 1;
+	static constexpr size_t ALUControlIndex = 2;
+
+	// Outputs
+	static constexpr size_t ALUResultIndex = 0;
+	static constexpr size_t ALUZeroIndex = 1;
+
+	ALU();
 protected:
-	void ProcessInternal() const;
-
-private:
-	std::weak_ptr<Wire> mpReadData1;//input
-	std::weak_ptr<Wire> mpReadData2;//input
-
-	std::weak_ptr<Wire> mpZero;//output
-	std::weak_ptr<Wire> mpALUResut;//output
-
-	std::weak_ptr<Wire> mpALUControl;//input
+	void ProcessInternal();
 };

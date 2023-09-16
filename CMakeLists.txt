@@ -9,10 +9,11 @@ target_sources(CpuEmuKernel
 	src/Units/ALU.cpp
 	src/Units/Adder.cpp
 	src/Units/Multiplexer.cpp
+	src/Units/Registers.cpp
+	src/Utils.cpp
 )
 target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 
 add_executable(Driver src/Driver/Driver.cpp)
-target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 target_link_libraries(Driver CpuEmuKernel)
 

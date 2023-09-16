@@ -1,11 +1,18 @@
 #include "Units/Multiplexer.hpp"
 #include "Types/Wire.hpp"
 
-void Multiplexer::ProcessInternal() const
+Multiplexer::Multiplexer(size_t pNumberOfInputs) :
+	Node(pNumberOfInputs + 1, 1)
 {
-	WireData lControl = mInputWires[0]->GetData();
+}
+
+
+void Multiplexer::ProcessInternal()
+{
+	// Note: The first input has to always be the Control
+	WireData lControl = mInputWires[InputSelectionIndex]->GetData();
 	if(lControl + 1 < mInputWires.size())
 	{
-		mOutputWires[0]->SetData(mInputWires[lControl+1]->GetData());
+		mOutputWires[InputSelectionIndex]->SetData(mInputWires[lControl + 1]->GetData());
 	}
 }

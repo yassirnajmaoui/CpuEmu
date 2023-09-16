@@ -1,6 +1,6 @@
 #include "Types/Node.hpp"
 #include "Types/Wire.hpp"
-#include "Units/Adder.hpp"
+#include "Units/Registers.hpp"
 #include "Utils.hpp"
 
 #include <iostream>
@@ -8,35 +8,44 @@
 
 int main()
 {
-	auto adder1 = std::make_shared<Adder>();
-	auto adder2 = std::make_shared<Adder>();
-	auto adder3 = std::make_shared<Adder>();
-	auto adder4 = std::make_shared<Adder>();
+	auto lRegisters = std::make_shared<Registers>();
 	
-	auto in1	= Node::CreateInputWire(adder1);
-	auto in2	= Node::CreateInputWire(adder1);
-	auto in3	= Node::CreateInputWire(adder3);
-	auto in4	= Node::CreateInputWire(adder2);
-	auto in5	= Node::CreateInputWire(adder2);
+	auto lRegWrite	= Node::CreateInputWire(lRegisters, Registers::RegWriteIndex);
+	auto lReadRegister1	= Node::CreateInputWire(lRegisters, Registers::ReadRegister1Index);
+	auto lReadRegister2	= Node::CreateInputWire(lRegisters, Registers::ReadRegister2Index);
+	auto lWriteRegister	= Node::CreateInputWire(lRegisters, Registers::WriteRegisterIndex);
+	auto lWriteData	= Node::CreateInputWire(lRegisters, Registers::WriteDataIndex);
 	
-	auto inter1	= Node::ConnectNodes(adder1, adder3);
-	auto inter2	= Node::ConnectNodes(adder2, adder4);
-	auto inter3	= Node::ConnectNodes(adder3, adder4);
+	auto lReadData1	= Node::CreateOutputWire(lRegisters, Registers::ReadData1Index);
+	auto lReadData2	= Node::CreateOutputWire(lRegisters, Registers::ReadData2Index);
 
-	auto out	= Node::CreateOutputWire(adder4);
+	// Set all ready
+	auto lSetAllInputsReadyFunc = [&]()
+	{
+		lRegWrite->SetDataReady();
+		lReadRegister1->SetDataReady();
+		lReadRegister2->SetDataReady();
+		lWriteRegister->SetDataReady();
+		lWriteData->SetDataReady();
+	};
 
-	in1->SetData(1);
-	in1->SetDataReady();
-	in2->SetData(2);
-	in2->SetDataReady();
-	in3->SetData(3);
-	in3->SetDataReady();
-	in4->SetData(4);
-	in4->SetDataReady();
-	in5->SetData(5);
-	in5->SetDataReady();
+	// Write data
+	lRegWrite->SetData(1);
+	lReadRegister1->SetData(0);
+	lReadRegister2->SetData(0);
+	lWriteRegister->SetData(3);
+	lWriteData->SetData(189894);
 
-	std::cout << "out data: " << out->GetData() << std::endl;
+	lSetAllInputsReadyFunc();
+
+	lRegWrite->SetData(0);
+	lReadRegister1->SetData(3);
+	lReadRegister2->SetData(0);
+	lSetAllInputsReadyFunc();
+
+	WireData lDataWritten = lReadData1->GetData();
+
+	std::cout << "Data written: " << lDataWritten << std::endl;
 
 	return 0;
 }
