@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 project(CpuEmuKernel)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 add_library(CpuEmuKernel)
 target_sources(CpuEmuKernel
 	PRIVATE
