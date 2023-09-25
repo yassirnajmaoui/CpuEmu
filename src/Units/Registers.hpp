@@ -2,11 +2,14 @@
 
 #include "Types/Node.hpp"
 
+// TODO: Create a Register Write back class that allows to write in the registry
+// - Remove the Write operations in class Registers (only allow reading)
+// - The Write back class should do only reading and have a shared_ptr of
+//   the Registers object
+
 class Registers : public Node
 {
 public:
-	Registers();
-
 	static constexpr size_t NumberOfRegisters = 16;
 
 	// Inputs
@@ -20,6 +23,7 @@ public:
 	static constexpr size_t ReadData1Index = 0;
 	static constexpr size_t ReadData2Index = 1;
 
+	Registers();
 
 protected:
 	void ProcessInternal() override;

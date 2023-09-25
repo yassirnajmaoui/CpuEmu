@@ -6,6 +6,7 @@ class Multiplexer : public Node
 {
 public:
 	static constexpr size_t InputSelectionIndex = 0;
+	static constexpr size_t OutputIndex = 0;
 
 	Multiplexer(size_t pNumberOfInputs);
 protected:

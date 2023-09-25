@@ -9,31 +9,25 @@ Registers::Registers() :
 void Registers::ProcessInternal()
 {
 	// Setup
-	WireData lRegWrite = mInputWires[RegWriteIndex]->GetData();
-	WireData lReadRegister1 = mInputWires[ReadRegister1Index]->GetData();
-	WireData lReadRegister2 = mInputWires[ReadRegister2Index]->GetData();
-	WireData lWriteRegister = mInputWires[WriteRegisterIndex]->GetData();
-	WireData lWriteData = mInputWires[WriteDataIndex]->GetData();
-	
-	auto lpReadData1Wire = mOutputWires[ReadData1Index];
-	auto lpReadData2Wire = mOutputWires[ReadData2Index];
+	WireData lRegWrite = GetWireData(RegWriteIndex);
+	WireData lReadRegister1 = GetWireData(ReadRegister1Index);
+	WireData lReadRegister2 = GetWireData(ReadRegister2Index);
+	WireData lWriteRegister = GetWireData(WriteRegisterIndex);
+	WireData lWriteData = GetWireData(WriteDataIndex);
 
 	ASSERT_coherence(lReadRegister1 < NumberOfRegisters, "Register address 1 requested too high");
 	ASSERT_coherence(lReadRegister2 < NumberOfRegisters, "Register address 2 requested too high");
 
-	// Logic
+	// Logic	
 	uint64_t lContentsOfReg1 = mRegisters[lReadRegister1];
 	uint64_t lContentsOfReg2 = mRegisters[lReadRegister2];
 
-	lpReadData1Wire->SetData(lContentsOfReg1);
-	lpReadData2Wire->SetData(lContentsOfReg2);
+	SetWireData(ReadData1Index, lContentsOfReg1);
+	SetWireData(ReadData2Index, lContentsOfReg2);
 
-	if(lRegWrite > 0)
+	// Wire in register if RegWire is true
+	if(lRegWrite)
 	{
 		mRegisters[lWriteRegister] = lWriteData;
 	}
-
-	lpReadData1Wire->SetDataReady();
-	lpReadData2Wire->SetDataReady();
-
 }

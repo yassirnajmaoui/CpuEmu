@@ -8,9 +8,9 @@ ALU::ALU() :
 
 void ALU::ProcessInternal()
 {
-	WireData lRD1 = mInputWires[RD1Index]->GetData();
-	WireData lRD2 = mInputWires[RD2Index]->GetData();
-	WireData lControl = mInputWires[ALUControlIndex]->GetData();
+	WireData lRD1 = GetWireData(RD1Index);
+	WireData lRD2 = GetWireData(RD2Index);
+	WireData lControl = GetWireData(ALUControlIndex);
 
 	auto lpALUResultWire = mOutputWires[ALUResultIndex];
 	auto lpALUZeroWire = mOutputWires[ALUZeroIndex];

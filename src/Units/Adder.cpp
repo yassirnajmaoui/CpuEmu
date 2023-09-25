@@ -13,10 +13,10 @@ void Adder::ProcessInternal()
 	ASSERT(mInputWires[1] != nullptr, "Input wire 1 not set for AdderNode");
 	ASSERT(mOutputWires[0] != nullptr, "Output wire 0 not set for AdderNode");
 
-	WireData lInput0 = mInputWires[0]->GetData();
-	WireData lInput1 = mInputWires[1]->GetData();
+	WireData lInput1 = GetWireData(Input1Index);
+	WireData lInput2 = GetWireData(Input2Index);
 
-	WireData lOutput = lInput0 + lInput1;
+	WireData lOutput = lInput1 + lInput2;
 	
 	mOutputWires[OutputIndex]->SetData(lOutput);
 }

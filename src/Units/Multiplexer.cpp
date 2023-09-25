@@ -10,9 +10,9 @@ Multiplexer::Multiplexer(size_t pNumberOfInputs) :
 void Multiplexer::ProcessInternal()
 {
 	// Note: The first input has to always be the Control
-	WireData lControl = mInputWires[InputSelectionIndex]->GetData();
+	WireData lControl = GetWireData(InputSelectionIndex);
 	if(lControl + 1 < mInputWires.size())
 	{
-		mOutputWires[InputSelectionIndex]->SetData(mInputWires[lControl + 1]->GetData());
+		SetWireData(OutputIndex, GetWireData(lControl + 1));
 	}
 }

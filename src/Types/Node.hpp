@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Utils.hpp"
+
 #include <vector>
 #include <memory>
 
@@ -16,8 +18,8 @@ public:
 
 	void NotifyDataReady();
 
-	size_t GetNumberOfInputWires() const {return mNumberOfInputWires;}
-	size_t GetNumberOfOutputWires() const {return mNumberOfOutputWires;}
+	size_t GetNumberOfInputWires() const { return mNumberOfInputWires; }
+	size_t GetNumberOfOutputWires() const { return mNumberOfOutputWires; }
 
 	static std::shared_ptr<Wire> ConnectNodes(	std::shared_ptr<Node> ppSendingNode,
 												size_t pSendingNodeOutputIndex,
@@ -32,6 +34,9 @@ public:
 	
 protected:
 	virtual void ProcessInternal() = 0;
+
+	WireData GetWireData(size_t pIndex) const;
+	void SetWireData(size_t pIndex, WireData pWireData);
 
 protected:
 	std::vector<std::shared_ptr<Wire>> mInputWires;

@@ -6,6 +6,14 @@
 #include <iostream>
 #include <memory>
 
+/* TODOs:
+ * Add Instruction parser object
+ * Add Control unit
+ * Add PC
+ * Add ALU_control (reads from Control unit and instruction (immediate) and gives an AluOP)
+ */
+
+
 int main()
 {
 	auto lRegisters = std::make_shared<Registers>();

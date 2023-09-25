@@ -37,6 +37,16 @@ void Node::NotifyDataReady()
 	Process();
 }
 
+WireData Node::GetWireData(size_t pIndex) const
+{
+	return mInputWires[pIndex]->GetData();
+}
+
+void Node::SetWireData(size_t pIndex, WireData pWireData)
+{
+	mOutputWires[pIndex]->SetData(pWireData);
+}
+
 std::shared_ptr<Wire> Node::ConnectNodes(	std::shared_ptr<Node> ppSendingNode,
 											size_t pSendingNodeOutputIndex,
 											std::shared_ptr<Node> ppReceivingNode,
