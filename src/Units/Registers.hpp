@@ -27,6 +27,7 @@ public:
 
 protected:
 	void ProcessInternal() override;
+	
 private:
-	std::array<uint64_t, NumberOfRegisters> mRegisters;
+	std::array<WireData, NumberOfRegisters> mRegisters;
 };

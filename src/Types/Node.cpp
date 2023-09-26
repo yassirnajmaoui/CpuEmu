@@ -1,5 +1,6 @@
 #include "Types/Node.hpp"
 #include "Types/Wire.hpp"
+#include "Utils.hpp"
 
 Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires) :
 	mNumberOfInputWires(pNumberOfInputWires),

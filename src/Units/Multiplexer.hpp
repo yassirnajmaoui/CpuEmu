@@ -9,6 +9,7 @@ public:
 	static constexpr size_t OutputIndex = 0;
 
 	Multiplexer(size_t pNumberOfInputs);
+	
 protected:
 	void ProcessInternal() override;
 };

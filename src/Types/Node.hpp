@@ -1,11 +1,9 @@
 #pragma once
 
-#include "Utils.hpp"
+#include "Types/WireForward.hpp"
 
 #include <vector>
 #include <memory>
-
-class Wire;
 
 class Node
 {

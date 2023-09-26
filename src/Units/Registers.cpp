@@ -1,5 +1,6 @@
 #include "Units/Registers.hpp"
 #include "Types/Wire.hpp"
+#include "Utils.hpp"
 
 Registers::Registers() :
 	Node(5, 2)

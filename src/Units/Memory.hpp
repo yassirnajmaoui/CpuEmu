@@ -3,8 +3,6 @@
 #include "Types/Node.hpp"
 #include "Utils.hpp"
 
-class Wire;
-
 class Memory : public Node
 {
 public:

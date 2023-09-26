@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Utils.hpp"
+#include "Types/WireForward.hpp"
+
 #include <memory>
 
 class Node;

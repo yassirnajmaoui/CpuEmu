@@ -11,7 +11,10 @@ target_sources(CpuEmuKernel
 	src/Units/Multiplexer.cpp
 	src/Units/Registers.cpp
 	src/Units/ReadOnlyMemory.cpp
+	src/Units/Memory.cpp
+	src/Units/InstructionParser.cpp
 	src/Utils.cpp
+	src/BitUtils.cpp
 )
 target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 

@@ -1,5 +1,6 @@
 #include "Units/ALU.hpp"
 #include "Types/Wire.hpp"
+#include "RISCV-constants.hpp"
 
 ALU::ALU() :
 	Node(3, 2)

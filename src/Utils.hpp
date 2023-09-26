@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-typedef unsigned long long WireData;
-
 static void constexpr ASSERT(bool pCondition, const char* pErrorMsg )
 {
 	if(!pCondition)
