@@ -15,6 +15,7 @@ target_sources(CpuEmuKernel
 	src/Units/InstructionParser.cpp
 	src/Units/Relay.cpp
 	src/Units/Controller.cpp
+	src/Units/RegistersWriter.cpp
 	src/Utils.cpp
 	src/BitUtils.cpp
 )
@@ -25,4 +26,7 @@ target_link_libraries(Main CpuEmuKernel)
 
 add_executable(TestInstructionParser src/Drivers/TestInstructionParser.cpp)
 target_link_libraries(TestInstructionParser CpuEmuKernel)
+
+add_executable(TestRegisters src/Drivers/TestRegisters.cpp)
+target_link_libraries(TestRegisters CpuEmuKernel)
 
