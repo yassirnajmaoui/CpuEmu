@@ -17,7 +17,7 @@ target_sources(CpuEmuKernel
 	src/Utils.cpp
 	src/BitUtils.cpp
 )
-target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
+target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_executable(Main src/Drivers/Main.cpp)
 target_link_libraries(Main CpuEmuKernel)
