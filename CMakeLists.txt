@@ -13,11 +13,11 @@ target_sources(CpuEmuKernel
 	src/Units/ReadOnlyMemory.cpp
 	src/Units/Memory.cpp
 	src/Units/InstructionParser.cpp
-	src/Units/Relay.hpp
+	src/Units/Relay.cpp
 	src/Utils.cpp
 	src/BitUtils.cpp
 )
-target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/)
+target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 
 add_executable(Main src/Drivers/Main.cpp)
 target_link_libraries(Main CpuEmuKernel)

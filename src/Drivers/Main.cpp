@@ -1,59 +1,35 @@
 #include "Types/Node.hpp"
 #include "Types/Wire.hpp"
-#include "Units/Registers.hpp"
+#include "Units/Operator.hpp"
 #include "Utils.hpp"
 
 #include <iostream>
 #include <memory>
 
 /* TODOs:
- * Add Instruction parser object
+ * Add AND Gate
  * Add Control unit
- * Add PC
  * Add ALU_control (reads from Control unit and instruction (immediate) and gives an AluOP)
+ * Define more ALUOPs (The actual binary value does not matter)
+ * Add RegistersWriter (Need the Registers node in its contructor)
  */
-
 
 int main()
 {
-	auto lRegisters = std::make_shared<Registers>();
-	
-	auto lRegWrite	= Node::CreateInputWire(lRegisters, Registers::RegWriteIndex);
-	auto lReadRegister1	= Node::CreateInputWire(lRegisters, Registers::ReadRegister1Index);
-	auto lReadRegister2	= Node::CreateInputWire(lRegisters, Registers::ReadRegister2Index);
-	auto lWriteRegister	= Node::CreateInputWire(lRegisters, Registers::WriteRegisterIndex);
-	auto lWriteData	= Node::CreateInputWire(lRegisters, Registers::WriteDataIndex);
-	
-	auto lReadData1	= Node::CreateOutputWire(lRegisters, Registers::ReadData1Index);
-	auto lReadData2	= Node::CreateOutputWire(lRegisters, Registers::ReadData2Index);
-
-	// Set all ready
-	auto lSetAllInputsReadyFunc = [&]()
+	auto lANDGate = std::make_shared<Operator<2,1>>([](std::array<WireData, 2> pInputs) -> std::array<WireData,1>
 	{
-		lRegWrite->SetDataReady();
-		lReadRegister1->SetDataReady();
-		lReadRegister2->SetDataReady();
-		lWriteRegister->SetDataReady();
-		lWriteData->SetDataReady();
-	};
+		return {pInputs[0] & pInputs[1]};
+	});
 
-	// Write data
-	lRegWrite->SetData(1);
-	lReadRegister1->SetData(0);
-	lReadRegister2->SetData(0);
-	lWriteRegister->SetData(3);
-	lWriteData->SetData(189894);
+	auto lWire0 = Node::CreateInputWire(lANDGate, 0);
+	auto lWire1 = Node::CreateInputWire(lANDGate, 1);
+	auto lOutWire = Node::CreateOutputWire(lANDGate, 0);
 
-	lSetAllInputsReadyFunc();
-
-	lRegWrite->SetData(0);
-	lReadRegister1->SetData(3);
-	lReadRegister2->SetData(0);
-	lSetAllInputsReadyFunc();
-
-	WireData lDataWritten = lReadData1->GetData();
-
-	std::cout << "Data written: " << lDataWritten << std::endl;
-
+	lWire0->SetData(0b111001);
+	lWire1->SetData(0b101011);
+	// Expected:	0b101001
+	lWire0->SetDataReady();
+	lWire1->SetDataReady();
+	std::cout << "Output: " << lOutWire->GetData() << std::endl;
 	return 0;
 }

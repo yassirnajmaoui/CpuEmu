@@ -6,7 +6,6 @@ Multiplexer::Multiplexer(size_t pNumberOfInputs) :
 {
 }
 
-
 void Multiplexer::ProcessInternal()
 {
 	// Note: The first input has to always be the Control

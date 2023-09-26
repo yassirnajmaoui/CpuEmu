@@ -1,7 +1,6 @@
 #include "Units/Memory.hpp"
 #include "Types/Wire.hpp"
 
-
 Memory::Memory() :
 	Node(4, 1)
 {
