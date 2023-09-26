@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Utils.hpp"
 
 Incoherence::Incoherence(const char* pErrorMsg) :

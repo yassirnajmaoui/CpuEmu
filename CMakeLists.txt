@@ -14,6 +14,7 @@ target_sources(CpuEmuKernel
 	src/Units/Memory.cpp
 	src/Units/InstructionParser.cpp
 	src/Units/Relay.cpp
+	src/Units/Controller.cpp
 	src/Utils.cpp
 	src/BitUtils.cpp
 )

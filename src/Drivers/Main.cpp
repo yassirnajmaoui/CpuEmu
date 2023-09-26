@@ -7,8 +7,6 @@
 #include <memory>
 
 /* TODOs:
- * Add AND Gate
- * Add Control unit
  * Add ALU_control (reads from Control unit and instruction (immediate) and gives an AluOP)
  * Define more ALUOPs (The actual binary value does not matter)
  * Add RegistersWriter (Need the Registers node in its contructor)

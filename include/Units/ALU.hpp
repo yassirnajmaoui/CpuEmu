@@ -9,7 +9,7 @@ public:
 	// Inputs
 	static constexpr size_t RD1Index = 0;
 	static constexpr size_t RD2Index = 1;
-	static constexpr size_t ALUControlIndex = 2;
+	static constexpr size_t ALUSelectIndex = 2;
 
 	// Outputs
 	static constexpr size_t ALUResultIndex = 0;
