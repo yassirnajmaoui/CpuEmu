@@ -8,6 +8,6 @@ ReadOnlyMemory::ReadOnlyMemory() :
 
 void ReadOnlyMemory::ProcessInternal()
 {
-	size_t lAddress = static_cast< size_t >(GetWireData(ReadAddressIndex));
+	size_t lAddress = static_cast<size_t>(GetWireData(ReadAddressIndex));
 	SetWireData(OutputDataIndex, mMemory[lAddress]);
 }

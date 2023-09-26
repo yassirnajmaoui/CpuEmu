@@ -14,7 +14,7 @@ public:
 
 	WireData GetData() const;
 	void SetData(WireData pWireData);
-	virtual void SetDataReady();
+	virtual void SetDataReady(bool pDataReady = true);
 
 	bool IsDataReady() const {return mDataReady;}
 

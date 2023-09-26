@@ -3,15 +3,20 @@
 #include "BitUtils.hpp"
 #include "RISCV-constants.hpp"
 
-InstructionParser::InstructionParser() :
-	Node(1, 5)
-{
+#include <iostream>
 
+InstructionParser::InstructionParser() :
+	Node(1, 7)
+{
 }
 
 void InstructionParser::ProcessInternal()
 {
+	std::cout << "GetWireData..." << std::endl;
+
 	WireData lInstruction = GetWireData(InstructionIndex);
+
+	std::cout << "Logic..." << std::endl;
 
 	// Logic
 	WireData opcode = BitUtils::TruncateBits(lInstruction, 6, 0);
@@ -64,6 +69,7 @@ void InstructionParser::ProcessInternal()
 	else if(opcode == Opcode_B_type)
 	{
 		// B-type instruction
+		// Branch operations
 		funct3 = BitUtils::TruncateBits(lInstruction, 14, 12);
 		rs1 = BitUtils::TruncateBits(lInstruction, 19, 15);
 		rs2 = BitUtils::TruncateBits(lInstruction, 24, 20);
@@ -77,6 +83,7 @@ void InstructionParser::ProcessInternal()
 		opcode == 0b0010111 /*AUIPC*/)
 	{
 		// U-type instructions
+		// Upper immediate operations
 		rd = BitUtils::TruncateBits(lInstruction, 11, 7);
 		BitUtils::SetBits(imm, 31, 12, BitUtils::TruncateBits(lInstruction, 31, 12));
 	}
@@ -84,4 +91,12 @@ void InstructionParser::ProcessInternal()
 	{
 		// Unknown opcode
 	}
+
+	SetWireData(OpcodeIndex, opcode);
+	SetWireData(RDIndex, rd);
+	SetWireData(RS1Index, rs1);
+	SetWireData(RS2Index, rs2);
+	SetWireData(Funct3Index, funct3);
+	SetWireData(Funct7Index, funct7);
+	SetWireData(ImmIndex, imm);
 }

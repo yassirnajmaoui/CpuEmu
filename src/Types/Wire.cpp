@@ -18,10 +18,10 @@ void Wire::SetData(WireData pWireData)
 	mData = pWireData;
 }
 
-void Wire::SetDataReady()
+void Wire::SetDataReady(bool pDataReady)
 {
-	mDataReady = true;
-	if(mpReceivingNode != nullptr)
+	mDataReady = pDataReady;
+	if(mpReceivingNode != nullptr && pDataReady)
 	{
 		mpReceivingNode->NotifyDataReady();
 	}

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-static void constexpr ASSERT(bool pCondition, const char* pErrorMsg )
+void constexpr ASSERT(bool pCondition, const char* pErrorMsg )
 {
 	if(!pCondition)
 	{
@@ -20,11 +20,4 @@ private:
 	const char* mErrorMsg;
 };
 
-static void ASSERT_coherence(bool pCondition, const char* pErrorMsg )
-{
-	if(!pCondition)
-	{
-		Incoherence e(pErrorMsg);
-		throw e;
-	}
-}
+void ASSERT_coherence(bool pCondition, const char* pErrorMsg );

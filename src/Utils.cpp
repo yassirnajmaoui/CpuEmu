@@ -10,3 +10,13 @@ const char* Incoherence::what()
 {
 	return mErrorMsg;
 }
+
+void ASSERT_coherence(bool pCondition, const char* pErrorMsg )
+{
+	if(!pCondition)
+	{
+		Incoherence e(pErrorMsg);
+		throw e;
+	}
+}
+

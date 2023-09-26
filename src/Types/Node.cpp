@@ -10,20 +10,6 @@ Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires) :
 	mOutputWires.resize(mNumberOfOutputWires);
 }
 
-void Node::Process()
-{
-	ProcessInternal();
-	ProcessDone();
-}
-
-void Node::ProcessDone()
-{
-	for(auto lpOutputWire : mOutputWires)
-	{
-		lpOutputWire->SetDataReady();
-	}
-}
-
 void Node::NotifyDataReady()
 {
 	// Check if all the input wires are ready
@@ -35,7 +21,29 @@ void Node::NotifyDataReady()
 		}
 	}
 	// All the input wires are ready, we can process
+	// Potentially, this can be asynchronous, have a thread for each node
 	Process();
+}
+
+void Node::Process()
+{
+	ProcessInternal();
+	ProcessDone();
+}
+
+void Node::ProcessDone()
+{
+	// Set data read for all output wires, this will notify the corresponding nodes
+	for(auto lpOutputWire : mOutputWires)
+	{
+		lpOutputWire->SetDataReady();
+	}
+
+	// Set the input wire's data as no longer ready since it has already been processed
+	for(auto lpInputWire : mInputWires)
+	{
+		lpInputWire->SetDataReady(false);
+	}	
 }
 
 WireData Node::GetWireData(size_t pIndex) const

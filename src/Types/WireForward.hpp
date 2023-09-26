@@ -2,5 +2,5 @@
 
 class Wire;
 
-typedef unsigned long long WireData;
+typedef unsigned int WireData;
 

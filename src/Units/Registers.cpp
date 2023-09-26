@@ -11,9 +11,9 @@ void Registers::ProcessInternal()
 {
 	// Setup
 	WireData lRegWrite = GetWireData(RegWriteIndex);
-	WireData lReadRegister1 = GetWireData(ReadRegister1Index);
-	WireData lReadRegister2 = GetWireData(ReadRegister2Index);
-	WireData lWriteRegister = GetWireData(WriteRegisterIndex);
+	size_t lReadRegister1 = static_cast<size_t>(GetWireData(ReadRegister1Index));
+	size_t lReadRegister2 = static_cast<size_t>(GetWireData(ReadRegister2Index));
+	size_t lWriteRegister = static_cast<size_t>(GetWireData(WriteRegisterIndex));
 	WireData lWriteData = GetWireData(WriteDataIndex);
 
 	ASSERT_coherence(lReadRegister1 < NumberOfRegisters, "Register address 1 requested too high");
@@ -29,6 +29,7 @@ void Registers::ProcessInternal()
 	// Wire in register if RegWire is true
 	if(lRegWrite)
 	{
+		ASSERT_coherence(lWriteRegister < NumberOfRegisters, "Write Register address requested too high");
 		mRegisters[lWriteRegister] = lWriteData;
 	}
 }
