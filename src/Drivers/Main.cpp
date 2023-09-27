@@ -8,8 +8,8 @@
 
 /* TODOs:
  * Add ALU_control (reads from Control unit and instruction (immediate) and gives an AluOP)
- * Define more ALUOPs (The actual binary value does not matter)
- * Add RegistersWriter (Need the Registers node in its contructor)
+ * Implement the full datapath
+ * Add JAL and JALR implementation (Need to add a control bit)
  */
 
 int main()

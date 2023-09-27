@@ -18,7 +18,7 @@ void InstructionParser::ProcessInternal()
 	WireData rs2 = 0u;
 	WireData rd = 0u;
 	WireData funct3 = 0u;
-	WireData funct7 = 0u;
+	WireData sign_bit = 0u;
 	WireData imm = 0u;
 
 	if(opcode == OPCODE_R_TYPE)
@@ -28,7 +28,7 @@ void InstructionParser::ProcessInternal()
 		funct3 = BitUtils::TruncateBits(lInstruction, 14, 12);
 		rs1 = BitUtils::TruncateBits(lInstruction, 19, 15);
 		rs2 = BitUtils::TruncateBits(lInstruction, 24, 20);
-		funct7 = BitUtils::TruncateBits(lInstruction, 31, 25);
+		sign_bit = BitUtils::TruncateBits(lInstruction, 30, 30);
 	}
 	else if(
 		opcode == OPCODE_I_TYPE /*Immediate arithmetic*/ ||
@@ -91,6 +91,6 @@ void InstructionParser::ProcessInternal()
 	SetWireData(RS1Index, rs1);
 	SetWireData(RS2Index, rs2);
 	SetWireData(Funct3Index, funct3);
-	SetWireData(Funct7Index, funct7);
+	SetWireData(SignBitIndex, sign_bit);
 	SetWireData(ImmIndex, imm);
 }

@@ -12,14 +12,14 @@ struct ParsedInstruction
 	WireData rs1;
 	WireData rs2;
 	WireData funct3;
-	WireData funct7;
+	WireData sign_bit;
 	WireData imm;
 
 	std::string ToString()
 	{
 		std::stringstream ss;
 		ss << "opcode: " << opcode << ", rd: " << rd << ", rs1: " << rs1
-			<< "\nrs2: " << rs2 << ", funct3: " << funct3 << ", funct7: " << funct7
+			<< "\nrs2: " << rs2 << ", funct3: " << funct3 << ", sign_bit: " << sign_bit
 			<< "\nimm: " << imm << std::endl;
 		return ss.str();
 	}
@@ -38,7 +38,7 @@ int main()
 	auto lRS1Wire	= Node::CreateOutputWire(lInstructionParser, InstructionParser::RS1Index);
 	auto lRS2Wire	= Node::CreateOutputWire(lInstructionParser, InstructionParser::RS2Index);
 	auto lFunct3Wire	= Node::CreateOutputWire(lInstructionParser, InstructionParser::Funct3Index);
-	auto lFunct7Wire	= Node::CreateOutputWire(lInstructionParser, InstructionParser::Funct7Index);
+	auto lSignBitWire	= Node::CreateOutputWire(lInstructionParser, InstructionParser::SignBitIndex);
 	auto lImmWire	= Node::CreateOutputWire(lInstructionParser, InstructionParser::ImmIndex);
 
 	auto lTestInstructionFunc = [&](WireData pInstruction) -> ParsedInstruction
@@ -52,7 +52,7 @@ int main()
 		lParsed.rs1 = lRS1Wire->GetData();
 		lParsed.rs2 = lRS2Wire->GetData();
 		lParsed.funct3 = lFunct3Wire->GetData();
-		lParsed.funct7 = lFunct7Wire->GetData();
+		lParsed.sign_bit = lSignBitWire->GetData();
 		lParsed.imm = lImmWire->GetData();
 		return lParsed;
 	};
