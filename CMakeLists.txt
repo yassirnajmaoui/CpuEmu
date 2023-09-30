@@ -6,15 +6,16 @@ target_sources(CpuEmuKernel
 	PRIVATE
 	src/Types/Node.cpp
 	src/Types/Wire.cpp
-	src/Units/ALU.cpp
 	src/Units/Adder.cpp
-	src/Units/Multiplexer.cpp
-	src/Units/Registers.cpp
-	src/Units/ReadOnlyMemory.cpp
-	src/Units/Memory.cpp
-	src/Units/InstructionParser.cpp
-	src/Units/Relay.cpp
+	src/Units/ALU.cpp
+	src/Units/ALUControl.cpp
 	src/Units/Controller.cpp
+	src/Units/InstructionParser.cpp
+	src/Units/Memory.cpp
+	src/Units/Multiplexer.cpp
+	src/Units/ReadOnlyMemory.cpp
+	src/Units/Relay.cpp
+	src/Units/Registers.cpp
 	src/Units/RegistersWriter.cpp
 	src/Utils.cpp
 	src/BitUtils.cpp

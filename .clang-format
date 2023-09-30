@@ -1,0 +1,13 @@
+---
+BasedOnStyle: Microsoft
+AlignAfterOpenBracket: Align
+BinPackParameters: 'false'
+ColumnLimit: '100'
+FixNamespaceComments: 'true'
+NamespaceIndentation: None
+PenaltyBreakComment: '2'
+SpaceAfterTemplateKeyword: 'true'
+SpacesInAngles: 'true'
+SpacesInParentheses: 'true'
+TabWidth: '4'
+UseTab: ForContinuationAndIndentation

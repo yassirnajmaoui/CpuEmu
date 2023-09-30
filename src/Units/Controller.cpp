@@ -25,8 +25,6 @@ void Controller::ProcessInternal()
 	// Note: ALUSrc determines whether to use the immediate value for the ALU
 	// or the register value from rs2
 
-	// TODO: Adjust ALUOp correctly
-
 	if(opcode == OPCODE_R_TYPE)
 	{
 		lALUSrc = 0;
@@ -85,7 +83,7 @@ void Controller::ProcessInternal()
 		lBranch = 1;
 		lJumpReg = 0;
 		
-		lALUOp = 0b11;
+		lALUOp = 0b01;
 	}
 	else if(opcode == OPCODE_J_TYPE)
 	{
@@ -135,4 +133,13 @@ void Controller::ProcessInternal()
 		
 		lALUOp = 0b11;
 	}
+
+	SetWireData(BranchIndex, lBranch);
+	SetWireData(MemReadIndex, lMemRead);
+	SetWireData(MemToRegIndex, lMemToReg);
+	SetWireData(ALUOpIndex, lALUOp);
+	SetWireData(MemWriteIndex, lMemWrite);
+	SetWireData(ALUSrcIndex, lALUSrc);
+	SetWireData(RegWriteIndex, lRegWrite);
+	SetWireData(JumpRegIndex, lJumpReg);
 }
