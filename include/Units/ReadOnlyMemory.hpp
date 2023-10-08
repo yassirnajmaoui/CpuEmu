@@ -7,9 +7,8 @@ class ReadOnlyMemory : public Node
 {
 public:
 	ReadOnlyMemory();
-
-	//TODO: Create a constructor to give the data
-
+	ReadOnlyMemory(std::vector<WireData>&& pmMemory);
+	
 	// Inputs
 	static constexpr size_t ReadAddressIndex = 0;
 

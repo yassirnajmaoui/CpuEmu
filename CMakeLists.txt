@@ -12,7 +12,6 @@ target_sources(CpuEmuKernel
 	src/Units/Controller.cpp
 	src/Units/InstructionParser.cpp
 	src/Units/Memory.cpp
-	src/Units/Multiplexer.cpp
 	src/Units/ReadOnlyMemory.cpp
 	src/Units/Relay.cpp
 	src/Units/Registers.cpp

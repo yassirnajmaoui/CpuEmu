@@ -6,6 +6,11 @@ ReadOnlyMemory::ReadOnlyMemory() :
 {
 }
 
+ReadOnlyMemory::ReadOnlyMemory(std::vector<WireData>&& pmMemory) :
+	Node(1, 1), mMemory(pmMemory)
+{
+}
+
 void ReadOnlyMemory::ProcessInternal()
 {
 	size_t lAddress = static_cast<size_t>(GetWireData(ReadAddressIndex));
