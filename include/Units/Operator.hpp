@@ -29,8 +29,8 @@ public:
 	    std::array<WireData, NInputs>)>
 	    WireFunctionNxM;
 
-	Operator(WireFunctionNxM pWireFunction)
-	    : Node(NInputs, NOutputs), mWireFunction(pWireFunction)
+	Operator(WireFunctionNxM pWireFunction, std::string pName = "Operator")
+	    : Node(NInputs, NOutputs, pName), mWireFunction(pWireFunction)
 	{
 	}
 

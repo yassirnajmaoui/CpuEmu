@@ -18,7 +18,7 @@ public:
 	// Outputs
 	static constexpr size_t OutputIndex = 0;
 
-	Multiplexer() : Node(NInputs + 1, 1) {}
+	Multiplexer(std::string pName = "Multiplexer") : Node(NInputs + 1, 1, pName) {}
 
 protected:
 	void ProcessInternal() override

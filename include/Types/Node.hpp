@@ -4,17 +4,23 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 class Node
 {
 public:
-	Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires);
+	static constexpr bool IsVerbose = true;
+
+	Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires, std::string pName = "Unnamed node");
 	Node(const Node&) = delete;
 
 	void Process();
 	void ProcessDone();
 
 	void NotifyDataReady();
+
+	void DisplayInputs() const;
+	void DisplayOutputs() const;
 
 	size_t GetNumberOfInputWires() const { return mNumberOfInputWires; }
 	size_t GetNumberOfOutputWires() const { return mNumberOfOutputWires; }
@@ -41,4 +47,6 @@ protected:
 	std::vector<std::shared_ptr<Wire>> mOutputWires;
 	size_t mNumberOfInputWires;
 	size_t mNumberOfOutputWires;
+
+	std::string mName;
 };

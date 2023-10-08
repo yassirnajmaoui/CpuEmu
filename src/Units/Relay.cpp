@@ -1,8 +1,8 @@
 #include "Units/Relay.hpp"
 #include "Types/Wire.hpp"
 
-Relay::Relay() :
-	Node(2,1)
+Relay::Relay(std::string pName) :
+	Node(2, 1, pName)
 {
 
 }

@@ -12,7 +12,7 @@ public:
 	// Outputs
 	static constexpr size_t OutputIndex = 0;
 
-	Relay();
+	Relay(std::string pName = "Relay");
 
 protected:
 	void ProcessInternal() override;

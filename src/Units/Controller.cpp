@@ -4,7 +4,7 @@
 #include "RISCV-Constants.hpp"
 
 Controller::Controller() :
-	Node(1, 8)
+	Node(1, 8, "Controller")
 {
 }
 

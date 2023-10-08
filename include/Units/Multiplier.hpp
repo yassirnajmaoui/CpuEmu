@@ -16,17 +16,17 @@ public:
 	constexpr size_t GetOutputIndex()
 	{
 		static_assert(i<NOutputs);
-		return i + 1;
+		return i;
 	}
 
-	Multiplier() : Node(1, NOutputs) {}
+	Multiplier(std::string pName = "Multiplier") : Node(1, NOutputs, pName) {}
 
 	void ProcessInternal() override
 	{
 		WireData lInput = GetWireData(InputIndex);
 		for (size_t i = 0; i < NOutputs; ++i)
 		{
-			SetWireData(i + 1, lInput);
+			SetWireData(i, lInput);
 		}
 	}
 };

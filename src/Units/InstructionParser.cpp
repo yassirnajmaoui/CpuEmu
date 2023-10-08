@@ -4,7 +4,7 @@
 #include "RISCV-Constants.hpp"
 
 InstructionParser::InstructionParser() :
-	Node(1, 7)
+	Node(1, 7, "Instruction parser")
 {
 }
 

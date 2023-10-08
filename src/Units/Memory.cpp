@@ -2,7 +2,7 @@
 #include "Types/Wire.hpp"
 
 Memory::Memory() :
-	Node(4, 1)
+	Node(4, 1, "Memory")
 {
 
 }

@@ -3,7 +3,7 @@
 #include "Utils.hpp"
 
 RegistersWriter::RegistersWriter(std::shared_ptr<Registers> ppRegistersNode) :
-	Node(3, 0),
+	Node(3, 0, "Registers writer"),
 	mpRegistersNode(ppRegistersNode)
 {
 }

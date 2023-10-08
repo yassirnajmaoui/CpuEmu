@@ -2,7 +2,7 @@
 #include "Types/Wire.hpp"
 
 ReadOnlyMemory::ReadOnlyMemory() :
-	Node(1, 1)
+	Node(1, 1, "Read-only memory")
 {
 }
 

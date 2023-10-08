@@ -3,7 +3,7 @@
 #include "Utils.hpp"
 
 Adder::Adder() :
-	Node(2, 1)
+	Node(2, 1, "Adder")
 {
 }
 

@@ -3,7 +3,7 @@
 #include "Utils.hpp"
 
 Registers::Registers() :
-	Node(2, 2)
+	Node(2, 2, "Registers")
 {
 }
 
