@@ -19,10 +19,11 @@ Node::Node(size_t pNumberOfInputWires,
 void Node::NotifyDataReady()
 {
 	// Check if all the input wires are ready
-	for (size_t i=0;i<mInputWires.size();i++)
+	for (size_t i = 0; i < mInputWires.size(); i++)
 	{
 		auto lpInputWire = mInputWires[i];
-		ASSERT(lpInputWire != nullptr, ("Input wire "+std::to_string(i)+" is undefined").c_str());
+		ASSERT(lpInputWire != nullptr,
+		       ("Input wire " + std::to_string(i) + " is undefined").c_str());
 		if (!lpInputWire->IsDataReady())
 		{
 			return;
@@ -59,7 +60,7 @@ void Node::Process()
 	{
 		DisplayInputs();
 	}
-	
+
 	ProcessInternal();
 
 	if (IsVerbose)
@@ -90,14 +91,16 @@ void Node::ProcessDone()
 WireData Node::GetWireData(size_t pIndex) const
 {
 	auto lpInputWire = mInputWires[pIndex];
-	ASSERT(lpInputWire != nullptr, ("Input wire "+std::to_string(pIndex)+" is undefined").c_str());
+	ASSERT(lpInputWire != nullptr,
+	       ("Input wire " + std::to_string(pIndex) + " is undefined").c_str());
 	return lpInputWire->GetData();
 }
 
 void Node::SetWireData(size_t pIndex, WireData pWireData)
 {
 	auto lpInputWire = mOutputWires[pIndex];
-	ASSERT(lpInputWire != nullptr, ("Input wire "+std::to_string(pIndex)+" is undefined").c_str());
+	ASSERT(lpInputWire != nullptr,
+	       ("Input wire " + std::to_string(pIndex) + " is undefined").c_str());
 	lpInputWire->SetData(pWireData);
 }
 

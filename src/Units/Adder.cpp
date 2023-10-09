@@ -2,10 +2,7 @@
 #include "Types/Wire.hpp"
 #include "Utils.hpp"
 
-Adder::Adder() :
-	Node(2, 1, "Adder")
-{
-}
+Adder::Adder() : Node(2, 1, "Adder") {}
 
 void Adder::ProcessInternal()
 {
@@ -17,6 +14,6 @@ void Adder::ProcessInternal()
 	WireData lInput2 = GetWireData(Input2Index);
 
 	WireData lOutput = lInput1 + lInput2;
-	
+
 	mOutputWires[OutputIndex]->SetData(lOutput);
 }

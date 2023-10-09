@@ -5,9 +5,7 @@
 
 #include <iostream>
 
-Controller::Controller() : Node(1, 8, "Controller")
-{
-}
+Controller::Controller() : Node(1, 8, "Controller") {}
 
 void Controller::ProcessInternal()
 {

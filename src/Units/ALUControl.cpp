@@ -15,7 +15,7 @@ void ALUControl::ProcessInternal()
 	WireData sign_bit = GetWireData(SignBitIndex);
 
 	std::cout << "ALUContol GetWireData done" << std::endl;
-	
+
 	// Default
 	WireData lALUSelect = 0u;  // ADD
 

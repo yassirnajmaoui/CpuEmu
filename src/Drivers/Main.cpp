@@ -25,10 +25,7 @@
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions
-	{
-		0b10100000110000000000000010010011
-	};
+	std::vector<WireData> lInstructions{0b10100000110000000000000010010011};
 
 	// clang-format off
 	// ---------------- Nodes ----------------
@@ -140,9 +137,10 @@ int main()
 	lpLoopbackWire->SetDataReady();
 
 	// TODO: debug why
-	for(size_t i=0;i<lpRegisters->NumberOfRegisters;i++)
+	for (size_t i = 0; i < lpRegisters->NumberOfRegisters; i++)
 	{
-		std::cout << "Reg value: " << lpRegisters->GetRegisterValue(i) << std::endl;;
+		std::cout << "Reg value: " << lpRegisters->GetRegisterValue(i)
+		          << std::endl;
 	}
 
 	return 0;

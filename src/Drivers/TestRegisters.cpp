@@ -8,6 +8,7 @@
 
 int main()
 {
+	// clang-format off
 	auto lRegisters = std::make_shared<Registers>();
 	auto lRegistersWriter = std::make_shared<RegistersWriter>(lRegisters);
 
@@ -47,6 +48,8 @@ int main()
 
 		// The RegisterWriter will automatically write on the last SetDataReady()
 	};
+
+	// clang-format on
 
 	lWriteRegistersFunc(12, 159);
 	lWriteRegistersFunc(13, 147);

@@ -1,12 +1,9 @@
 #include "Units/InstructionParser.hpp"
-#include "Types/Wire.hpp"
 #include "BitUtils.hpp"
 #include "RISCV-Constants.hpp"
+#include "Types/Wire.hpp"
 
-InstructionParser::InstructionParser() :
-	Node(1, 7, "Instruction parser")
-{
-}
+InstructionParser::InstructionParser() : Node(1, 7, "Instruction parser") {}
 
 void InstructionParser::ProcessInternal()
 {
@@ -21,7 +18,7 @@ void InstructionParser::ProcessInternal()
 	WireData sign_bit = 0u;
 	WireData imm = 0u;
 
-	if(opcode == OPCODE_R_TYPE)
+	if (opcode == OPCODE_R_TYPE)
 	{
 		// R-type instructions
 		rd = BitUtils::TruncateBits(lInstruction, 11, 7);
@@ -30,11 +27,9 @@ void InstructionParser::ProcessInternal()
 		rs2 = BitUtils::TruncateBits(lInstruction, 24, 20);
 		sign_bit = BitUtils::TruncateBits(lInstruction, 30, 30);
 	}
-	else if(
-		opcode == OPCODE_I_TYPE /*Immediate arithmetic*/ ||
-		opcode == OPCODE_LOAD_TYPE /*Load instructions*/ ||
-		opcode == OPCODE_JALR /*JALR*/ ||
-		opcode == OPCODE_FENCE /*FENCE*/)
+	else if (opcode == OPCODE_I_TYPE /*Immediate arithmetic*/ ||
+	         opcode == OPCODE_LOAD_TYPE /*Load instructions*/ ||
+	         opcode == OPCODE_JALR /*for JALR*/ || opcode == OPCODE_FENCE /*for FENCE*/)
 	{
 		// I-type instructions
 		rd = BitUtils::TruncateBits(lInstruction, 11, 7);
@@ -42,7 +37,7 @@ void InstructionParser::ProcessInternal()
 		rs1 = BitUtils::TruncateBits(lInstruction, 19, 15);
 		BitUtils::SetBits(imm, 11, 0, BitUtils::TruncateBits(lInstruction, 31, 20));
 	}
-	else if(opcode == OPCODE_S_TYPE)
+	else if (opcode == OPCODE_S_TYPE)
 	{
 		// S-type instructions
 		funct3 = BitUtils::TruncateBits(lInstruction, 14, 12);
@@ -51,7 +46,7 @@ void InstructionParser::ProcessInternal()
 		BitUtils::SetBits(imm, 4, 0, BitUtils::TruncateBits(lInstruction, 11, 7));
 		BitUtils::SetBits(imm, 11, 5, BitUtils::TruncateBits(lInstruction, 31, 25));
 	}
-	else if(opcode == OPCODE_J_TYPE)
+	else if (opcode == OPCODE_J_TYPE)
 	{
 		// J-type instructions
 		rd = BitUtils::TruncateBits(lInstruction, 11, 7);
@@ -60,7 +55,7 @@ void InstructionParser::ProcessInternal()
 		BitUtils::SetBits(imm, 19, 12, BitUtils::TruncateBits(lInstruction, 19, 12));
 		BitUtils::SetBits(imm, 20, 20, BitUtils::TruncateBits(lInstruction, 31, 31));
 	}
-	else if(opcode == OPCODE_B_TYPE)
+	else if (opcode == OPCODE_B_TYPE)
 	{
 		// B-type instruction
 		// Branch operations
@@ -72,9 +67,7 @@ void InstructionParser::ProcessInternal()
 		BitUtils::SetBits(imm, 11, 11, BitUtils::TruncateBits(lInstruction, 7, 7));
 		BitUtils::SetBits(imm, 12, 12, BitUtils::TruncateBits(lInstruction, 31, 31));
 	}
-	else if(
-		opcode == OPCODE_LUI /*LUI*/ ||
-		opcode == OPCODE_AUIPC /*AUIPC*/)
+	else if (opcode == OPCODE_LUI /*LUI*/ || opcode == OPCODE_AUIPC /*AUIPC*/)
 	{
 		// U-type instructions
 		// Upper immediate operations

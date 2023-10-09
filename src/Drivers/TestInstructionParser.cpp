@@ -1,9 +1,9 @@
-#include "Units/InstructionParser.hpp"
 #include "Types/Wire.hpp"
+#include "Units/InstructionParser.hpp"
 
 #include <iostream>
-#include <sstream>
 #include <memory>
+#include <sstream>
 
 struct ParsedInstruction
 {
@@ -19,14 +19,15 @@ struct ParsedInstruction
 	{
 		std::stringstream ss;
 		ss << "opcode: " << opcode << ", rd: " << rd << ", rs1: " << rs1
-			<< "\nrs2: " << rs2 << ", funct3: " << funct3 << ", sign_bit: " << sign_bit
-			<< "\nimm: " << imm << std::endl;
+		   << "\nrs2: " << rs2 << ", funct3: " << funct3
+		   << ", sign_bit: " << sign_bit << "\nimm: " << imm << std::endl;
 		return ss.str();
 	}
 };
 
 int main()
 {
+	// clang-format off
 	auto lInstructionParser = std::make_shared<InstructionParser>();
 
 	// Input instruction
@@ -68,6 +69,8 @@ int main()
 	// ADDI
 	lParsed = lTestInstructionFunc(0b11111110000011111000100010110011);
 	std::cout << lParsed.ToString();
+
+	// clang-format on
 
 	//...
 
