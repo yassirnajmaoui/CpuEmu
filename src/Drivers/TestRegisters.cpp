@@ -1,10 +1,10 @@
+#include "Types/Wire.hpp"
 #include "Units/Registers.hpp"
 #include "Units/RegistersWriter.hpp"
-#include "Types/Wire.hpp"
 
 #include <iostream>
-#include <sstream>
 #include <memory>
+#include <sstream>
 
 int main()
 {
@@ -62,6 +62,6 @@ int main()
 	lRes = lReadRegistersFunc(13, 10);
 	std::cout << "Res: " << lRes.first << " , " << lRes.second << std::endl;
 	// Output should be 999, ~~~
-	
+
 	return 0;
 }

@@ -31,20 +31,14 @@ void ALU::ProcessInternal()
 		lResult = (lRD1 < 0) ? -lResult_unsigned : lResult_unsigned;
 		break;
 	case ALU_SELECT_SLT: lResult = lRD1 < lRD2 ? 1 : 0; break;
-	case ALU_SELECT_SLTU:
-		lResult = lRD1_unsigned < lRD2_unsigned ? 1 : 0;
-		break;
+	case ALU_SELECT_SLTU: lResult = lRD1_unsigned < lRD2_unsigned ? 1 : 0; break;
 	// Branch
 	case ALU_SELECT_BEQ: lZero = (lRD1 == lRD2) ? 1 : 0; break;
 	case ALU_SELECT_BNE: lZero = (lRD1 != lRD2) ? 1 : 0; break;
 	case ALU_SELECT_BLT: lZero = (lRD1 < lRD2) ? 1 : 0; break;
 	case ALU_SELECT_BGE: lZero = (lRD1 >= lRD2) ? 1 : 0; break;
-	case ALU_SELECT_BLTU:
-		lZero = (lRD1_unsigned < lRD2_unsigned) ? 1 : 0;
-		break;
-	case ALU_SELECT_BGEU:
-		lZero = (lRD1_unsigned >= lRD2_unsigned) ? 1 : 0;
-		break;
+	case ALU_SELECT_BLTU: lZero = (lRD1_unsigned < lRD2_unsigned) ? 1 : 0; break;
+	case ALU_SELECT_BGEU: lZero = (lRD1_unsigned >= lRD2_unsigned) ? 1 : 0; break;
 	default: break;
 	}
 }

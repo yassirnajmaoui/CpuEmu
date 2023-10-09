@@ -8,7 +8,7 @@ class ReadOnlyMemory : public Node
 public:
 	ReadOnlyMemory();
 	ReadOnlyMemory(std::vector<WireData>&& pmMemory);
-	
+
 	// Inputs
 	static constexpr size_t ReadAddressIndex = 0;
 

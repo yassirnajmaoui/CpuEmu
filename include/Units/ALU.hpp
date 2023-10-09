@@ -16,7 +16,7 @@ public:
 	static constexpr size_t ALUZeroIndex = 1;
 
 	ALU();
-	
+
 protected:
 	void ProcessInternal();
 };

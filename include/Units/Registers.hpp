@@ -7,7 +7,7 @@
 class Registers : public Node
 {
 
-friend class RegistersWriter;
+	friend class RegistersWriter;
 
 public:
 	static constexpr size_t NumberOfRegisters = 16;
@@ -26,7 +26,7 @@ public:
 
 protected:
 	void ProcessInternal() override;
-	
+
 private:
 	std::array<WireData, NumberOfRegisters> mRegisters;
 };
