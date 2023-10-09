@@ -11,16 +11,17 @@ class Multiplier : public Node
 {
 public:
 	static constexpr size_t InputIndex = 0;
-	
-	template<size_t i>
+
+	template <size_t i>
 	constexpr size_t GetOutputIndex()
 	{
-		static_assert(i<NOutputs);
+		static_assert(i < NOutputs);
 		return i;
 	}
 
 	Multiplier(std::string pName = "Multiplier") : Node(1, NOutputs, pName) {}
 
+protected:
 	void ProcessInternal() override
 	{
 		WireData lInput = GetWireData(InputIndex);

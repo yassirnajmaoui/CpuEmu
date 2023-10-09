@@ -15,6 +15,6 @@ public:
 
 	ALUControl();
 
-private:
+protected:
 	void ProcessInternal() override;
 };

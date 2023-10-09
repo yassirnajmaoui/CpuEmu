@@ -13,6 +13,7 @@ public:
 	static constexpr size_t OutputIndex = 0;
 
 	Adder();
+
 protected:
 	void ProcessInternal() override;
 };

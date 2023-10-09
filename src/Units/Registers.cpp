@@ -23,3 +23,8 @@ void Registers::ProcessInternal()
 	SetWireData(ReadData1Index, lContentsOfReg1);
 	SetWireData(ReadData2Index, lContentsOfReg2);
 }
+
+WireData Registers::GetRegisterValue(size_t pRegisterIndex) const
+{
+	return mRegisters[pRegisterIndex];
+}

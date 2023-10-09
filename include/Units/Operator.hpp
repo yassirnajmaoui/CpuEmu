@@ -34,6 +34,7 @@ public:
 	{
 	}
 
+protected:
 	void ProcessInternal() override
 	{
 		std::array<WireData, NInputs> lInputs;

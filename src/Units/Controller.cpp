@@ -1,10 +1,11 @@
 #include "Units/Controller.hpp"
-#include "Types/Wire.hpp"
 #include "BitUtils.hpp"
 #include "RISCV-Constants.hpp"
+#include "Types/Wire.hpp"
 
-Controller::Controller() :
-	Node(1, 8, "Controller")
+#include <iostream>
+
+Controller::Controller() : Node(1, 8, "Controller")
 {
 }
 
@@ -25,7 +26,7 @@ void Controller::ProcessInternal()
 	// Note: ALUSrc determines whether to use the immediate value for the ALU
 	// or the register value from rs2
 
-	if(opcode == OPCODE_R_TYPE)
+	if (opcode == OPCODE_R_TYPE)
 	{
 		lALUSrc = 0;
 		lMemToReg = 0;
@@ -37,7 +38,7 @@ void Controller::ProcessInternal()
 
 		lALUOp = 0b10;
 	}
-	else if(opcode == OPCODE_S_TYPE)
+	else if (opcode == OPCODE_S_TYPE)
 	{
 		lALUSrc = 1;
 		lMemToReg = 0;
@@ -46,10 +47,10 @@ void Controller::ProcessInternal()
 		lMemWrite = 1;
 		lBranch = 0;
 		lJumpReg = 0;
-		
+
 		lALUOp = 0b00;
 	}
-	else if(opcode == OPCODE_I_TYPE)
+	else if (opcode == OPCODE_I_TYPE)
 	{
 		lALUSrc = 1;
 		lMemToReg = 0;
@@ -58,10 +59,10 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
-		
+
 		lALUOp = 0b10;
 	}
-	else if(opcode == OPCODE_LOAD_TYPE)
+	else if (opcode == OPCODE_LOAD_TYPE)
 	{
 		lALUSrc = 1;
 		lMemToReg = 1;
@@ -70,10 +71,10 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
-		
+
 		lALUOp = 0b00;
 	}
-	else if(opcode == OPCODE_B_TYPE)
+	else if (opcode == OPCODE_B_TYPE)
 	{
 		lALUSrc = 0;
 		lMemToReg = 0;
@@ -82,10 +83,10 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 1;
 		lJumpReg = 0;
-		
+
 		lALUOp = 0b01;
 	}
-	else if(opcode == OPCODE_J_TYPE)
+	else if (opcode == OPCODE_J_TYPE)
 	{
 		lALUSrc = 0;
 		lMemToReg = 0;
@@ -94,10 +95,10 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 1;
 		lJumpReg = 0;
-		
+
 		lALUOp = 0b11;
 	}
-	else if(opcode == OPCODE_JALR)
+	else if (opcode == OPCODE_JALR)
 	{
 		lALUSrc = 1;
 		lMemToReg = 0;
@@ -106,10 +107,10 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 1;
 		lJumpReg = 1;
-		
+
 		lALUOp = 0b10;
 	}
-	else if(opcode == OPCODE_LUI)
+	else if (opcode == OPCODE_LUI)
 	{
 		lALUSrc = 1;
 		lMemToReg = 0;
@@ -118,10 +119,10 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
-		
+
 		lALUOp = 0b11;
 	}
-	else if(opcode == OPCODE_AUIPC)
+	else if (opcode == OPCODE_AUIPC)
 	{
 		lALUSrc = 1;
 		lMemToReg = 0;
@@ -130,7 +131,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
-		
+
 		lALUOp = 0b11;
 	}
 

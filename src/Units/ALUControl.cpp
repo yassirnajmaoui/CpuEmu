@@ -3,14 +3,19 @@
 #include "RISCV-Constants.hpp"
 #include "Types/Wire.hpp"
 
+#include <iostream>
+
 ALUControl::ALUControl() : Node(3, 1, "ALU controller") {}
 
 void ALUControl::ProcessInternal()
 {
+	std::cout << "ALUContol ProcessInternal" << std::endl;
 	WireData alu_op = GetWireData(ALUOpIndex);
 	WireData func3 = GetWireData(Func3Index);
 	WireData sign_bit = GetWireData(SignBitIndex);
 
+	std::cout << "ALUContol GetWireData done" << std::endl;
+	
 	// Default
 	WireData lALUSelect = 0u;  // ADD
 
@@ -53,5 +58,6 @@ void ALUControl::ProcessInternal()
 
 	// Any other case, ALUSelect stays all 0s
 
+	std::cout << "ALUContol SetWireData" << std::endl;
 	SetWireData(ALUSelectIndex, lALUSelect);
 }

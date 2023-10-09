@@ -19,6 +19,6 @@ public:
 
 	InstructionParser();
 
-private:
+protected:
 	void ProcessInternal() override;
 };

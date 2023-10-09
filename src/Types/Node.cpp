@@ -3,11 +3,14 @@
 #include "Utils.hpp"
 
 #include <bitset>
+#include <string>
 
-Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires, std::string pName)
+Node::Node(size_t pNumberOfInputWires,
+           size_t pNumberOfOutputWires,
+           std::string pName)
     : mNumberOfInputWires(pNumberOfInputWires),
       mNumberOfOutputWires(pNumberOfOutputWires),
-	  mName(pName)
+      mName(pName)
 {
 	mInputWires.resize(mNumberOfInputWires);
 	mOutputWires.resize(mNumberOfOutputWires);
@@ -16,9 +19,11 @@ Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires, std::string 
 void Node::NotifyDataReady()
 {
 	// Check if all the input wires are ready
-	for (auto& lInputWire : mInputWires)
+	for (size_t i=0;i<mInputWires.size();i++)
 	{
-		if (!lInputWire->IsDataReady())
+		auto lpInputWire = mInputWires[i];
+		ASSERT(lpInputWire != nullptr, ("Input wire "+std::to_string(i)+" is undefined").c_str());
+		if (!lpInputWire->IsDataReady())
 		{
 			return;
 		}
@@ -33,16 +38,18 @@ void Node::DisplayInputs() const
 	std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mInputWires.size(); i++)
 	{
-		std::cout << "Input " << i << ": " << std::bitset<32>{mInputWires[i]->GetData()} << std::endl;
+		std::cout << "Input " << i << ": "
+		          << std::bitset<32>{mInputWires[i]->GetData()} << std::endl;
 	}
 }
 
 void Node::DisplayOutputs() const
 {
-	//std::cout << "For node \"" << mName << "\" :\n";
+	// std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mOutputWires.size(); i++)
 	{
-		std::cout << "Output " << i << ": " << std::bitset<32>{mOutputWires[i]->GetData()} << std::endl;
+		std::cout << "Output " << i << ": "
+		          << std::bitset<32>{mOutputWires[i]->GetData()} << std::endl;
 	}
 }
 
@@ -52,9 +59,9 @@ void Node::Process()
 	{
 		DisplayInputs();
 	}
-
-	ProcessInternal();
 	
+	ProcessInternal();
+
 	if (IsVerbose)
 	{
 		DisplayOutputs();
@@ -65,29 +72,33 @@ void Node::Process()
 
 void Node::ProcessDone()
 {
-	// Set data read for all output wires, this will notify the corresponding
-	// nodes
-	for (auto lpOutputWire : mOutputWires)
-	{
-		lpOutputWire->SetDataReady();
-	}
-
 	// Set the input wire's data as no longer ready since it has already been
 	// processed
 	for (auto lpInputWire : mInputWires)
 	{
 		lpInputWire->SetDataReady(false);
 	}
+
+	// Set data read for all output wires, this will notify the corresponding
+	// nodes
+	for (auto lpOutputWire : mOutputWires)
+	{
+		lpOutputWire->SetDataReady();
+	}
 }
 
 WireData Node::GetWireData(size_t pIndex) const
 {
-	return mInputWires[pIndex]->GetData();
+	auto lpInputWire = mInputWires[pIndex];
+	ASSERT(lpInputWire != nullptr, ("Input wire "+std::to_string(pIndex)+" is undefined").c_str());
+	return lpInputWire->GetData();
 }
 
 void Node::SetWireData(size_t pIndex, WireData pWireData)
 {
-	mOutputWires[pIndex]->SetData(pWireData);
+	auto lpInputWire = mOutputWires[pIndex];
+	ASSERT(lpInputWire != nullptr, ("Input wire "+std::to_string(pIndex)+" is undefined").c_str());
+	lpInputWire->SetData(pWireData);
 }
 
 std::shared_ptr<Wire> Node::ConnectNodes(std::shared_ptr<Node> ppSendingNode,

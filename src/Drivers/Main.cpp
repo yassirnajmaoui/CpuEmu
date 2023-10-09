@@ -27,7 +27,7 @@ int main()
 	// Instructions
 	std::vector<WireData> lInstructions
 	{
-		0b10100000110100000000000010010011
+		0b10100000110000000000000010010011
 	};
 
 	// clang-format off
@@ -118,6 +118,7 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpControlUnit, lpControlUnit->MemWriteIndex, lpDataMemory, lpDataMemory->MemWriteIndex));
 	lWires.emplace_back(Node::ConnectNodes(lpControlUnit, lpControlUnit->ALUSrcIndex, lpALUMux, lpALUMux->InputSelectionIndex));
 	lWires.emplace_back(Node::ConnectNodes(lpControlUnit, lpControlUnit->RegWriteIndex, lpRegWriter, lpRegWriter->RegWriteIndex));
+	lWires.emplace_back(Node::CreateOutputWire(lpControlUnit, lpControlUnit->JumpRegIndex));// TODO: Connect the JumpReg wire once done
 
 	// Branching
 	lWires.emplace_back(Node::ConnectNodes(lpShiftLeft1, lpShiftLeft1->OutputIndex, lpBranchAdder, lpBranchAdder->Input2Index));
@@ -129,21 +130,20 @@ int main()
 
 	// clang-format on
 
-	auto lInitializeFunc = [&]()
-	{
-		lpAdd4->SetData(4);
-		lpClock->SetData(0);
-	};
+	// Init
+	lpAdd4->SetData(4);
+	lpClock->SetData(0);
 
-	auto lClock = [&]()
-	{
-		lpAdd4->SetDataReady();
-		lpClock->SetDataReady();
-		lpLoopbackWire->SetDataReady();
-	};
+	// Clock
+	lpAdd4->SetDataReady();
+	lpClock->SetDataReady();
+	lpLoopbackWire->SetDataReady();
 
-	lInitializeFunc();
-	lClock();
+	// TODO: debug why
+	for(size_t i=0;i<lpRegisters->NumberOfRegisters;i++)
+	{
+		std::cout << "Reg value: " << lpRegisters->GetRegisterValue(i) << std::endl;;
+	}
 
 	return 0;
 }

@@ -2,6 +2,8 @@
 
 #include "Types/Node.hpp"
 
+#include <array>
+
 class Registers : public Node
 {
 
@@ -19,6 +21,8 @@ public:
 	static constexpr size_t ReadData2Index = 1;
 
 	Registers();
+
+	WireData GetRegisterValue(size_t pRegisterIndex) const;
 
 protected:
 	void ProcessInternal() override;

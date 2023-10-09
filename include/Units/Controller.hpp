@@ -20,6 +20,6 @@ public:
 
 	Controller();
 
-private:
+protected:
 	void ProcessInternal() override;
 };
