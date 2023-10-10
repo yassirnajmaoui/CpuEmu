@@ -20,6 +20,7 @@ target_sources(CpuEmuKernel
 	src/Units/RegistersWriter.cpp
 	src/Utils.cpp
 	src/BitUtils.cpp
+	src/RISCV-Instructions.cpp
 )
 target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

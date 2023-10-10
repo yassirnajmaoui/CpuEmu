@@ -9,9 +9,7 @@ namespace BitUtils
 	WireData GenerateMask(unsigned int pMSBLimit, unsigned int pLSBLimit);
 
 	// This returns the bits in pCode from pMSBLimit to pLSBLimit (inclusive)
-	WireData TruncateBits(WireData pCode,
-	                      unsigned int pMSBLimit,
-	                      unsigned int pLSBLimit);
+	WireData TruncateBits(WireData pCode, unsigned int pMSBLimit, unsigned int pLSBLimit);
 
 	// This Sets the bits of pCode from pInsertionMSBLimit to pInsertionLSBLimit
 	// (inclusive) to the value stored by the LSB bits of pToInsert

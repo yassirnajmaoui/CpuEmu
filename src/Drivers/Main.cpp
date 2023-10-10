@@ -13,6 +13,7 @@
 #include "Units/Relay.hpp"
 #include "Units/SimpleOperator.hpp"
 #include "Utils.hpp"
+#include "RISCV-Instructions.hpp"
 
 #include <iostream>
 #include <memory>
@@ -25,7 +26,11 @@
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{0b10100000110000000000000010010011};
+	std::vector<WireData> lInstructions{
+		Instructions::ADDI(1000,12,0),
+		Instructions::ADDI(157,11,0),
+		Instructions::ADD(13,11,12)
+		};
 
 	// clang-format off
 	// ---------------- Nodes ----------------
@@ -132,15 +137,19 @@ int main()
 	lpClock->SetData(0);
 
 	// Clock
-	lpAdd4->SetDataReady();
-	lpClock->SetDataReady();
-	lpLoopbackWire->SetDataReady();
+	auto lClockFunc = [&](){
+		lpAdd4->SetDataReady();
+		lpClock->SetDataReady();
+		lpLoopbackWire->SetDataReady();
+	};
 
-	// TODO: debug why
+	lClockFunc();
+	lClockFunc();
+	lClockFunc();
+
 	for (size_t i = 0; i < lpRegisters->NumberOfRegisters; i++)
 	{
-		std::cout << "Reg value: " << lpRegisters->GetRegisterValue(i)
-		          << std::endl;
+		std::cout << "Reg value: " << lpRegisters->GetRegisterValue(i) << std::endl;
 	}
 
 	return 0;

@@ -8,5 +8,6 @@ ReadOnlyMemory::ReadOnlyMemory(std::vector<WireData>&& pmMemory) : Node(1, 1), m
 void ReadOnlyMemory::ProcessInternal()
 {
 	size_t lAddress = static_cast<size_t>(GetWireData(ReadAddressIndex));
+	lAddress >>= 2;  // Since C++ pointers already increment by 4
 	SetWireData(OutputDataIndex, mMemory[lAddress]);
 }

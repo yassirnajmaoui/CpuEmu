@@ -25,8 +25,7 @@ public:
 		return i;
 	}
 
-	typedef std::function<std::array<WireData, NOutputs>(
-	    std::array<WireData, NInputs>)>
+	typedef std::function<std::array<WireData, NOutputs>(std::array<WireData, NInputs>)>
 	    WireFunctionNxM;
 
 	Operator(WireFunctionNxM pWireFunction, std::string pName = "Operator")

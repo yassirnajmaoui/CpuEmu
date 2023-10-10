@@ -19,8 +19,7 @@ public:
 	// Outputs
 	static constexpr size_t OutputIndex = 0;
 
-	SimpleOperator(WireFunction1x1 pWireFunction,
-	               std::string pName = "Simple Operator")
+	SimpleOperator(WireFunction1x1 pWireFunction, std::string pName = "Simple Operator")
 	    : Node(1, 1, pName), mWireFunction(pWireFunction)
 	{
 	}

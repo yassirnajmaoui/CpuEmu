@@ -18,9 +18,8 @@ struct ParsedInstruction
 	std::string ToString()
 	{
 		std::stringstream ss;
-		ss << "opcode: " << opcode << ", rd: " << rd << ", rs1: " << rs1
-		   << "\nrs2: " << rs2 << ", funct3: " << funct3
-		   << ", sign_bit: " << sign_bit << "\nimm: " << imm << std::endl;
+		ss << "opcode: " << opcode << ", rd: " << rd << ", rs1: " << rs1 << "\nrs2: " << rs2
+		   << ", funct3: " << funct3 << ", sign_bit: " << sign_bit << "\nimm: " << imm << std::endl;
 		return ss.str();
 	}
 };

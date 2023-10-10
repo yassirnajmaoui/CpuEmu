@@ -5,9 +5,7 @@
 #include <bitset>
 #include <string>
 
-Node::Node(size_t pNumberOfInputWires,
-           size_t pNumberOfOutputWires,
-           std::string pName)
+Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires, std::string pName)
     : mNumberOfInputWires(pNumberOfInputWires),
       mNumberOfOutputWires(pNumberOfOutputWires),
       mName(pName)
@@ -39,8 +37,8 @@ void Node::DisplayInputs() const
 	std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mInputWires.size(); i++)
 	{
-		std::cout << "Input " << i << ": "
-		          << std::bitset<32>{mInputWires[i]->GetData()} << std::endl;
+		std::cout << "Input " << i << ": " << std::bitset<32>{mInputWires[i]->GetData()}
+		          << std::endl;
 	}
 }
 
@@ -49,8 +47,8 @@ void Node::DisplayOutputs() const
 	// std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mOutputWires.size(); i++)
 	{
-		std::cout << "Output " << i << ": "
-		          << std::bitset<32>{mOutputWires[i]->GetData()} << std::endl;
+		std::cout << "Output " << i << ": " << std::bitset<32>{mOutputWires[i]->GetData()}
+		          << std::endl;
 	}
 }
 
@@ -120,9 +118,8 @@ std::shared_ptr<Wire> Node::ConnectNodes(std::shared_ptr<Node> ppSendingNode,
 	return lpWire;
 }
 
-std::shared_ptr<Wire>
-    Node::CreateInputWire(std::shared_ptr<Node> ppReceivingNode,
-                          size_t pReceivingNodeInputIndex)
+std::shared_ptr<Wire> Node::CreateInputWire(std::shared_ptr<Node> ppReceivingNode,
+                                            size_t pReceivingNodeInputIndex)
 {
 	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->mNumberOfInputWires,
 	       "Receiving node input index out of bounds");
@@ -132,9 +129,8 @@ std::shared_ptr<Wire>
 	return lpWire;
 }
 
-std::shared_ptr<Wire>
-    Node::CreateOutputWire(std::shared_ptr<Node> ppSendingNode,
-                           size_t pSendingNodeOutputIndex)
+std::shared_ptr<Wire> Node::CreateOutputWire(std::shared_ptr<Node> ppSendingNode,
+                                             size_t pSendingNodeOutputIndex)
 {
 	ASSERT(pSendingNodeOutputIndex < ppSendingNode->mNumberOfOutputWires,
 	       "Sending node output index out of bounds");
