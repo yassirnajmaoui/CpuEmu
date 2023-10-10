@@ -6,6 +6,7 @@
 
 class Node;
 
+// Add number of bits template
 class Wire
 {
 public:

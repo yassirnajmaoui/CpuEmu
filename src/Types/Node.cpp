@@ -37,7 +37,7 @@ void Node::DisplayInputs() const
 	std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mInputWires.size(); i++)
 	{
-		std::cout << "Input " << i << ": " << std::bitset<32>{mInputWires[i]->GetData()}
+		std::cout << "Input  " << i << ": " << std::bitset<32>{mInputWires[i]->GetData()}
 		          << std::endl;
 	}
 }
@@ -102,6 +102,7 @@ void Node::SetWireData(size_t pIndex, WireData pWireData)
 	lpInputWire->SetData(pWireData);
 }
 
+// Add a function like this with a template for creating a wire with a specific number of bits
 std::shared_ptr<Wire> Node::ConnectNodes(std::shared_ptr<Node> ppSendingNode,
                                          size_t pSendingNodeOutputIndex,
                                          std::shared_ptr<Node> ppReceivingNode,

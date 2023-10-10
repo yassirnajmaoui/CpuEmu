@@ -1,3 +1,4 @@
+#include "RISCV-Instructions.hpp"
 #include "Units/ALU.hpp"
 #include "Units/ALUControl.hpp"
 #include "Units/Adder.hpp"
@@ -13,24 +14,23 @@
 #include "Units/Relay.hpp"
 #include "Units/SimpleOperator.hpp"
 #include "Utils.hpp"
-#include "RISCV-Instructions.hpp"
 
 #include <iostream>
 #include <memory>
 
 /* TODOs:
- * Implement the full datapath
+ * Add Wire data truncating (in Wire.cpp)
  * Add JAL and JALR implementation (Need to add a control bit)
  */
 
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{
-		Instructions::ADDI(1000,12,0),
-		Instructions::ADDI(157,11,0),
-		Instructions::ADD(13,11,12)
-		};
+	std::vector<WireData> lInstructions{Instructions::ADDI(1000, 12, 0),
+	                                    Instructions::ADDI(157, 11, 0),
+	                                    Instructions::ADD(13, 11, 12),
+	                                    Instructions::SLLI(14, 13, 5),
+	                                    Instructions::BNE(-4, 13, 11)};
 
 	// clang-format off
 	// ---------------- Nodes ----------------
@@ -46,23 +46,23 @@ int main()
 	    [](WireData pAddr) -> WireData
 	    {
 		    return pAddr << 1;
-	    });
+	    }, "Shift left 1");
 	auto lpRegisters = std::make_shared<Registers>();
 	auto lpControlUnit = std::make_shared<Controller>();
-	auto lpALUMux = std::make_shared<Multiplexer<2>>();
+	auto lpALUMux = std::make_shared<Multiplexer<2>>("ALU Multiplexer");
 	auto lpALUControl = std::make_shared<ALUControl>();
 	auto lpALU = std::make_shared<ALU>();
 	auto lpDataMemory = std::make_shared<Memory>();
-	auto lpRegWriterMux = std::make_shared<Multiplexer<2>>();
+	auto lpRegWriterMux = std::make_shared<Multiplexer<2>>("RegWrite Multiplexer");
 	auto lpRegWriter = std::make_shared<RegistersWriter>(lpRegisters);
 	auto lpBranchAdder = std::make_shared<Adder>();
 	auto lpBranchAnd = std::make_shared<Operator<2, 1>>(
 	    [](std::array<WireData, 2> pInputs)
 	    {
 		    return std::array<WireData, 1>({pInputs[0] & pInputs[1]});
-	    });
+	    }, "Branch AND");
 	auto lpPCAdder = std::make_shared<Adder>();
-	auto lpPCMux = std::make_shared<Multiplexer<2>>();
+	auto lpPCMux = std::make_shared<Multiplexer<2>>("PC Multiplexer");
 
 	// Wires
 	std::vector<std::shared_ptr<Wire>> lWires;
@@ -70,7 +70,7 @@ int main()
 	// ---------------- Connections ----------------	
 	// PC
 	auto lpPCMultiplier = std::make_shared<Multiplier<3>>();
-	lWires.emplace_back(Node::ConnectNodes(lpPC, lpPC->OutputIndex, lpPCMultiplier, lpPCMultiplier->InputIndex));
+	auto lpPCOut = Node::ConnectNodes(lpPC, lpPC->OutputIndex, lpPCMultiplier, lpPCMultiplier->InputIndex);
 	lWires.emplace_back(Node::ConnectNodes(lpPCMultiplier, lpPCMultiplier->GetOutputIndex<0>(), lpInstructionMemory, lpInstructionMemory->ReadAddressIndex));
 	lWires.emplace_back(Node::ConnectNodes(lpPCMultiplier, lpPCMultiplier->GetOutputIndex<1>(), lpBranchAdder, lpBranchAdder->Input1Index));
 	lWires.emplace_back(Node::ConnectNodes(lpPCMultiplier, lpPCMultiplier->GetOutputIndex<2>(), lpPCAdder, lpPCAdder->Input1Index));
@@ -135,21 +135,26 @@ int main()
 	// Init
 	lpAdd4->SetData(4);
 	lpClock->SetData(0);
+	lpLoopbackWire->SetData(0);
 
 	// Clock
-	auto lClockFunc = [&](){
+	auto lClockFunc = [&]()
+	{
 		lpAdd4->SetDataReady();
 		lpClock->SetDataReady();
 		lpLoopbackWire->SetDataReady();
 	};
 
-	lClockFunc();
-	lClockFunc();
-	lClockFunc();
+	for (size_t i = 0; i < lInstructions.size(); ++i)
+	{
+		std::cout << "PC: " << lpLoopbackWire->GetData() << "\n";
+		lClockFunc();
+	}
+	std::cout << "PC: " << lpLoopbackWire->GetData() << "\n";
 
 	for (size_t i = 0; i < lpRegisters->NumberOfRegisters; i++)
 	{
-		std::cout << "Reg value: " << lpRegisters->GetRegisterValue(i) << std::endl;
+		std::cout << "Reg [" << i << "]: " << lpRegisters->GetRegisterValue(i) << std::endl;
 	}
 
 	return 0;

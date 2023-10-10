@@ -10,7 +10,7 @@ class Registers : public Node
 	friend class RegistersWriter;
 
 public:
-	static constexpr size_t NumberOfRegisters = 16;
+	static constexpr size_t NumberOfRegisters = 32;
 
 	// Inputs
 	static constexpr size_t ReadRegister1Index = 0;

@@ -13,7 +13,7 @@ void ALU::ProcessInternal()
 	WireData lControl = GetWireData(ALUSelectIndex);
 
 	WireData lResult = 0u;
-	WireData lZero = 0u;  // Branch
+	WireData lZero = 0u; // Branch
 
 	WireData lResult_unsigned = 0u;
 	switch (lControl)
