@@ -41,4 +41,7 @@ void ALU::ProcessInternal()
 	case ALU_SELECT_BGEU: lZero = (lRD1_unsigned >= lRD2_unsigned) ? 1 : 0; break;
 	default: break;
 	}
+
+	SetWireData(ALUResultIndex, lResult);
+	SetWireData(ALUZeroIndex, lZero);
 }
