@@ -26,13 +26,14 @@
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{Instructions::ADDI(1000, 12, 0),
-										Instructions::ADDI(157, 11, 0),
+	std::vector<WireData> lInstructions{Instructions::ADDI(1000, 11, 0),
+										Instructions::ADDI(157, 12, 0),
 										Instructions::ADD(13, 11, 12),
 										Instructions::SLLI(14, 13, 5),
 										Instructions::BNE(-4, 13, 11)};
 
 	// clang-format off
+
 	// ---------------- Nodes ----------------
 	// PC module
 	auto lpPC = std::make_shared<Relay>("PC Relay");

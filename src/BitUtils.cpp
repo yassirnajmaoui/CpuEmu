@@ -4,7 +4,7 @@
 
 WireData BitUtils::GenerateMask(unsigned int pMSBLimit, unsigned int pLSBLimit)
 {
-	return ((1 << (pMSBLimit + 1)) - 1) - ((1 << pLSBLimit) - 1);
+	return ((static_cast<unsigned long long>(1) << (pMSBLimit + 1)) - 1) - ((1 << pLSBLimit) - 1);
 }
 
 WireData BitUtils::TruncateBits(WireData pCode, unsigned int pMSBLimit, unsigned int pLSBLimit)

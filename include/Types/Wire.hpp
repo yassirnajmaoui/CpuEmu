@@ -9,7 +9,7 @@ class Node;
 class Wire
 {
 public:
-	Wire(std::shared_ptr<Node> ppReceivingNode = nullptr, unsigned int pNumBits = 32);
+	Wire(std::shared_ptr<Node> ppReceivingNode = nullptr, unsigned int pNumBits = 32u);
 	Wire(const Wire &) = delete;
 
 	WireData GetData() const;

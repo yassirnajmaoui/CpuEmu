@@ -36,6 +36,7 @@ void InstructionParser::ProcessInternal()
 		funct3 = BitUtils::TruncateBits(lInstruction, 14, 12);
 		rs1 = BitUtils::TruncateBits(lInstruction, 19, 15);
 		BitUtils::SetBits(imm, 11, 0, BitUtils::TruncateBits(lInstruction, 31, 20));
+		// TODO: Add sign extender to change the size of this from 20 bits to 32 bits
 	}
 	else if (opcode == OPCODE_S_TYPE)
 	{
