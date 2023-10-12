@@ -1,4 +1,5 @@
 #include "Units/Controller.hpp"
+
 #include "BitUtils.hpp"
 #include "RISCV-Constants.hpp"
 #include "Types/Wire.hpp"

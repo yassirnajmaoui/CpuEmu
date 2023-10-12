@@ -1,8 +1,10 @@
-#include "Types/Wire.hpp"
 #include "Types/Node.hpp"
+#include "Types/Wire.hpp"
 
-Wire::Wire(std::shared_ptr<Node> ppReceivingNode)
-    : mpReceivingNode(ppReceivingNode), mDataReady(false)
+#include "BitUtils.hpp"
+
+Wire::Wire(std::shared_ptr<Node> ppReceivingNode, unsigned int pNumBits) :
+	mpReceivingNode(ppReceivingNode), mDataReady(false), mNumBits(pNumBits)
 {
 }
 
@@ -13,7 +15,7 @@ WireData Wire::GetData() const
 
 void Wire::SetData(WireData pWireData)
 {
-	mData = pWireData;
+	mData = BitUtils::TruncateBits(pWireData, mNumBits - 1, 0);
 }
 
 void Wire::SetDataReady(bool pDataReady)

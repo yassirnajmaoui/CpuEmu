@@ -19,7 +19,7 @@
 #include <memory>
 
 /* TODOs:
- * Add Wire data truncating (in Wire.cpp)
+ * Add Wire data truncating here
  * Add JAL and JALR implementation (Need to add a control bit)
  */
 
@@ -27,10 +27,10 @@ int main()
 {
 	// Instructions
 	std::vector<WireData> lInstructions{Instructions::ADDI(1000, 12, 0),
-	                                    Instructions::ADDI(157, 11, 0),
-	                                    Instructions::ADD(13, 11, 12),
-	                                    Instructions::SLLI(14, 13, 5),
-	                                    Instructions::BNE(-4, 13, 11)};
+										Instructions::ADDI(157, 11, 0),
+										Instructions::ADD(13, 11, 12),
+										Instructions::SLLI(14, 13, 5),
+										Instructions::BNE(-4, 13, 11)};
 
 	// clang-format off
 	// ---------------- Nodes ----------------

@@ -5,10 +5,8 @@
 #include <bitset>
 #include <string>
 
-Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires, std::string pName)
-    : mNumberOfInputWires(pNumberOfInputWires),
-      mNumberOfOutputWires(pNumberOfOutputWires),
-      mName(pName)
+Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires, std::string pName) :
+	mNumberOfInputWires(pNumberOfInputWires), mNumberOfOutputWires(pNumberOfOutputWires), mName(pName)
 {
 	mInputWires.resize(mNumberOfInputWires);
 	mOutputWires.resize(mNumberOfOutputWires);
@@ -20,8 +18,7 @@ void Node::NotifyDataReady()
 	for (size_t i = 0; i < mInputWires.size(); i++)
 	{
 		auto lpInputWire = mInputWires[i];
-		ASSERT(lpInputWire != nullptr,
-		       ("Input wire " + std::to_string(i) + " is undefined").c_str());
+		ASSERT(lpInputWire != nullptr, ("Input wire " + std::to_string(i) + " is undefined").c_str());
 		if (!lpInputWire->IsDataReady())
 		{
 			return;
@@ -37,8 +34,7 @@ void Node::DisplayInputs() const
 	std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mInputWires.size(); i++)
 	{
-		std::cout << "Input  " << i << ": " << std::bitset<32>{mInputWires[i]->GetData()}
-		          << std::endl;
+		std::cout << "Input  " << i << ": " << std::bitset<32>{mInputWires[i]->GetData()} << std::endl;
 	}
 }
 
@@ -47,8 +43,7 @@ void Node::DisplayOutputs() const
 	// std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mOutputWires.size(); i++)
 	{
-		std::cout << "Output " << i << ": " << std::bitset<32>{mOutputWires[i]->GetData()}
-		          << std::endl;
+		std::cout << "Output " << i << ": " << std::bitset<32>{mOutputWires[i]->GetData()} << std::endl;
 	}
 }
 
@@ -89,54 +84,49 @@ void Node::ProcessDone()
 WireData Node::GetWireData(size_t pIndex) const
 {
 	auto lpInputWire = mInputWires[pIndex];
-	ASSERT(lpInputWire != nullptr,
-	       ("Input wire " + std::to_string(pIndex) + " is undefined").c_str());
+	ASSERT(lpInputWire != nullptr, ("Input wire " + std::to_string(pIndex) + " is undefined").c_str());
 	return lpInputWire->GetData();
 }
 
 void Node::SetWireData(size_t pIndex, WireData pWireData)
 {
 	auto lpInputWire = mOutputWires[pIndex];
-	ASSERT(lpInputWire != nullptr,
-	       ("Input wire " + std::to_string(pIndex) + " is undefined").c_str());
+	ASSERT(lpInputWire != nullptr, ("Input wire " + std::to_string(pIndex) + " is undefined").c_str());
 	lpInputWire->SetData(pWireData);
 }
 
 // Add a function like this with a template for creating a wire with a specific number of bits
 std::shared_ptr<Wire> Node::ConnectNodes(std::shared_ptr<Node> ppSendingNode,
-                                         size_t pSendingNodeOutputIndex,
-                                         std::shared_ptr<Node> ppReceivingNode,
-                                         size_t pReceivingNodeInputIndex)
+										 size_t pSendingNodeOutputIndex,
+										 std::shared_ptr<Node> ppReceivingNode,
+										 size_t pReceivingNodeInputIndex,
+										 unsigned int pNumBits)
 {
-	ASSERT(pSendingNodeOutputIndex < ppSendingNode->mNumberOfOutputWires,
-	       "Sending node output index out of bounds");
-	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->mNumberOfInputWires,
-	       "Receiving node input index out of bounds");
+	ASSERT(pSendingNodeOutputIndex < ppSendingNode->mNumberOfOutputWires, "Sending node output index out of bounds");
+	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->mNumberOfInputWires, "Receiving node input index out of bounds");
 
-	auto lpWire = std::make_shared<Wire>(ppReceivingNode);
+	auto lpWire = std::make_shared<Wire>(ppReceivingNode, pNumBits);
 	ppSendingNode->mOutputWires[pSendingNodeOutputIndex] = lpWire;
 	ppReceivingNode->mInputWires[pReceivingNodeInputIndex] = lpWire;
 	return lpWire;
 }
 
-std::shared_ptr<Wire> Node::CreateInputWire(std::shared_ptr<Node> ppReceivingNode,
-                                            size_t pReceivingNodeInputIndex)
+std::shared_ptr<Wire>
+Node::CreateInputWire(std::shared_ptr<Node> ppReceivingNode, size_t pReceivingNodeInputIndex, unsigned int pNumBits)
 {
-	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->mNumberOfInputWires,
-	       "Receiving node input index out of bounds");
+	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->mNumberOfInputWires, "Receiving node input index out of bounds");
 
-	auto lpWire = std::make_shared<Wire>(ppReceivingNode);
+	auto lpWire = std::make_shared<Wire>(ppReceivingNode, pNumBits);
 	ppReceivingNode->mInputWires[pReceivingNodeInputIndex] = lpWire;
 	return lpWire;
 }
 
-std::shared_ptr<Wire> Node::CreateOutputWire(std::shared_ptr<Node> ppSendingNode,
-                                             size_t pSendingNodeOutputIndex)
+std::shared_ptr<Wire>
+Node::CreateOutputWire(std::shared_ptr<Node> ppSendingNode, size_t pSendingNodeOutputIndex, unsigned int pNumBits)
 {
-	ASSERT(pSendingNodeOutputIndex < ppSendingNode->mNumberOfOutputWires,
-	       "Sending node output index out of bounds");
+	ASSERT(pSendingNodeOutputIndex < ppSendingNode->mNumberOfOutputWires, "Sending node output index out of bounds");
 
-	auto lpWire = std::make_shared<Wire>();
+	auto lpWire = std::make_shared<Wire>(nullptr, pNumBits);
 	ppSendingNode->mOutputWires[pSendingNodeOutputIndex] = lpWire;
 	return lpWire;
 }

@@ -5,10 +5,8 @@
 namespace Instructions
 {
 	// Primitives
-	WireData
-	    GenerateRType(WireData rd, WireData rs1, WireData rs2, WireData funct3, WireData funct7);
-	WireData
-	    GenerateIType(WireData imm, WireData rs1, WireData funct3, WireData rd, WireData opcode);
+	WireData GenerateRType(WireData rd, WireData rs1, WireData rs2, WireData funct3, WireData funct7);
+	WireData GenerateIType(WireData imm, WireData rs1, WireData funct3, WireData rd, WireData opcode);
 	WireData GenerateSType(WireData imm, WireData rs2, WireData rs1, WireData funct3);
 	WireData GenerateBType(WireData imm, WireData rs2, WireData rs1, WireData funct3);
 	WireData GenerateUType(WireData imm, WireData rd, WireData opcode);
@@ -59,4 +57,4 @@ namespace Instructions
 	WireData SRA(WireData rd, WireData rs1, WireData rs2);
 	WireData OR(WireData rd, WireData rs1, WireData rs2);
 	WireData AND(WireData rd, WireData rs1, WireData rs2);
-}  // namespace Instructions
+} // namespace Instructions

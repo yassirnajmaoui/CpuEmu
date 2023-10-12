@@ -6,12 +6,11 @@
 
 class Node;
 
-// Add number of bits template
 class Wire
 {
 public:
-	Wire(std::shared_ptr<Node> ppReceivingNode = nullptr);
-	Wire(const Wire&) = delete;
+	Wire(std::shared_ptr<Node> ppReceivingNode = nullptr, unsigned int pNumBits = 32);
+	Wire(const Wire &) = delete;
 
 	WireData GetData() const;
 	void SetData(WireData pWireData);
@@ -23,4 +22,5 @@ protected:
 	WireData mData;
 	std::shared_ptr<Node> mpReceivingNode;
 	bool mDataReady;
+	unsigned int mNumBits;
 };

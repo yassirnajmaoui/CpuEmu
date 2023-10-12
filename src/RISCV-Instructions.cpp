@@ -5,8 +5,7 @@
 namespace Instructions
 {
 
-	WireData
-	    GenerateRType(WireData rd, WireData rs1, WireData rs2, WireData funct3, WireData funct7)
+	WireData GenerateRType(WireData rd, WireData rs1, WireData rs2, WireData funct3, WireData funct7)
 	{
 		WireData lInstruction = 0;
 		BitUtils::SetBits(lInstruction, 31, 25, funct7);
@@ -18,8 +17,7 @@ namespace Instructions
 		return lInstruction;
 	}
 
-	WireData
-	    GenerateIType(WireData imm, WireData rs1, WireData funct3, WireData rd, WireData opcode)
+	WireData GenerateIType(WireData imm, WireData rs1, WireData funct3, WireData rd, WireData opcode)
 	{
 		WireData lInstruction = 0;
 		BitUtils::SetBits(lInstruction, 31, 20, imm);
@@ -235,4 +233,4 @@ namespace Instructions
 		return GenerateRType(rd, rs1, rs2, 0b111, 0b0000000);
 	}
 
-};  // namespace Instructions
+}; // namespace Instructions

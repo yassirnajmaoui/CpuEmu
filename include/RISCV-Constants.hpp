@@ -31,7 +31,7 @@ constexpr WireData OPCODE_B_TYPE = 0b1100011;
 
 // Instruction-specific opcodes
 constexpr WireData OPCODE_JALR = 0b1100111;
-constexpr WireData OPCODE_LOAD_TYPE = 0b0000011;  // LB, LH, LW, LBU, LHU
+constexpr WireData OPCODE_LOAD_TYPE = 0b0000011; // LB, LH, LW, LBU, LHU
 constexpr WireData OPCODE_LUI = 0b0110111;
 constexpr WireData OPCODE_AUIPC = 0b0010111;
 constexpr WireData OPCODE_FENCE = 0b0001111;

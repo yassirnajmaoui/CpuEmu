@@ -1,4 +1,5 @@
 #include "Units/InstructionParser.hpp"
+
 #include "BitUtils.hpp"
 #include "RISCV-Constants.hpp"
 #include "Types/Wire.hpp"
@@ -27,9 +28,8 @@ void InstructionParser::ProcessInternal()
 		rs2 = BitUtils::TruncateBits(lInstruction, 24, 20);
 		sign_bit = BitUtils::TruncateBits(lInstruction, 30, 30);
 	}
-	else if (opcode == OPCODE_I_TYPE /*Immediate arithmetic*/ ||
-	         opcode == OPCODE_LOAD_TYPE /*Load instructions*/ ||
-	         opcode == OPCODE_JALR /*for JALR*/ || opcode == OPCODE_FENCE /*for FENCE*/)
+	else if (opcode == OPCODE_I_TYPE /*Immediate arithmetic*/ || opcode == OPCODE_LOAD_TYPE /*Load instructions*/ ||
+			 opcode == OPCODE_JALR /*for JALR*/ || opcode == OPCODE_FENCE /*for FENCE*/)
 	{
 		// I-type instructions
 		rd = BitUtils::TruncateBits(lInstruction, 11, 7);

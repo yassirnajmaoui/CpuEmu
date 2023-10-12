@@ -1,4 +1,5 @@
 #include "Units/ALUControl.hpp"
+
 #include "BitUtils.hpp"
 #include "RISCV-Constants.hpp"
 #include "Types/Wire.hpp"
@@ -14,19 +15,32 @@ void ALUControl::ProcessInternal()
 	WireData sign_bit = GetWireData(SignBitIndex);
 
 	// Default
-	WireData lALUSelect = 0u;  // ADD
+	WireData lALUSelect = 0u; // ADD
 
 	if (alu_op == 0b01)
 	{
 		switch (func3)
 		{
-		case 0x00: lALUSelect = ALU_SELECT_BEQ; break;   // BEQ
-		case 0x01: lALUSelect = ALU_SELECT_BNE; break;   // BNE
-		case 0x04: lALUSelect = ALU_SELECT_BLT; break;   // BLT
-		case 0x05: lALUSelect = ALU_SELECT_BGE; break;   // BGE
-		case 0x06: lALUSelect = ALU_SELECT_BLTU; break;  // BLTU
-		case 0x07: lALUSelect = ALU_SELECT_BGEU; break;  // BGEU
-		default: break;
+		case 0x00:
+			lALUSelect = ALU_SELECT_BEQ;
+			break; // BEQ
+		case 0x01:
+			lALUSelect = ALU_SELECT_BNE;
+			break; // BNE
+		case 0x04:
+			lALUSelect = ALU_SELECT_BLT;
+			break; // BLT
+		case 0x05:
+			lALUSelect = ALU_SELECT_BGE;
+			break; // BGE
+		case 0x06:
+			lALUSelect = ALU_SELECT_BLTU;
+			break; // BLTU
+		case 0x07:
+			lALUSelect = ALU_SELECT_BGEU;
+			break; // BGEU
+		default:
+			break;
 		}
 	}
 	else if (alu_op == 0b10)
@@ -36,17 +50,25 @@ void ALUControl::ProcessInternal()
 		case 0b000:
 			if (sign_bit == 0b1)
 			{
-				lALUSelect = ALU_SELECT_SUB;  // SUB
+				lALUSelect = ALU_SELECT_SUB; // SUB
 			}
 			else
 			{
-				lALUSelect = ALU_SELECT_ADD;  // ADD (or JALR ?)
+				lALUSelect = ALU_SELECT_ADD; // ADD (or JALR ?)
 			}
 			break;
-		case 0b001: lALUSelect = ALU_SELECT_SLL; break;   // SLL
-		case 0b010: lALUSelect = ALU_SELECT_SLT; break;   // SLT
-		case 0b011: lALUSelect = ALU_SELECT_SLTU; break;  // SLTU
-		case 0b100: lALUSelect = ALU_SELECT_XOR; break;   // XOR
+		case 0b001:
+			lALUSelect = ALU_SELECT_SLL;
+			break; // SLL
+		case 0b010:
+			lALUSelect = ALU_SELECT_SLT;
+			break; // SLT
+		case 0b011:
+			lALUSelect = ALU_SELECT_SLTU;
+			break; // SLTU
+		case 0b100:
+			lALUSelect = ALU_SELECT_XOR;
+			break; // XOR
 		case 0b101:
 			if (sign_bit == 0b1)
 			{
@@ -55,11 +77,16 @@ void ALUControl::ProcessInternal()
 			else
 			{
 				lALUSelect = ALU_SELECT_SRL;
-			}  // SRL
+			} // SRL
 			break;
-		case 0b110: lALUSelect = ALU_SELECT_OR; break;   // OR
-		case 0b111: lALUSelect = ALU_SELECT_AND; break;  // AND
-		default: break;
+		case 0b110:
+			lALUSelect = ALU_SELECT_OR;
+			break; // OR
+		case 0b111:
+			lALUSelect = ALU_SELECT_AND;
+			break; // AND
+		default:
+			break;
 		}
 	}
 
