@@ -18,6 +18,8 @@ public:
 	virtual void SetDataReady(bool pDataReady = true);
 	virtual bool IsDataReady() const { return mDataReady; }
 
+	virtual unsigned int GetNumBits() const {return mNumBits;}
+
 protected:
 	WireData mData;
 	std::shared_ptr<Node> mpReceivingNode;

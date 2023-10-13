@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(CpuEmuKernel)
 
 #SET(CMAKE_CXX_COMPILE_FEATURES -g)
+SET(CMAKE_CXX_STANDARD 20)
 
 add_library(CpuEmuKernel)
 target_sources(CpuEmuKernel
@@ -20,6 +21,7 @@ target_sources(CpuEmuKernel
 	src/Units/RegistersWriter.cpp
 	src/Utils.cpp
 	src/BitUtils.cpp
+	src/BinToString.cpp
 	src/RISCV-Instructions.cpp
 )
 target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

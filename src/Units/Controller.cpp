@@ -77,7 +77,7 @@ void Controller::ProcessInternal()
 	{
 		lALUSrc = 0;
 		lMemToReg = 0;
-		lRegWrite = 1;
+		lRegWrite = 0;
 		lMemRead = 0;
 		lMemWrite = 0;
 		lBranch = 1;

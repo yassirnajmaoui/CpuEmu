@@ -21,22 +21,22 @@ void ALUControl::ProcessInternal()
 	{
 		switch (func3)
 		{
-		case 0x00:
+		case 0b000:
 			lALUSelect = ALU_SELECT_BEQ;
 			break; // BEQ
-		case 0x01:
+		case 0b001:
 			lALUSelect = ALU_SELECT_BNE;
 			break; // BNE
-		case 0x04:
+		case 0b100:
 			lALUSelect = ALU_SELECT_BLT;
 			break; // BLT
-		case 0x05:
+		case 0b101:
 			lALUSelect = ALU_SELECT_BGE;
 			break; // BGE
-		case 0x06:
+		case 0b110:
 			lALUSelect = ALU_SELECT_BLTU;
 			break; // BLTU
-		case 0x07:
+		case 0b111:
 			lALUSelect = ALU_SELECT_BGEU;
 			break; // BGEU
 		default:
