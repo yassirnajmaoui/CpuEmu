@@ -36,7 +36,7 @@ void InstructionParser::ProcessInternal()
 		funct3 = BitUtils::TruncateBits(lInstruction, 14, 12);
 		rs1 = BitUtils::TruncateBits(lInstruction, 19, 15);
 		BitUtils::SetBits(imm, 11, 0, BitUtils::TruncateBits(lInstruction, 31, 20));
-		// TODO: Add sign extender to change the size of this from 20 bits to 32 bits
+		imm = BitUtils::SignExtend(imm, 12, 32);
 	}
 	else if (opcode == OPCODE_S_TYPE)
 	{
@@ -46,6 +46,7 @@ void InstructionParser::ProcessInternal()
 		rs2 = BitUtils::TruncateBits(lInstruction, 24, 20);
 		BitUtils::SetBits(imm, 4, 0, BitUtils::TruncateBits(lInstruction, 11, 7));
 		BitUtils::SetBits(imm, 11, 5, BitUtils::TruncateBits(lInstruction, 31, 25));
+		imm = BitUtils::SignExtend(imm, 12, 32);
 	}
 	else if (opcode == OPCODE_J_TYPE)
 	{
@@ -55,6 +56,7 @@ void InstructionParser::ProcessInternal()
 		BitUtils::SetBits(imm, 11, 11, BitUtils::TruncateBits(lInstruction, 20, 20));
 		BitUtils::SetBits(imm, 19, 12, BitUtils::TruncateBits(lInstruction, 19, 12));
 		BitUtils::SetBits(imm, 20, 20, BitUtils::TruncateBits(lInstruction, 31, 31));
+		imm = BitUtils::SignExtend(imm, 20, 32);
 	}
 	else if (opcode == OPCODE_B_TYPE)
 	{
@@ -67,6 +69,7 @@ void InstructionParser::ProcessInternal()
 		BitUtils::SetBits(imm, 10, 5, BitUtils::TruncateBits(lInstruction, 30, 25));
 		BitUtils::SetBits(imm, 11, 11, BitUtils::TruncateBits(lInstruction, 7, 7));
 		BitUtils::SetBits(imm, 12, 12, BitUtils::TruncateBits(lInstruction, 31, 31));
+		imm = BitUtils::SignExtend(imm, 13, 32);
 	}
 	else if (opcode == OPCODE_LUI /*LUI*/ || opcode == OPCODE_AUIPC /*AUIPC*/)
 	{

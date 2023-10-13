@@ -11,6 +11,7 @@ WireData BitUtils::TruncateBits(WireData pCode, unsigned int pMSBLimit, unsigned
 {
 	ASSERT(pMSBLimit >= pLSBLimit, "MSB Limit must be higher or equal to the LSB limit when truncating bits");
 
+	// TODO: Better way to do this: (pCode & (1<<pMSBLimits)-1) >> pLSBLimit
 	WireData lMask = GenerateMask(pMSBLimit, pLSBLimit);
 	WireData lMaskedCode = lMask & pCode;
 	return lMaskedCode >> pLSBLimit;
@@ -35,4 +36,20 @@ void BitUtils::SetBits(WireData& pCode,
 
 	// Insert the bits
 	pCode = pCode | lToInsert_shifted;
+}
+
+WireData BitUtils::SignExtend(WireData pData, unsigned int pInputNumBits, unsigned int pOutputNumBits)
+{
+	ASSERT(pInputNumBits > 0, "pInputNumBits must be a non-zero positive");
+	ASSERT(pInputNumBits <= pOutputNumBits, "InputNumBits must be lower or equal to OutputNumBits");
+	ASSERT(pOutputNumBits <= 32, "The max amount of bits allowed is 32");
+
+	WireData lMask = (static_cast<unsigned long long>(1)  << pInputNumBits) - 1;
+	WireData lTruncated = pData & lMask;
+	WireData lOutput = lTruncated;
+	if ((lTruncated >> (pInputNumBits - 1)) > 0)
+	{
+		lOutput |= static_cast<WireData>(-1) & (~lMask);
+	}
+	return lOutput;
 }

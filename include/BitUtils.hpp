@@ -13,8 +13,8 @@ namespace BitUtils
 
 	// This Sets the bits of pCode from pInsertionMSBLimit to pInsertionLSBLimit
 	// (inclusive) to the value stored by the LSB bits of pToInsert
-	void SetBits(WireData& pCode,
-	             unsigned int pInsertionMSBLimit,
-	             unsigned int pInsertionLSBLimit,
-	             WireData pToInsert);
-}  // namespace BitUtils
+	void SetBits(WireData& pCode, unsigned int pInsertionMSBLimit, unsigned int pInsertionLSBLimit, WireData pToInsert);
+
+	WireData SignExtend(WireData pData, unsigned int pNumBits, unsigned int pOutputNumBits);
+
+} // namespace BitUtils

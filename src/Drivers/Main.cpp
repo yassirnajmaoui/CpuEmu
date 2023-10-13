@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <memory>
+#include <bitset>
 
 /* TODOs:
  * Add Wire data truncating here
@@ -26,8 +27,8 @@
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{Instructions::ADDI(1000, 11, 0),
-										Instructions::ADDI(157, 12, 0),
+	std::vector<WireData> lInstructions{Instructions::ADDI(1200, 11, 0),
+										Instructions::ADDI(-200, 12, 0),
 										Instructions::ADD(13, 11, 12),
 										Instructions::SLLI(14, 13, 5),
 										Instructions::BNE(-4, 13, 11)};
@@ -155,7 +156,7 @@ int main()
 
 	for (size_t i = 0; i < lpRegisters->NumberOfRegisters; i++)
 	{
-		std::cout << "Reg [" << i << "]: " << lpRegisters->GetRegisterValue(i) << std::endl;
+		std::cout << "Reg [" << i << "]:\t" << std::bitset<32>(lpRegisters->GetRegisterValue(i)) << " (" << lpRegisters->GetRegisterValue(i) << ")" << std::endl;
 	}
 
 	return 0;
