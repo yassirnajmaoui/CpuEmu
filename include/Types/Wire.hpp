@@ -26,3 +26,11 @@ protected:
 	bool mDataReady;
 	unsigned int mNumBits;
 };
+
+class AlwaysReadyWire : public Wire
+{
+public:
+	AlwaysReadyWire(std::shared_ptr<Node> ppReceivingNode = nullptr, unsigned int pNumBits = 32u);
+
+	virtual bool IsDataReady() const { return true; }
+};

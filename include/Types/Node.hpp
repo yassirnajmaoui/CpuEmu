@@ -32,7 +32,7 @@ public:
 											  unsigned int pNumBits = 32);
 
 	static std::shared_ptr<Wire>
-	CreateInputWire(std::shared_ptr<Node> ppReceivingNode, size_t pReceivingNodeInputIndex, unsigned int pNumBits = 32);
+	CreateInputWire(std::shared_ptr<Node> ppReceivingNode, size_t pReceivingNodeInputIndex, unsigned int pNumBits = 32, bool pAlwaysReady = false);
 
 	static std::shared_ptr<Wire>
 	CreateOutputWire(std::shared_ptr<Node> ppSendingNode, size_t pSendingNodeOutputIndex, unsigned int pNumBits = 32);

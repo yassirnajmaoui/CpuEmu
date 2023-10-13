@@ -27,11 +27,10 @@
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{Instructions::ADDI(1200, 11, 0),
-										Instructions::ADDI(-200, 12, 0),
-										Instructions::ADD(13, 11, 12),
-										Instructions::SLLI(13, 13, 2),
-										Instructions::BNE(-2, 13, 11)};
+	std::vector<WireData> lInstructions{Instructions::ADDI(0, 1, 0),
+										Instructions::ADDI(10, 2, 0),
+										Instructions::ADDI(1, 1, 1),
+										Instructions::BNE(-2, 1, 2)};
 
 	// clang-format off
 
@@ -76,7 +75,7 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpPCMultiplier, lpPCMultiplier->GetOutputIndex<0>(), lpInstructionMemory, lpInstructionMemory->ReadAddressIndex, 32));
 	lWires.emplace_back(Node::ConnectNodes(lpPCMultiplier, lpPCMultiplier->GetOutputIndex<1>(), lpBranchAdder, lpBranchAdder->Input1Index, 32));
 	lWires.emplace_back(Node::ConnectNodes(lpPCMultiplier, lpPCMultiplier->GetOutputIndex<2>(), lpPCAdder, lpPCAdder->Input1Index, 32));
-	auto lpAdd4 = Node::CreateInputWire(lpPCAdder, lpPCAdder->Input2Index, 32);// Wire with the value 4
+	auto lpAdd4 = Node::CreateInputWire(lpPCAdder, lpPCAdder->Input2Index, 32, true);// Wire with the value 4
 	lWires.emplace_back(Node::ConnectNodes(lpPCAdder, lpPCAdder->OutputIndex, lpPCMux, lpPCMux->GetInputIndex<0>(), 32));
 
 	// Instruction memory & Instruction parser
@@ -130,6 +129,7 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpBranchAnd, lpBranchAnd->GetOutputIndex<0>(), lpPCMux, lpPCMux->InputSelectionIndex, 1));
 
 	// Final loop
+	// LoopbackWire contains the Value that would be put to the PC
 	auto lpLoopbackWire = Node::ConnectNodes(lpPCMux, lpPCMux->OutputIndex, lpPC, lpPC->InputIndex, 32);
 
 	// clang-format on
@@ -142,17 +142,17 @@ int main()
 	// Clock
 	auto lClockFunc = [&]()
 	{
-		lpAdd4->SetDataReady();
 		lpClock->SetDataReady();
 		lpLoopbackWire->SetDataReady();
 	};
 
-	for (size_t i = 0; i < lInstructions.size(); ++i)
+	while (lpLoopbackWire->GetData() < lInstructions.size() * 4)
 	{
 		std::cout << "------------------------------------------------------------------" << std::endl;
 		std::cout << "PC: " << lpLoopbackWire->GetData() << "\n";
 		lClockFunc();
 	}
+	std::cout << "PC: " << lpLoopbackWire->GetData() << "\n";
 
 	for (size_t i = 0; i < lpRegisters->NumberOfRegisters; i++)
 	{

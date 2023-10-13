@@ -26,3 +26,8 @@ void Wire::SetDataReady(bool pDataReady)
 		mpReceivingNode->NotifyDataReady();
 	}
 }
+
+AlwaysReadyWire::AlwaysReadyWire(std::shared_ptr<Node> ppReceivingNode, unsigned int pNumBits) :
+	Wire(ppReceivingNode, pNumBits)
+{
+}
