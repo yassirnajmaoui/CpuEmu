@@ -1,6 +1,7 @@
 #include "Types/Node.hpp"
 #include "Types/Wire.hpp"
 #include "Utils.hpp"
+#include "BinToString.hpp"
 
 #include <bitset>
 #include <string>
@@ -34,7 +35,7 @@ void Node::DisplayInputs() const
 	std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mInputWires.size(); i++)
 	{
-		std::cout << "Input  " << i << ": " << std::bitset<32>{mInputWires[i]->GetData()} << std::endl;
+		std::cout << "Input  " << i << ": " << BitUtils::ToBinString(mInputWires[i]->GetData(), mInputWires[i]->GetNumBits()) << std::endl;
 	}
 }
 
@@ -43,7 +44,7 @@ void Node::DisplayOutputs() const
 	// std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mOutputWires.size(); i++)
 	{
-		std::cout << "Output " << i << ": " << std::bitset<32>{mOutputWires[i]->GetData()} << std::endl;
+		std::cout << "Output " << i << ": " << BitUtils::ToBinString(mOutputWires[i]->GetData(), mOutputWires[i]->GetNumBits()) << std::endl;
 	}
 }
 
