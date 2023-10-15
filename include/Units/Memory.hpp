@@ -6,7 +6,7 @@
 class Memory : public Node
 {
 public:
-	Memory();
+	static constexpr size_t InitialMemorySize = 512;
 
 	// Inputs
 	static constexpr size_t MemWriteIndex = 0;
@@ -17,9 +17,15 @@ public:
 	// Outputs
 	static constexpr size_t ReadDataIndex = 0;
 
+	Memory();
+
+	size_t GetMemorySize() const;
+	WireData GetMemoryData(unsigned int pIndex) const;
+
 protected:
 	void ProcessInternal() override;
 
 private:
 	std::vector<WireData> mMemory;
 };
+

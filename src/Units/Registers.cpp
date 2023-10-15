@@ -3,7 +3,13 @@
 #include "Types/Wire.hpp"
 #include "Utils.hpp"
 
-Registers::Registers() : Node(2, 2, "Registers") {}
+Registers::Registers() : Node(2, 2, "Registers")
+{
+	for (unsigned int i = 0; i < NumberOfRegisters; ++i)
+	{
+		mRegisters[i] = 0u;
+	}
+}
 
 void Registers::ProcessInternal()
 {

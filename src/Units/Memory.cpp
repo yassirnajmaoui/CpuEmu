@@ -2,7 +2,19 @@
 
 #include "Types/Wire.hpp"
 
-Memory::Memory() : Node(4, 1, "Memory") {}
+Memory::Memory() : Node(4, 1, "Memory") {
+	mMemory.resize(InitialMemorySize);
+}
+
+size_t Memory::GetMemorySize() const
+{
+	return mMemory.size();
+}
+
+WireData Memory::GetMemoryData(unsigned int pIndex) const
+{
+	return mMemory.at(pIndex);
+}
 
 void Memory::ProcessInternal()
 {

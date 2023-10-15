@@ -20,17 +20,17 @@
 #include <memory>
 
 /* TODOs:
- * Check if Store and Load operations work
+ * Make SB, AH, LB and LH work
  * Add JAL and JALR implementation (Need to add a control bit)
  */
 
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{Instructions::ADDI(0, 1, 0),
-										Instructions::ADDI(10, 2, 0),
-										Instructions::ADDI(1, 1, 1),
-										Instructions::BNE(-2, 1, 2)};
+	std::vector<WireData> lInstructions{Instructions::ADDI(-1, 1, 0),
+										Instructions::ADDI(3, 2, 0),
+										Instructions::SW(0,2,1),
+										Instructions::LB(0,3,2)};
 
 	// clang-format off
 
@@ -103,7 +103,7 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpALU, lpALU->ALUZeroIndex, lpBranchAnd, lpBranchAnd->GetInputIndex<1>(), 1));
 
 	// Data memory
-	auto lpALUResultMultiplier = std::make_shared<Multiplier<2>>();	
+	auto lpALUResultMultiplier = std::make_shared<Multiplier<2>>();
 	lWires.emplace_back(Node::ConnectNodes(lpALU, lpALU->ALUResultIndex, lpALUResultMultiplier, lpALUResultMultiplier->InputIndex, 32));
 	lWires.emplace_back(Node::ConnectNodes(lpALUResultMultiplier, lpALUResultMultiplier->GetOutputIndex<0>(), lpDataMemory, lpDataMemory->AddressIndex, 32));
 	lWires.emplace_back(Node::ConnectNodes(lpALUResultMultiplier, lpALUResultMultiplier->GetOutputIndex<1>(), lpRegWriterMux, lpRegWriterMux->GetInputIndex<0>(), 32));
@@ -154,10 +154,19 @@ int main()
 	}
 	std::cout << "PC: " << lpLoopbackWire->GetData() << "\n";
 
+	std::cout << "Registers" << std::endl;
 	for (size_t i = 0; i < lpRegisters->NumberOfRegisters; i++)
 	{
-		std::cout << "Reg [" << i << "]:\t" << std::bitset<32>(lpRegisters->GetRegisterValue(i)) << " ("
-				  << lpRegisters->GetRegisterValue(i) << ")" << std::endl;
+		WireData lRegVal = lpRegisters->GetRegisterValue(i);
+		std::cout << "Reg [" << i << "]:\t" << std::bitset<32>(lRegVal) << " ("
+				  << lRegVal << ")" << std::endl;
+	}
+	std::cout << "Memory" << std::endl;
+	for (size_t i = 0; i < 10; i++)
+	{
+		WireData lMemVal = lpDataMemory->GetMemoryData(i);
+		std::cout << "Mem [" << i << "]:\t" << std::bitset<32>(lMemVal) << " ("
+				  << lMemVal << ")" << std::endl;
 	}
 
 	return 0;
