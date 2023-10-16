@@ -11,7 +11,7 @@ ALUControl::ALUControl() : Node(3, 1, "ALU controller") {}
 void ALUControl::ProcessInternal()
 {
 	WireData alu_op = GetWireData(ALUOpIndex);
-	WireData func3 = GetWireData(Funct3Index);
+	WireData funct3 = GetWireData(Funct3Index);
 	WireData sign_bit = GetWireData(SignBitIndex);
 
 	// Default
@@ -19,24 +19,24 @@ void ALUControl::ProcessInternal()
 
 	if (alu_op == 0b01)
 	{
-		switch (func3)
+		switch (funct3)
 		{
-		case 0b000:
+		case FUNCT3_BEQ:
 			lALUSelect = ALU_SELECT_BEQ;
 			break; // BEQ
-		case 0b001:
+		case FUNCT3_BNE:
 			lALUSelect = ALU_SELECT_BNE;
 			break; // BNE
-		case 0b100:
+		case FUNCT3_BLT:
 			lALUSelect = ALU_SELECT_BLT;
 			break; // BLT
-		case 0b101:
+		case FUNCT3_BGE:
 			lALUSelect = ALU_SELECT_BGE;
 			break; // BGE
-		case 0b110:
+		case FUNCT3_BLTU:
 			lALUSelect = ALU_SELECT_BLTU;
 			break; // BLTU
-		case 0b111:
+		case FUNCT3_BGEU:
 			lALUSelect = ALU_SELECT_BGEU;
 			break; // BGEU
 		default:
@@ -45,9 +45,9 @@ void ALUControl::ProcessInternal()
 	}
 	else if (alu_op == 0b10)
 	{
-		switch (func3)
+		switch (funct3)
 		{
-		case 0b000:
+		case FUNCT3_ADD_SUB:
 			if (sign_bit == 0b1)
 			{
 				lALUSelect = ALU_SELECT_SUB; // SUB
@@ -57,19 +57,19 @@ void ALUControl::ProcessInternal()
 				lALUSelect = ALU_SELECT_ADD; // ADD (or JALR ?)
 			}
 			break;
-		case 0b001:
+		case FUNCT3_SLL:
 			lALUSelect = ALU_SELECT_SLL;
 			break; // SLL
-		case 0b010:
+		case FUNCT3_SLT:
 			lALUSelect = ALU_SELECT_SLT;
 			break; // SLT
-		case 0b011:
+		case FUNCT3_SLTU:
 			lALUSelect = ALU_SELECT_SLTU;
 			break; // SLTU
-		case 0b100:
+		case FUNCT3_XOR:
 			lALUSelect = ALU_SELECT_XOR;
 			break; // XOR
-		case 0b101:
+		case FUNCT3_SRL_SRA:
 			if (sign_bit == 0b1)
 			{
 				lALUSelect = ALU_SELECT_SRA;
@@ -79,10 +79,10 @@ void ALUControl::ProcessInternal()
 				lALUSelect = ALU_SELECT_SRL;
 			} // SRL
 			break;
-		case 0b110:
+		case FUNCT3_OR:
 			lALUSelect = ALU_SELECT_OR;
 			break; // OR
-		case 0b111:
+		case FUNCT3_AND:
 			lALUSelect = ALU_SELECT_AND;
 			break; // AND
 		default:

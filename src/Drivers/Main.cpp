@@ -20,8 +20,8 @@
 #include <memory>
 
 /* TODOs:
- * Make SB, AH, LB and LH work + test if offsetting works
  * Add JAL and JALR implementation (Need to add a control bit)
+ * test LUI and AUIPC
  */
 
 int main()
@@ -29,7 +29,7 @@ int main()
 	// Instructions
 	std::vector<WireData> lInstructions{Instructions::ADDI(-1485, 2, 0),
 										Instructions::SH(2,0,2),
-										Instructions::LB(2,5,0)};
+										Instructions::JAL(-2,5)};
 
 	// clang-format off
 
