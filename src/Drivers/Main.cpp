@@ -27,9 +27,11 @@
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{Instructions::ADDI(-1485, 2, 0),
-										Instructions::SH(2,0,2),
-										Instructions::JAL(-2,5)};
+	std::vector<WireData> lInstructions{Instructions::ADDI(1000, 2, 0),
+										Instructions::SW(2,0,2),
+										Instructions::JAL(+4,5),
+										Instructions::ADDI(500, 2, 2),
+										Instructions::ADDI(12, 2, 2)};
 
 	// clang-format off
 
@@ -39,7 +41,7 @@ int main()
 	auto lpClock = Node::CreateInputWire(lpPC, lpPC->SignalIndex);
 
 	// Other nodes
-	auto lpInstructionMemory = std::make_shared<ReadOnlyMemory>(std::move(lInstructions));
+	auto lpInstructionMemory = std::make_shared<ReadOnlyMemory>(std::move(lInstructions), "Instruction memory");
 
 	auto lpInstructionParser = std::make_shared<InstructionParser>();
 	auto lpShiftLeft1 = std::make_shared<SimpleOperator>(
