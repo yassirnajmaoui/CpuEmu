@@ -13,6 +13,7 @@ public:
 	static constexpr size_t AddressIndex = 1;
 	static constexpr size_t WriteDataIndex = 2;
 	static constexpr size_t MemReadIndex = 3;
+	static constexpr size_t Funct3Index = 4;
 
 	// Outputs
 	static constexpr size_t ReadDataIndex = 0;

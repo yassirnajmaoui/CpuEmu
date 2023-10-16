@@ -20,17 +20,16 @@
 #include <memory>
 
 /* TODOs:
- * Make SB, AH, LB and LH work
+ * Make SB, AH, LB and LH work + test if offsetting works
  * Add JAL and JALR implementation (Need to add a control bit)
  */
 
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{Instructions::ADDI(-1, 1, 0),
-										Instructions::ADDI(3, 2, 0),
-										Instructions::SW(0,2,1),
-										Instructions::LB(0,3,2)};
+	std::vector<WireData> lInstructions{Instructions::ADDI(-1485, 2, 0),
+										Instructions::SH(2,0,2),
+										Instructions::LB(2,5,0)};
 
 	// clang-format off
 
@@ -83,7 +82,10 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->OpcodeIndex, lpControlUnit, lpControlUnit->OpcodeIndex, 7));
 	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->RS1Index, lpRegisters, lpRegisters->ReadRegister1Index, 5));
 	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->RS2Index, lpRegisters, lpRegisters->ReadRegister2Index, 5));
-	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->Funct3Index, lpALUControl, lpALUControl->Func3Index, 3));
+	auto lpFunct3Multiplier = std::make_shared<Multiplier<2>>();
+	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->Funct3Index, lpFunct3Multiplier, lpFunct3Multiplier->InputIndex, 3));
+	lWires.emplace_back(Node::ConnectNodes(lpFunct3Multiplier, lpFunct3Multiplier->GetOutputIndex<0>(), lpALUControl, lpALUControl->Funct3Index, 3));
+	lWires.emplace_back(Node::ConnectNodes(lpFunct3Multiplier, lpFunct3Multiplier->GetOutputIndex<1>(), lpDataMemory, lpDataMemory->Funct3Index, 3));
 	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->SignBitIndex, lpALUControl, lpALUControl->SignBitIndex, 1));
 	auto lpInstructionParserImmMultiplier = std::make_shared<Multiplier<2>>();
 	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->ImmIndex, lpInstructionParserImmMultiplier, lpInstructionParserImmMultiplier->InputIndex, 32));
@@ -109,7 +111,7 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpALUResultMultiplier, lpALUResultMultiplier->GetOutputIndex<1>(), lpRegWriterMux, lpRegWriterMux->GetInputIndex<0>(), 32));
 	lWires.emplace_back(Node::ConnectNodes(lpDataMemory, lpDataMemory->ReadDataIndex, lpRegWriterMux, lpRegWriterMux->GetInputIndex<1>(), 32));
 
-	//Registers writer
+	// Registers writer
 	lWires.emplace_back(Node::ConnectNodes(lpRegWriterMux, lpRegWriterMux->OutputIndex, lpRegWriter, lpRegWriter->WriteDataIndex, 32));
 	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->RDIndex, lpRegWriter, lpRegWriter->WriteRegisterIndex, 5));
 
@@ -157,7 +159,7 @@ int main()
 	std::cout << "Registers" << std::endl;
 	for (size_t i = 0; i < lpRegisters->NumberOfRegisters; i++)
 	{
-		WireData lRegVal = lpRegisters->GetRegisterValue(i);
+		int lRegVal = static_cast<int>(lpRegisters->GetRegisterValue(i));
 		std::cout << "Reg [" << i << "]:\t" << std::bitset<32>(lRegVal) << " ("
 				  << lRegVal << ")" << std::endl;
 	}

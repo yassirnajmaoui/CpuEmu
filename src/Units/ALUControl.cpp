@@ -11,7 +11,7 @@ ALUControl::ALUControl() : Node(3, 1, "ALU controller") {}
 void ALUControl::ProcessInternal()
 {
 	WireData alu_op = GetWireData(ALUOpIndex);
-	WireData func3 = GetWireData(Func3Index);
+	WireData func3 = GetWireData(Funct3Index);
 	WireData sign_bit = GetWireData(SignBitIndex);
 
 	// Default
