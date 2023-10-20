@@ -91,7 +91,7 @@ namespace Instructions
 		return GenerateJType(imm, rd);
 	}
 
-	WireData JALR(WireData rd, WireData rs1, WireData imm)
+	WireData JALR(WireData imm, WireData rd, WireData rs1)
 	{
 		return GenerateIType(imm, rs1, FUNCT3_JALR, rd, OPCODE_JALR);
 	}

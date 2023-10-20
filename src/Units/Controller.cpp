@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-Controller::Controller() : Node(1, 8, "Controller") {}
+Controller::Controller() : Node(1, 9, "Controller") {}
 
 void Controller::ProcessInternal()
 {
@@ -21,6 +21,7 @@ void Controller::ProcessInternal()
 	WireData lRegWrite = 0;
 	WireData lALUOp = 0;
 	WireData lJumpReg = 0;
+	WireData lLink = 0;
 
 	// Note: ALUSrc determines whether to use the immediate value for the ALU
 	// or the register value from rs2
@@ -34,6 +35,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
+		lLink = 0;
 
 		lALUOp = 0b10;
 	}
@@ -46,6 +48,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 1;
 		lBranch = 0;
 		lJumpReg = 0;
+		lLink = 0;
 
 		lALUOp = 0b00;
 	}
@@ -58,6 +61,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
+		lLink = 0;
 
 		lALUOp = 0b10;
 	}
@@ -70,6 +74,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
+		lLink = 0;
 
 		lALUOp = 0b00;
 	}
@@ -82,6 +87,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 1;
 		lJumpReg = 0;
+		lLink = 0;
 
 		lALUOp = 0b01;
 	}
@@ -94,6 +100,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 1;
 		lJumpReg = 0;
+		lLink = 1;
 
 		lALUOp = 0b11;
 	}
@@ -104,8 +111,9 @@ void Controller::ProcessInternal()
 		lRegWrite = 1;
 		lMemRead = 0;
 		lMemWrite = 0;
-		lBranch = 1;
+		lBranch = 0;
 		lJumpReg = 1;
+		lLink = 1;
 
 		lALUOp = 0b10;
 	}
@@ -118,6 +126,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
+		lLink = 0;
 
 		lALUOp = 0b11;
 	}
@@ -130,6 +139,7 @@ void Controller::ProcessInternal()
 		lMemWrite = 0;
 		lBranch = 0;
 		lJumpReg = 0;
+		lLink = 0;
 
 		lALUOp = 0b11;
 	}
@@ -142,4 +152,5 @@ void Controller::ProcessInternal()
 	SetWireData(ALUSrcIndex, lALUSrc);
 	SetWireData(RegWriteIndex, lRegWrite);
 	SetWireData(JumpRegIndex, lJumpReg);
+	SetWireData(LinkIndex, lLink);
 }

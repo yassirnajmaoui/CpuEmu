@@ -20,18 +20,15 @@
 #include <memory>
 
 /* TODOs:
- * Add JAL and JALR implementation (Need to add a control bit)
  * test LUI and AUIPC
  */
 
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{Instructions::ADDI(1000, 2, 0),
-										Instructions::SW(2,0,2),
-										Instructions::JAL(+4,5),
-										Instructions::ADDI(500, 2, 2),
-										Instructions::ADDI(12, 2, 2)};
+	std::vector<WireData> lInstructions{Instructions::ADDI(4, 2, 0),
+										Instructions::JALR(8,4,2),
+										Instructions::ADDI(100, 10, 10)};
 
 	// clang-format off
 
@@ -56,6 +53,7 @@ int main()
 	auto lpALU = std::make_shared<ALU>();
 	auto lpDataMemory = std::make_shared<Memory>();
 	auto lpRegWriterMux = std::make_shared<Multiplexer<2>>("RegWrite Multiplexer");
+	auto lpLinkMux = std::make_shared<Multiplexer<2>>("Link Multiplexer");
 	auto lpRegWriter = std::make_shared<RegistersWriter>(lpRegisters);
 	auto lpBranchAdder = std::make_shared<Adder>();
 	auto lpBranchAnd = std::make_shared<Operator<2, 1>>(
@@ -64,7 +62,8 @@ int main()
 		    return std::array<WireData, 1>({pInputs[0] & pInputs[1]});
 	    }, "Branch AND");
 	auto lpPCAdder = std::make_shared<Adder>();
-	auto lpPCMux = std::make_shared<Multiplexer<2>>("PC Multiplexer");
+	auto lpBranchMux = std::make_shared<Multiplexer<2>>("PC Multiplexer");
+	auto lpJumpRegMux = std::make_shared<Multiplexer<2>>("JumpReg Multiplexer");
 
 	// Wires
 	std::vector<std::shared_ptr<Wire>> lWires;
@@ -77,7 +76,11 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpPCMultiplier, lpPCMultiplier->GetOutputIndex<1>(), lpBranchAdder, lpBranchAdder->Input1Index, 32));
 	lWires.emplace_back(Node::ConnectNodes(lpPCMultiplier, lpPCMultiplier->GetOutputIndex<2>(), lpPCAdder, lpPCAdder->Input1Index, 32));
 	auto lpAdd4 = Node::CreateInputWire(lpPCAdder, lpPCAdder->Input2Index, 32, true);// Wire with the value 4
-	lWires.emplace_back(Node::ConnectNodes(lpPCAdder, lpPCAdder->OutputIndex, lpPCMux, lpPCMux->GetInputIndex<0>(), 32));
+	// Link
+	auto lpPCPlus4Multiplier = std::make_shared<Multiplier<2>>();
+	lWires.emplace_back(Node::ConnectNodes(lpPCAdder, lpPCAdder->OutputIndex, lpPCPlus4Multiplier, lpPCPlus4Multiplier->InputIndex, 32));
+	lWires.emplace_back(Node::ConnectNodes(lpPCPlus4Multiplier, lpPCPlus4Multiplier->GetOutputIndex<0>(), lpBranchMux, lpBranchMux->GetInputIndex<0>(), 32));
+	lWires.emplace_back(Node::ConnectNodes(lpPCPlus4Multiplier, lpPCPlus4Multiplier->GetOutputIndex<1>(), lpLinkMux, lpLinkMux->GetInputIndex<1>(), 32));
 
 	// Instruction memory & Instruction parser
 	lWires.emplace_back(Node::ConnectNodes(lpInstructionMemory, lpInstructionMemory->OutputDataIndex, lpInstructionParser, lpInstructionParser->InstructionIndex, 32));
@@ -107,14 +110,15 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpALU, lpALU->ALUZeroIndex, lpBranchAnd, lpBranchAnd->GetInputIndex<1>(), 1));
 
 	// Data memory
-	auto lpALUResultMultiplier = std::make_shared<Multiplier<2>>();
+	auto lpALUResultMultiplier = std::make_shared<Multiplier<3>>();
 	lWires.emplace_back(Node::ConnectNodes(lpALU, lpALU->ALUResultIndex, lpALUResultMultiplier, lpALUResultMultiplier->InputIndex, 32));
 	lWires.emplace_back(Node::ConnectNodes(lpALUResultMultiplier, lpALUResultMultiplier->GetOutputIndex<0>(), lpDataMemory, lpDataMemory->AddressIndex, 32));
-	lWires.emplace_back(Node::ConnectNodes(lpALUResultMultiplier, lpALUResultMultiplier->GetOutputIndex<1>(), lpRegWriterMux, lpRegWriterMux->GetInputIndex<0>(), 32));
 	lWires.emplace_back(Node::ConnectNodes(lpDataMemory, lpDataMemory->ReadDataIndex, lpRegWriterMux, lpRegWriterMux->GetInputIndex<1>(), 32));
 
 	// Registers writer
-	lWires.emplace_back(Node::ConnectNodes(lpRegWriterMux, lpRegWriterMux->OutputIndex, lpRegWriter, lpRegWriter->WriteDataIndex, 32));
+	lWires.emplace_back(Node::ConnectNodes(lpALUResultMultiplier, lpALUResultMultiplier->GetOutputIndex<1>(), lpRegWriterMux, lpRegWriterMux->GetInputIndex<0>(), 32));
+	lWires.emplace_back(Node::ConnectNodes(lpRegWriterMux, lpRegWriterMux->OutputIndex, lpLinkMux, lpLinkMux->GetInputIndex<0>(), 32));
+	lWires.emplace_back(Node::ConnectNodes(lpLinkMux, lpLinkMux->OutputIndex, lpRegWriter, lpRegWriter->WriteDataIndex, 32));
 	lWires.emplace_back(Node::ConnectNodes(lpInstructionParser, lpInstructionParser->RDIndex, lpRegWriter, lpRegWriter->WriteRegisterIndex, 5));
 
 	// Controller
@@ -125,16 +129,19 @@ int main()
 	lWires.emplace_back(Node::ConnectNodes(lpControlUnit, lpControlUnit->MemWriteIndex, lpDataMemory, lpDataMemory->MemWriteIndex, 1));
 	lWires.emplace_back(Node::ConnectNodes(lpControlUnit, lpControlUnit->ALUSrcIndex, lpALUMux, lpALUMux->InputSelectionIndex, 1));
 	lWires.emplace_back(Node::ConnectNodes(lpControlUnit, lpControlUnit->RegWriteIndex, lpRegWriter, lpRegWriter->RegWriteIndex, 1));
-	lWires.emplace_back(Node::CreateOutputWire(lpControlUnit, lpControlUnit->JumpRegIndex, 1));// TODO: Connect the JumpReg wire once JAL & JALR done
+	lWires.emplace_back(Node::ConnectNodes(lpControlUnit, lpControlUnit->JumpRegIndex, lpJumpRegMux, lpJumpRegMux->InputSelectionIndex, 1));
+	lWires.emplace_back(Node::ConnectNodes(lpControlUnit, lpControlUnit->LinkIndex, lpLinkMux, lpLinkMux->InputSelectionIndex, 1));
 
-	// Branching
+	// Branch & Jump
 	lWires.emplace_back(Node::ConnectNodes(lpShiftLeft1, lpShiftLeft1->OutputIndex, lpBranchAdder, lpBranchAdder->Input2Index, 32));
-	lWires.emplace_back(Node::ConnectNodes(lpBranchAdder, lpBranchAdder->OutputIndex, lpPCMux, lpPCMux->GetInputIndex<1>(), 32));
-	lWires.emplace_back(Node::ConnectNodes(lpBranchAnd, lpBranchAnd->GetOutputIndex<0>(), lpPCMux, lpPCMux->InputSelectionIndex, 1));
+	lWires.emplace_back(Node::ConnectNodes(lpBranchAdder, lpBranchAdder->OutputIndex, lpBranchMux, lpBranchMux->GetInputIndex<1>(), 32));
+	lWires.emplace_back(Node::ConnectNodes(lpBranchAnd, lpBranchAnd->GetOutputIndex<0>(), lpBranchMux, lpBranchMux->InputSelectionIndex, 1));
+	lWires.emplace_back(Node::ConnectNodes(lpALUResultMultiplier, lpALUResultMultiplier->GetOutputIndex<2>(), lpJumpRegMux, lpJumpRegMux->GetInputIndex<1>(), 32));
 
 	// Final loop
 	// LoopbackWire contains the Value that would be put to the PC
-	auto lpLoopbackWire = Node::ConnectNodes(lpPCMux, lpPCMux->OutputIndex, lpPC, lpPC->InputIndex, 32);
+	lWires.emplace_back(Node::ConnectNodes(lpBranchMux, lpBranchMux->OutputIndex, lpJumpRegMux, lpJumpRegMux->GetInputIndex<0>(), 32));
+	auto lpLoopbackWire = Node::ConnectNodes(lpJumpRegMux, lpJumpRegMux->OutputIndex, lpPC, lpPC->InputIndex);
 
 	// clang-format on
 

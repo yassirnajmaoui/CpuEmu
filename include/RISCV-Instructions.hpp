@@ -18,7 +18,7 @@ namespace Instructions
 
 	WireData JAL(WireData imm, WireData rd);
 
-	WireData JALR(WireData rd, WireData rs1, WireData imm);
+	WireData JALR(WireData imm, WireData rd, WireData rs1);
 
 	WireData BEQ(WireData imm, WireData rs1, WireData rs2);
 	WireData BNE(WireData imm, WireData rs1, WireData rs2);
