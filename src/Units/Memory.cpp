@@ -3,10 +3,12 @@
 #include "BitUtils.hpp"
 #include "Types/Wire.hpp"
 
-Memory::Memory() : Node(5, 1, "Memory")
+Memory::Memory(std::string pName) : Node(5, 1, pName)
 {
 	mMemory.resize(InitialMemorySize);
 }
+
+Memory::Memory(std::vector<WireData>&& pmMemory, std::string pName) : Node(5, 1, pName), mMemory(pmMemory) {}
 
 size_t Memory::GetMemorySize() const
 {
@@ -29,7 +31,8 @@ void Memory::ProcessInternal()
 	if (lMemRead)
 	{
 		ASSERT_coherence(lMemWrite == false, "Cannot read and write at the same time");
-		WireData lMemData = mMemory[lAddress];
+		// TODO: use lAddress coherently
+		WireData lMemData = *reinterpret_cast<WireData*>(reinterpret_cast<void*>(mMemory.data()) + lAddress);
 		if (lFunct3 == 0b000) // LB
 		{
 			lMemData = BitUtils::SignExtend(BitUtils::TruncateBits(lMemData, 7, 0), 8, 32);

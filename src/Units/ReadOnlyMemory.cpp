@@ -2,7 +2,7 @@
 
 #include "Types/Wire.hpp"
 
-ReadOnlyMemory::ReadOnlyMemory() : Node(1, 1, "Read-only memory") {}
+ReadOnlyMemory::ReadOnlyMemory(std::string pName) : Node(1, 1, pName) {}
 
 ReadOnlyMemory::ReadOnlyMemory(std::vector<WireData>&& pmMemory, std::string pName) : Node(1, 1, pName), mMemory(pmMemory) {}
 

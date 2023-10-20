@@ -6,7 +6,7 @@
 class ReadOnlyMemory : public Node
 {
 public:
-	ReadOnlyMemory();
+	ReadOnlyMemory(std::string pName = "Read-only memory");
 	ReadOnlyMemory(std::vector<WireData> &&pmMemory, std::string pName = "Read-only memory");
 
 	// Inputs

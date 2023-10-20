@@ -18,7 +18,8 @@ public:
 	// Outputs
 	static constexpr size_t ReadDataIndex = 0;
 
-	Memory();
+	Memory(std::string pName = "Memory");
+	Memory(std::vector<WireData> &&pmMemory, std::string pName = "Memory");
 
 	size_t GetMemorySize() const;
 	WireData GetMemoryData(unsigned int pIndex) const;

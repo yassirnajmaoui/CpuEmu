@@ -18,6 +18,7 @@
 #include <bitset>
 #include <iostream>
 #include <memory>
+#include <cstring>
 
 /* TODOs:
  * test LUI and AUIPC
@@ -26,9 +27,26 @@
 int main()
 {
 	// Instructions
-	std::vector<WireData> lInstructions{Instructions::ADDI(4, 2, 0),
-										Instructions::JALR(8,4,2),
-										Instructions::ADDI(100, 10, 10)};
+	std::vector<WireData> lInstructions{
+	// make registry 10 point to memory address of a string
+	Instructions::ADDI(0, 10, 0),
+	//-- func start
+	Instructions::ADDI(0, 5, 0),
+	//-- loop
+	Instructions::ADD(6, 5, 10),
+	Instructions::LB(0, 6, 6),
+	Instructions::BEQ(+6, 6, 0),
+	Instructions::ADDI(1, 5, 5),
+	Instructions::JAL(-8, 28),
+	//-- loop
+	Instructions::ADD(10, 5, 0),
+	//-- func end
+	};
+
+	std::string mystr = "Hello:)";
+	std::vector<WireData> lMemory;
+	lMemory.resize((mystr.size())/sizeof(WireData)+7);
+	std::memcpy(lMemory.data(), mystr.data(), mystr.size());
 
 	// clang-format off
 
@@ -51,7 +69,7 @@ int main()
 	auto lpALUMux = std::make_shared<Multiplexer<2>>("ALU Multiplexer");
 	auto lpALUControl = std::make_shared<ALUControl>();
 	auto lpALU = std::make_shared<ALU>();
-	auto lpDataMemory = std::make_shared<Memory>();
+	auto lpDataMemory = std::make_shared<Memory>(std::move(lMemory));
 	auto lpRegWriterMux = std::make_shared<Multiplexer<2>>("RegWrite Multiplexer");
 	auto lpLinkMux = std::make_shared<Multiplexer<2>>("Link Multiplexer");
 	auto lpRegWriter = std::make_shared<RegistersWriter>(lpRegisters);
@@ -169,15 +187,13 @@ int main()
 	for (size_t i = 0; i < lpRegisters->NumberOfRegisters; i++)
 	{
 		int lRegVal = static_cast<int>(lpRegisters->GetRegisterValue(i));
-		std::cout << "Reg [" << i << "]:\t" << std::bitset<32>(lRegVal) << " ("
-				  << lRegVal << ")" << std::endl;
+		std::cout << "Reg [" << i << "]:\t" << std::bitset<32>(lRegVal) << " (" << lRegVal << ")" << std::endl;
 	}
 	std::cout << "Memory" << std::endl;
 	for (size_t i = 0; i < 10; i++)
 	{
 		WireData lMemVal = lpDataMemory->GetMemoryData(i);
-		std::cout << "Mem [" << i << "]:\t" << std::bitset<32>(lMemVal) << " ("
-				  << lMemVal << ")" << std::endl;
+		std::cout << "Mem [" << i << "]:\t" << std::bitset<32>(lMemVal) << " (" << lMemVal << ")" << std::endl;
 	}
 
 	return 0;
