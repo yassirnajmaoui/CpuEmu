@@ -3,10 +3,12 @@
 #include "Types/Node.hpp"
 #include "Utils.hpp"
 
+using Byte = unsigned char;
+
 class Memory : public Node
 {
 public:
-	static constexpr size_t InitialMemorySize = 512;
+	static constexpr size_t DefaultMemorySize = 512;
 
 	// Inputs
 	static constexpr size_t MemWriteIndex = 0;
@@ -19,15 +21,15 @@ public:
 	static constexpr size_t ReadDataIndex = 0;
 
 	Memory(std::string pName = "Memory");
-	Memory(std::vector<WireData> &&pmMemory, std::string pName = "Memory");
+	Memory(std::vector<Byte> &&pmMemory, std::string pName = "Memory");
 
 	size_t GetMemorySize() const;
-	WireData GetMemoryData(unsigned int pIndex) const;
+	Byte GetMemoryData(unsigned int pIndex) const;
 
 protected:
 	void ProcessInternal() override;
 
 private:
-	std::vector<WireData> mMemory;
+	std::vector<Byte> mMemory;
 };
 

@@ -16,9 +16,9 @@
 #include "Utils.hpp"
 
 #include <bitset>
+#include <cstring>
 #include <iostream>
 #include <memory>
-#include <cstring>
 
 /* TODOs:
  * test LUI and AUIPC
@@ -37,15 +37,15 @@ int main()
 	Instructions::LB(0, 6, 6),
 	Instructions::BEQ(+6, 6, 0),
 	Instructions::ADDI(1, 5, 5),
-	Instructions::JAL(-8, 28),
+	Instructions::JAL(-8, 31),
 	//-- loop
-	Instructions::ADD(10, 5, 0),
+	Instructions::SW(0, 5, 5)
 	//-- func end
 	};
 
-	std::string mystr = "Hello:)";
-	std::vector<WireData> lMemory;
-	lMemory.resize((mystr.size())/sizeof(WireData)+7);
+	std::string mystr = "Hello:) My name is Whoo!";
+	std::vector<Byte> lMemory;
+	lMemory.resize(mystr.size() + 1*sizeof(WireData));// + 1 For the null terminator
 	std::memcpy(lMemory.data(), mystr.data(), mystr.size());
 
 	// clang-format off
@@ -190,10 +190,10 @@ int main()
 		std::cout << "Reg [" << i << "]:\t" << std::bitset<32>(lRegVal) << " (" << lRegVal << ")" << std::endl;
 	}
 	std::cout << "Memory" << std::endl;
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < lpDataMemory->GetMemorySize(); i++)
 	{
 		WireData lMemVal = lpDataMemory->GetMemoryData(i);
-		std::cout << "Mem [" << i << "]:\t" << std::bitset<32>(lMemVal) << " (" << lMemVal << ")" << std::endl;
+		std::cout << "Mem [" << i << "]:\t" << std::bitset<8>(lMemVal) << " (" << lMemVal << ")" << std::endl;
 	}
 
 	return 0;

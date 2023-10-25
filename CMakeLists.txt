@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.25)
 project(CpuEmuKernel)
 
-#SET(CMAKE_CXX_COMPILE_FEATURES -g)
+SET(CMAKE_CXX_COMPILE_FEATURES -g)
+
+# For Lapce editor, which uses clangd
+#SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+#SET(CMAKE_CXX_FLAGS "-isystem /usr/include/c++/11 -isystem /usr/include/x86_64-linux-gnu/c++/11 -isystem /usr/include/c++/11/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/11/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include")
 
 add_library(CpuEmuKernel)
 target_sources(CpuEmuKernel
