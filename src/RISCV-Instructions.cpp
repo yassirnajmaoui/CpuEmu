@@ -59,7 +59,7 @@ namespace Instructions
 	WireData GenerateUType(WireData imm, WireData rd, WireData opcode)
 	{
 		WireData lInstruction = 0;
-		BitUtils::SetBits(lInstruction, 31, 12, BitUtils::TruncateBits(imm, 31, 12));
+		BitUtils::SetBits(lInstruction, 31, 12, imm);
 		BitUtils::SetBits(lInstruction, 11, 7, rd);
 		BitUtils::SetBits(lInstruction, 6, 0, opcode);
 		return lInstruction;

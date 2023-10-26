@@ -89,6 +89,10 @@ void ALUControl::ProcessInternal()
 			break;
 		}
 	}
+	else if(alu_op == 0b11)
+	{
+		lALUSelect = ALU_SELECT_ADD;// JAL, LUI, AUIPC
+	}
 
 	// Any other case, ALUSelect stays all 0s
 

@@ -28,22 +28,10 @@ int main()
 {
 	// Instructions
 	std::vector<WireData> lInstructions{
-	// make registry 10 point to memory address of a string
-	Instructions::ADDI(0, 10, 0),
-	//-- func start
-	Instructions::ADDI(0, 5, 0),
-	//-- loop
-	Instructions::ADD(6, 5, 10),
-	Instructions::LB(0, 6, 6),
-	Instructions::BEQ(+6, 6, 0),
-	Instructions::ADDI(1, 5, 5),
-	Instructions::JAL(-8, 31),
-	//-- loop
-	Instructions::SW(0, 5, 5)
-	//-- func end
+		Instructions::LUI(1548, 8)
 	};
 
-	std::string mystr = "Hello:) My name is Whoo!";
+	std::string mystr = "";
 	std::vector<Byte> lMemory;
 	lMemory.resize(mystr.size() + 1*sizeof(WireData));// + 1 For the null terminator
 	std::memcpy(lMemory.data(), mystr.data(), mystr.size());

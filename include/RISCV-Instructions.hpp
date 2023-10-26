@@ -9,11 +9,11 @@ namespace Instructions
 	WireData GenerateIType(WireData imm, WireData rs1, WireData funct3, WireData rd, WireData opcode);
 	WireData GenerateSType(WireData imm, WireData rs2, WireData rs1, WireData funct3);
 	WireData GenerateBType(WireData imm, WireData rs2, WireData rs1, WireData funct3);
-	WireData GenerateUType(WireData imm, WireData rd, WireData opcode);
+	WireData GenerateUType(WireData to_load, WireData rd, WireData opcode);
 	WireData GenerateJType(WireData imm, WireData rd);
 
 	// Specific instructions
-	WireData LUI(WireData imm, WireData rd);
+	WireData LUI(WireData to_load, WireData rd);
 	WireData AUIPC(WireData imm, WireData rd);
 
 	WireData JAL(WireData imm, WireData rd);

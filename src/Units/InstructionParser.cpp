@@ -71,7 +71,7 @@ void InstructionParser::ProcessInternal()
 		BitUtils::SetBits(imm, 12, 12, BitUtils::TruncateBits(lInstruction, 31, 31));
 		imm = BitUtils::SignExtend(imm, 13, 32);
 	}
-	else if (opcode == OPCODE_LUI /*LUI*/ || opcode == OPCODE_AUIPC /*AUIPC*/)
+	else if (opcode == OPCODE_LUI || opcode == OPCODE_AUIPC)
 	{
 		// U-type instructions
 		// Upper immediate operations
