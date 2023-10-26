@@ -3,6 +3,8 @@ project(CpuEmuKernel)
 
 SET(CMAKE_CXX_COMPILE_FEATURES -g)
 
+SET(ADD_GUI on)
+
 # For Lapce editor, which uses clangd
 #SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #SET(CMAKE_CXX_FLAGS "-isystem /usr/include/c++/11 -isystem /usr/include/x86_64-linux-gnu/c++/11 -isystem /usr/include/c++/11/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/11/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include")
@@ -38,3 +40,22 @@ target_link_libraries(TestInstructionParser CpuEmuKernel)
 add_executable(TestRegisters src/Drivers/TestRegisters.cpp)
 target_link_libraries(TestRegisters CpuEmuKernel)
 
+if(ADD_GUI)
+	add_executable(CpuGui)
+	target_sources(CpuGui
+		PRIVATE
+		src/Drivers/Gui/main.cpp
+		src/Drivers/Gui/imgui.cpp
+		src/Drivers/Gui/imgui_impl_glfw.cpp
+		src/Drivers/Gui/imgui_impl_opengl3.cpp
+		src/Drivers/Gui/imgui_widgets.cpp
+		src/Drivers/Gui/imgui_draw.cpp
+		src/Drivers/Gui/imgui_tables.cpp
+		src/Drivers/Gui/imgui_demo.cpp
+		src/Drivers/Gui/imnodes.cpp
+		)
+	target_link_libraries(CpuGui CpuEmuKernel)
+	target_link_libraries(CpuGui glfw)
+	find_package(OpenGL)
+	target_link_libraries(CpuGui OpenGL)
+endif()
