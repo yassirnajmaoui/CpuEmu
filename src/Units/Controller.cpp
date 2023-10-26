@@ -6,22 +6,23 @@
 
 #include <iostream>
 
-Controller::Controller() : Node(1, 9, "Controller") {}
+Controller::Controller() : Node(1, 10, "Controller") {}
 
 void Controller::ProcessInternal()
 {
 	WireData opcode = GetWireData(OpcodeIndex);
 
 	// Control bits
-	WireData lBranch = 0;
-	WireData lMemRead = 0;
-	WireData lMemToReg = 0;
-	WireData lMemWrite = 0;
-	WireData lALUSrc = 0;
-	WireData lRegWrite = 0;
-	WireData lALUOp = 0;
-	WireData lJumpReg = 0;
-	WireData lLink = 0;
+	WireData lBranch = 0u;
+	WireData lMemRead = 0u;
+	WireData lMemToReg = 0u;
+	WireData lMemWrite = 0u;
+	WireData lALUSrc = 0u;
+	WireData lRegWrite = 0u;
+	WireData lALUOp = 0u;
+	WireData lJumpReg = 0u;
+	WireData lLink = 0u;
+	WireData lAUIPC = 0u;
 
 	// Note: ALUSrc determines whether to use the immediate value for the ALU
 	// or the register value from rs2
@@ -61,14 +62,6 @@ void Controller::ProcessInternal()
 
 		lALUOp = 0b01;
 	}
-	else if (opcode == OPCODE_J_TYPE)
-	{
-		lRegWrite = 1;
-		lBranch = 1;
-		lLink = 1;
-
-		lALUOp = 0b11;
-	}
 	else if (opcode == OPCODE_JALR)
 	{
 		lALUSrc = 1;
@@ -77,6 +70,14 @@ void Controller::ProcessInternal()
 		lLink = 1;
 
 		lALUOp = 0b10;
+	}
+	else if (opcode == OPCODE_J_TYPE)
+	{
+		lRegWrite = 1;
+		lBranch = 1;
+		lLink = 1;
+
+		lALUOp = 0b11;
 	}
 	else if (opcode == OPCODE_LUI)
 	{
@@ -89,6 +90,7 @@ void Controller::ProcessInternal()
 	{
 		lALUSrc = 1;
 		lRegWrite = 1;
+		lAUIPC = 1;
 
 		lALUOp = 0b11;
 	}
@@ -102,4 +104,5 @@ void Controller::ProcessInternal()
 	SetWireData(RegWriteIndex, lRegWrite);
 	SetWireData(JumpRegIndex, lJumpReg);
 	SetWireData(LinkIndex, lLink);
+	SetWireData(AUIPCIndex, lAUIPC);
 }

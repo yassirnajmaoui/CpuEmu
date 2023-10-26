@@ -56,10 +56,10 @@ namespace Instructions
 		return lInstruction;
 	}
 
-	WireData GenerateUType(WireData imm, WireData rd, WireData opcode)
+	WireData GenerateUType(WireData to_load, WireData rd, WireData opcode)
 	{
 		WireData lInstruction = 0;
-		BitUtils::SetBits(lInstruction, 31, 12, imm);
+		BitUtils::SetBits(lInstruction, 31, 12, to_load);
 		BitUtils::SetBits(lInstruction, 11, 7, rd);
 		BitUtils::SetBits(lInstruction, 6, 0, opcode);
 		return lInstruction;
@@ -77,9 +77,9 @@ namespace Instructions
 		return lInstruction;
 	}
 
-	WireData LUI(WireData imm, WireData rd)
+	WireData LUI(WireData to_load, WireData rd)
 	{
-		return GenerateUType(imm, rd, OPCODE_LUI);
+		return GenerateUType(to_load, rd, OPCODE_LUI);
 	}
 	WireData AUIPC(WireData imm, WireData rd)
 	{

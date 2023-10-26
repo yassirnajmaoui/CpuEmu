@@ -18,6 +18,7 @@ public:
 	static constexpr size_t RegWriteIndex = 6;
 	static constexpr size_t JumpRegIndex = 7;
 	static constexpr size_t LinkIndex = 8;
+	static constexpr size_t AUIPCIndex = 9;
 
 	Controller();
 
