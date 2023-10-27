@@ -3,8 +3,8 @@
 #include "Types/Node.hpp"
 #include "Types/Wire.hpp"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 using Byte = unsigned char;
 
@@ -18,8 +18,11 @@ public:
 	System();
 	System(std::vector<std::shared_ptr<Node>>&& ppNodes, std::vector<std::shared_ptr<Wire>>&& ppWires);
 
-	Node& GetNode(int pIndex);
-	Wire& GetWire(int pIndex);
+	const Node& GetNode(int pIndex) const;
+	const Wire& GetWire(int pIndex) const;
+	size_t GetNumNodes() const;
+	size_t GetNumWires() const;
+
 protected:
 	std::vector<std::shared_ptr<Node>> mNodes;
 	std::vector<std::shared_ptr<Wire>> mWires;
@@ -38,6 +41,7 @@ public:
 	std::shared_ptr<ReadOnlyMemory> GetInstructionsNode();
 	std::shared_ptr<Memory> GetDataMemoryNode();
 	std::shared_ptr<Registers> GetRegistersNode();
+
 private:
 	std::shared_ptr<ReadOnlyMemory> mpInstructionMemory;
 	std::shared_ptr<Memory> mpDataMemory;

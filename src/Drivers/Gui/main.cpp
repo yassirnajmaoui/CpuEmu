@@ -96,7 +96,7 @@ int main(int, char**)
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-	InstructionParser lNode;
+	RISCV lCPU;
 
 	// Main loop
 #ifdef __EMSCRIPTEN__
@@ -125,29 +125,17 @@ int main(int, char**)
 
 		{
 			ImGui::Begin("node editor");
-
 			ImNodes::BeginNodeEditor();
 
-            // ( ) Create a class that stores an std::vector of wires and an std::vector of nodes (in the kernel lib)
+            // (x) Create a class that stores an std::vector of wires and an std::vector of nodes (in the kernel lib)
             // ( ) Add an "id" property to the Node class and the Wire class (use a global static variable to track the id) (in the kernel lib)
-            // ( ) Create a child class of the above class that is specific to a RISC-V Cpu (in the kernel lib)
+            // (x) Create a child class of the above class that is specific to a RISC-V Cpu (in the kernel lib)
             // ( ) Create a static function that renders a link (ImNodes::Link) from the Node's ids (in the gui exec)
             // (X) Create a static function that renders a single node (in the gui exec)
 
-            ImNodes::BeginNode(42);
-
-            ImNodes::BeginNodeTitleBar();
-            ImGui::TextUnformatted("output node");
-            ImNodes::EndNodeTitleBar();
-            ImNodes::BeginOutputAttribute(20);
-            ImGui::Text("output pin");
-            ImNodes::EndOutputAttribute();
-            ImNodes::EndNode();
-
-			NodesDisplay::DisplayNode(lNode, 45);
+			NodesDisplay::DisplaySystem(lCPU);
 
 			ImNodes::EndNodeEditor();
-
 			ImGui::End();
 		}
 
