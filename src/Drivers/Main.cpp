@@ -33,6 +33,7 @@ int main()
 		// Here goes all the instructions
 	};
 
+	// Memory
 	std::string mystr = "";
 	std::vector<Byte> lMemory;
 	lMemory.resize(mystr.size() + 1*sizeof(WireData));// + 1 For the null terminator

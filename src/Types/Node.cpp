@@ -137,3 +137,8 @@ Node::CreateOutputWire(std::shared_ptr<Node> ppSendingNode, size_t pSendingNodeO
 	ppSendingNode->mOutputWires[pSendingNodeOutputIndex] = lpWire;
 	return lpWire;
 }
+
+std::string Node::GetName() const
+{
+	return mName;
+}

@@ -21,7 +21,9 @@ public:
 	static constexpr size_t ReadDataIndex = 0;
 
 	Memory(std::string pName = "Memory");
-	Memory(std::vector<Byte> &&pmMemory, std::string pName = "Memory");
+	Memory(std::vector<Byte> pMemory, std::string pName = "Memory");
+
+	void SetMemory(std::vector<Byte> pMemory);
 
 	size_t GetMemorySize() const;
 	Byte GetMemoryData(unsigned int pIndex) const;

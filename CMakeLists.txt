@@ -14,6 +14,7 @@ target_sources(CpuEmuKernel
 	PRIVATE
 	src/Types/Node.cpp
 	src/Types/Wire.cpp
+	src/Types/System.cpp
 	src/Units/Adder.cpp
 	src/Units/ALU.cpp
 	src/Units/ALUControl.cpp
@@ -51,9 +52,10 @@ if(ADD_GUI)
 		src/Drivers/Gui/imgui_widgets.cpp
 		src/Drivers/Gui/imgui_draw.cpp
 		src/Drivers/Gui/imgui_tables.cpp
-		src/Drivers/Gui/imgui_demo.cpp
 		src/Drivers/Gui/imnodes.cpp
+		src/Gui/NodesDisplay.cpp
 		)
+	target_include_directories(CpuEmuKernel PUBLIC src/Drivers/Gui)
 	target_link_libraries(CpuGui CpuEmuKernel)
 	target_link_libraries(CpuGui glfw)
 	find_package(OpenGL)

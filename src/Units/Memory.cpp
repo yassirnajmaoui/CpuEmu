@@ -8,7 +8,12 @@ Memory::Memory(std::string pName) : Node(5, 1, pName)
 	mMemory.resize(DefaultMemorySize);
 }
 
-Memory::Memory(std::vector<Byte>&& pmMemory, std::string pName) : Node(5, 1, pName), mMemory(pmMemory) {}
+Memory::Memory(std::vector<Byte> pMemory, std::string pName) : Node(5, 1, pName), mMemory(pMemory) {}
+
+void Memory::SetMemory(std::vector<Byte> pMemory)
+{
+	mMemory = pMemory;
+}
 
 size_t Memory::GetMemorySize() const
 {

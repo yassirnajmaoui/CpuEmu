@@ -25,6 +25,8 @@ public:
 	size_t GetNumberOfInputWires() const { return mNumberOfInputWires; }
 	size_t GetNumberOfOutputWires() const { return mNumberOfOutputWires; }
 
+	std::string GetName() const;
+
 	static std::shared_ptr<Wire> ConnectNodes(std::shared_ptr<Node> ppSendingNode,
 											  size_t pSendingNodeOutputIndex,
 											  std::shared_ptr<Node> ppReceivingNode,

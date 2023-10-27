@@ -21,6 +21,9 @@
 
 #include "imnodes.h"
 
+#include "Units/InstructionParser.hpp"
+#include "Gui/NodesDisplay.hpp"
+
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and
 // compatibility with old VS compilers. To link with VS2010-era libraries, VS2015+ requires linking with
 // legacy_stdio_definitions.lib, which we do using this pragma. Your own project should not be affected, as you are
@@ -93,6 +96,8 @@ int main(int, char**)
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+	InstructionParser lNode;
+
 	// Main loop
 #ifdef __EMSCRIPTEN__
 	// For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the
@@ -123,21 +128,23 @@ int main(int, char**)
 
 			ImNodes::BeginNodeEditor();
 
-            // create a class that stores a list of wires and a list of nodes
-            // that class must map each node to a specific id (std::unordered_map)
-            // Create a static function that renders a single node
-            // Create a member function that renders a link (ImNodes::Link) based on the above map
-            // Create an object of the above class that is specific to a RISC-V Cpu
+            // ( ) Create a class that stores an std::vector of wires and an std::vector of nodes (in the kernel lib)
+            // ( ) Add an "id" property to the Node class and the Wire class (use a global static variable to track the id) (in the kernel lib)
+            // ( ) Create a child class of the above class that is specific to a RISC-V Cpu (in the kernel lib)
+            // ( ) Create a static function that renders a link (ImNodes::Link) from the Node's ids (in the gui exec)
+            // (X) Create a static function that renders a single node (in the gui exec)
 
             ImNodes::BeginNode(42);
 
-            ImNodes::BeginOutputAttribute(2);
-            ImGui::Text("output pin");
-            ImNodes::EndOutputAttribute();
             ImNodes::BeginNodeTitleBar();
             ImGui::TextUnformatted("output node");
             ImNodes::EndNodeTitleBar();
+            ImNodes::BeginOutputAttribute(20);
+            ImGui::Text("output pin");
+            ImNodes::EndOutputAttribute();
             ImNodes::EndNode();
+
+			NodesDisplay::DisplayNode(lNode, 45);
 
 			ImNodes::EndNodeEditor();
 
