@@ -1,5 +1,8 @@
 #include "Gui/NodesDisplay.hpp"
+
 #include "imnodes.h"
+
+#include "Systems/System.hpp"
 
 #include <string>
 

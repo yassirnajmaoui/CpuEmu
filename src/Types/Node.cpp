@@ -6,19 +6,18 @@
 #include <bitset>
 #include <string>
 
-Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires, std::string pName) :
-	mNumberOfInputWires(pNumberOfInputWires), mNumberOfOutputWires(pNumberOfOutputWires), mName(pName)
+Node::Node(size_t pNumberOfInputWires, size_t pNumberOfOutputWires, std::string pName) : mName(pName)
 {
-	mInputWires.resize(mNumberOfInputWires);
-	mOutputWires.resize(mNumberOfOutputWires);
+	mInputPorts.resize(pNumberOfInputWires);
+	mOutputPorts.resize(pNumberOfOutputWires);
 }
 
 void Node::NotifyDataReady()
 {
 	// Check if all the input wires are ready
-	for (size_t i = 0; i < mInputWires.size(); i++)
+	for (size_t i = 0; i < mInputPorts.size(); i++)
 	{
-		auto lpInputWire = mInputWires[i];
+		auto lpInputWire = mInputPorts[i]->GetWire();
 		ASSERT(lpInputWire != nullptr, ("Input wire " + std::to_string(i) + " is undefined").c_str());
 		if (!lpInputWire->IsDataReady())
 		{
@@ -33,20 +32,24 @@ void Node::NotifyDataReady()
 void Node::DisplayInputs() const
 {
 	std::cout << "For node \"" << mName << "\" :\n";
-	for (int i = 0; i < mInputWires.size(); i++)
+	for (int i = 0; i < mInputPorts.size(); i++)
 	{
 		std::cout << "Input  " << i << ": "
-				  << BitUtils::ToBinString(mInputWires[i]->GetData(), mInputWires[i]->GetNumBits()) << std::endl;
+				  << BitUtils::ToBinString(mInputPorts[i]->GetWire()->GetData(),
+										   mInputPorts[i]->GetWire()->GetNumBits())
+				  << std::endl;
 	}
 }
 
 void Node::DisplayOutputs() const
 {
-	// std::cout << "For node \"" << mName << "\" :\n";
-	for (int i = 0; i < mOutputWires.size(); i++)
+	//std::cout << "For node \"" << mName << "\" :\n";
+	for (int i = 0; i < mOutputPorts.size(); i++)
 	{
 		std::cout << "Output " << i << ": "
-				  << BitUtils::ToBinString(mOutputWires[i]->GetData(), mOutputWires[i]->GetNumBits()) << std::endl;
+				  << BitUtils::ToBinString(mOutputPorts[i]->GetWire()->GetData(),
+										   mOutputPorts[i]->GetWire()->GetNumBits())
+				  << std::endl;
 	}
 }
 
@@ -71,31 +74,31 @@ void Node::ProcessDone()
 {
 	// Set the input wire's data as no longer ready since it has already been
 	// processed
-	for (auto lpInputWire : mInputWires)
+	for (auto lpInputWire : mInputPorts)
 	{
-		lpInputWire->SetDataReady(false);
+		lpInputWire->GetWire()->SetDataReady(false);
 	}
 
 	// Set data read for all output wires, this will notify the corresponding
 	// nodes
-	for (auto lpOutputWire : mOutputWires)
+	for (auto lpOutputWire : mOutputPorts)
 	{
-		lpOutputWire->SetDataReady();
+		lpOutputWire->GetWire()->SetDataReady();
 	}
 }
 
 WireData Node::GetWireData(size_t pIndex) const
 {
-	auto lpInputWire = mInputWires[pIndex];
-	ASSERT(lpInputWire != nullptr, ("Input wire " + std::to_string(pIndex) + " is undefined").c_str());
-	return lpInputWire->GetData();
+	auto lpInputPort = mInputPorts[pIndex];
+	ASSERT(lpInputPort != nullptr, ("Input port " + std::to_string(pIndex) + " is undefined").c_str());
+	return lpInputPort->GetWire()->GetData();
 }
 
 void Node::SetWireData(size_t pIndex, WireData pWireData)
 {
-	auto lpInputWire = mOutputWires[pIndex];
-	ASSERT(lpInputWire != nullptr, ("Input wire " + std::to_string(pIndex) + " is undefined").c_str());
-	lpInputWire->SetData(pWireData);
+	auto lpInputPort = mOutputPorts[pIndex];
+	ASSERT(lpInputPort != nullptr, ("Input port " + std::to_string(pIndex) + " is undefined").c_str());
+	lpInputPort->GetWire()->SetData(pWireData);
 }
 
 // Add a function like this with a template for creating a wire with a specific number of bits
@@ -105,12 +108,17 @@ std::shared_ptr<Wire> Node::ConnectNodes(std::shared_ptr<Node> ppSendingNode,
 										 size_t pReceivingNodeInputIndex,
 										 unsigned int pNumBits)
 {
-	ASSERT(pSendingNodeOutputIndex < ppSendingNode->mNumberOfOutputWires, "Sending node output index out of bounds");
-	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->mNumberOfInputWires, "Receiving node input index out of bounds");
+	ASSERT(pSendingNodeOutputIndex < ppSendingNode->GetNumberOfOutputWires(),
+		   "Sending node output index out of bounds");
+	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->GetNumberOfInputWires(),
+		   "Receiving node input index out of bounds");
 
 	auto lpWire = std::make_shared<Wire>(ppReceivingNode, pNumBits);
-	ppSendingNode->mOutputWires[pSendingNodeOutputIndex] = lpWire;
-	ppReceivingNode->mInputWires[pReceivingNodeInputIndex] = lpWire;
+	auto lpOutputPort = std::make_shared<Port>(lpWire);
+	auto lpInputPort = std::make_shared<Port>(lpWire);
+
+	ppSendingNode->mOutputPorts[pSendingNodeOutputIndex] = lpOutputPort;
+	ppReceivingNode->mInputPorts[pReceivingNodeInputIndex] = lpInputPort;
 	return lpWire;
 }
 
@@ -119,22 +127,29 @@ std::shared_ptr<Wire> Node::CreateInputWire(std::shared_ptr<Node> ppReceivingNod
 											unsigned int pNumBits,
 											bool pAlwaysReady)
 {
-	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->mNumberOfInputWires, "Receiving node input index out of bounds");
+	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->GetNumberOfInputWires(),
+		   "Receiving node input index out of bounds");
 
 	auto lpWire = pAlwaysReady ? std::make_shared<AlwaysReadyWire>(ppReceivingNode, pNumBits)
 							   : std::make_shared<Wire>(ppReceivingNode, pNumBits);
 
-	ppReceivingNode->mInputWires[pReceivingNodeInputIndex] = lpWire;
+	auto lpInputPort = std::make_shared<Port>(lpWire);
+
+	ppReceivingNode->mInputPorts[pReceivingNodeInputIndex] = lpInputPort;
 	return lpWire;
 }
 
 std::shared_ptr<Wire>
 Node::CreateOutputWire(std::shared_ptr<Node> ppSendingNode, size_t pSendingNodeOutputIndex, unsigned int pNumBits)
 {
-	ASSERT(pSendingNodeOutputIndex < ppSendingNode->mNumberOfOutputWires, "Sending node output index out of bounds");
+	ASSERT(pSendingNodeOutputIndex < ppSendingNode->GetNumberOfOutputWires(),
+		   "Sending node output index out of bounds");
 
 	auto lpWire = std::make_shared<Wire>(nullptr, pNumBits);
-	ppSendingNode->mOutputWires[pSendingNodeOutputIndex] = lpWire;
+
+	auto lpOutputPort = std::make_shared<Port>(lpWire);
+
+	ppSendingNode->mOutputPorts[pSendingNodeOutputIndex] = lpOutputPort;
 	return lpWire;
 }
 

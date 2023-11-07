@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Types/WireForward.hpp"
+#include "Types/Port.hpp"
 
 #include <memory>
 #include <string>
@@ -22,8 +22,8 @@ public:
 	void DisplayInputs() const;
 	void DisplayOutputs() const;
 
-	size_t GetNumberOfInputWires() const { return mNumberOfInputWires; }
-	size_t GetNumberOfOutputWires() const { return mNumberOfOutputWires; }
+	size_t GetNumberOfInputWires() const { return mInputPorts.size(); }
+	size_t GetNumberOfOutputWires() const { return mOutputPorts.size(); }
 
 	std::string GetName() const;
 
@@ -46,10 +46,11 @@ protected:
 	void SetWireData(size_t pIndex, WireData pWireData);
 
 protected:
-	std::vector<std::shared_ptr<Wire>> mInputWires;
-	std::vector<std::shared_ptr<Wire>> mOutputWires;
-	size_t mNumberOfInputWires;
-	size_t mNumberOfOutputWires;
+	// TODO: create a vector of input ports and a vector of output ports
+	// TODO: create a class InputPort that would have a name, an id, and a wire (same for OutputPort)
+	// a Wire should connect an OutputPort to an InputPort
+	std::vector<std::shared_ptr<Port>> mInputPorts;
+	std::vector<std::shared_ptr<Port>> mOutputPorts;
 
 	std::string mName;
 };

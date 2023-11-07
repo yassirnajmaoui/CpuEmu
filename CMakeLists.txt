@@ -14,7 +14,7 @@ target_sources(CpuEmuKernel
 	PRIVATE
 	src/Types/Node.cpp
 	src/Types/Wire.cpp
-	src/Types/System.cpp
+	src/Types/Port.cpp
 	src/Units/Adder.cpp
 	src/Units/ALU.cpp
 	src/Units/ALUControl.cpp
@@ -29,6 +29,8 @@ target_sources(CpuEmuKernel
 	src/BitUtils.cpp
 	src/BinToString.cpp
 	src/RISCV-Instructions.cpp
+	src/Systems/System.cpp
+	src/Systems/RISCV.cpp
 )
 target_include_directories(CpuEmuKernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

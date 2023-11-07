@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Types/System.hpp"
+class Node;
+class System;
 
 class NodesDisplay
 {

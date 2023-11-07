@@ -1,4 +1,5 @@
-#include "Types/System.hpp"
+#include "Systems/RISCV.hpp"
+
 #include "Units/ALU.hpp"
 #include "Units/ALUControl.hpp"
 #include "Units/Adder.hpp"
@@ -13,35 +14,6 @@
 #include "Units/RegistersWriter.hpp"
 #include "Units/Relay.hpp"
 #include "Units/SimpleOperator.hpp"
-
-System::System() {}
-
-System::System(std::vector<std::shared_ptr<Node>>&& ppNodes, std::vector<std::shared_ptr<Wire>>&& ppWires) :
-	mNodes(std::move(ppNodes)), mWires(std::move(ppWires))
-{
-}
-
-const Node& System::GetNode(int pIndex) const
-{
-	return *mNodes[pIndex];
-}
-
-const Wire& System::GetWire(int pIndex) const
-{
-	return *mWires[pIndex];
-}
-
-size_t System::GetNumNodes() const
-{
-	return mNodes.size();
-}
-
-size_t System::GetNumWires() const
-{
-	return mWires.size();
-}
-
-// ----------- Initialize RISC-V CPU -----------
 
 RISCV::RISCV()
 {
@@ -84,6 +56,8 @@ RISCV::RISCV()
 	auto lpPCAdder = std::make_shared<Adder>();
 	auto lpBranchMux = std::make_shared<Multiplexer<2>>("PC Multiplexer");
 	auto lpJumpRegMux = std::make_shared<Multiplexer<2>>("JumpReg Multiplexer");
+
+	std::cout << "Connecting RISCV" << std::endl;
 
 	// ---------------- Connections ----------------	
 	// PC
@@ -167,6 +141,8 @@ RISCV::RISCV()
 	mpLoopbackWire = lWires.back();
 
 	// clang-format on
+
+	std::cout << "Adding RISCV nodes" << std::endl;
 
 	// Add all the nodes
 	std::vector<std::shared_ptr<Node>> lNodes;
