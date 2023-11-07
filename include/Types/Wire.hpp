@@ -22,6 +22,7 @@ public:
 
 protected:
 	WireData mData;
+	// Instead of this, it would be a port, which is linked to a node
 	std::shared_ptr<Node> mpReceivingNode;
 	bool mDataReady;
 	unsigned int mNumBits;

@@ -91,3 +91,37 @@ void InstructionParser::ProcessInternal()
 	SetWireData(SignBitIndex, sign_bit);
 	SetWireData(ImmIndex, imm);
 }
+
+std::string InstructionParser::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case InstructionIndex:
+		return "Instruction";
+	default:
+		return "";
+	}
+}
+
+std::string InstructionParser::GetOutputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case OpcodeIndex:
+		return "opcode";
+	case RDIndex:
+		return "rd";
+	case RS1Index:
+		return "rs1";
+	case RS2Index:
+		return "rs2";
+	case Funct3Index:
+		return "funct3";
+	case SignBitIndex:
+		return "sign_bit";
+	case ImmIndex:
+		return "imm";
+	default:
+		return "";
+	}
+}

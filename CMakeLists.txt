@@ -47,7 +47,7 @@ if(ADD_GUI)
 	add_executable(CpuGui)
 	target_sources(CpuGui
 		PRIVATE
-		src/Drivers/Gui/main.cpp
+		src/Drivers/Gui/CpuGui.cpp
 		src/Drivers/Gui/imgui.cpp
 		src/Drivers/Gui/imgui_impl_glfw.cpp
 		src/Drivers/Gui/imgui_impl_opengl3.cpp

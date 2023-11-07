@@ -14,6 +14,9 @@ public:
 
 	Adder();
 
+	std::string GetInputPortName(unsigned int pIndex) const override;
+	std::string GetOutputPortName(unsigned int pIndex) const override;
+
 protected:
 	void ProcessInternal() override;
 };

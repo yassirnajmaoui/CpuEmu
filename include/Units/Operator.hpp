@@ -32,6 +32,24 @@ public:
 	{
 	}
 
+	std::string GetInputPortName(unsigned int pIndex) const override
+	{
+		if(pIndex < GetNumberOfInputWires())
+		{
+			return "In " + std::to_string(pIndex);
+		}
+		return "";
+	}
+
+	std::string GetOutputPortName(unsigned int pIndex) const override
+	{
+		if(pIndex < GetNumberOfOutputWires())
+		{
+			return "Out " + std::to_string(pIndex);
+		}
+		return "";
+	}
+
 protected:
 	void ProcessInternal() override
 	{

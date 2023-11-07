@@ -7,9 +7,9 @@ Adder::Adder() : Node(2, 1, "Adder") {}
 
 void Adder::ProcessInternal()
 {
-	ASSERT(mInputPorts[0] != nullptr, "Input wire 0 not set for AdderNode");
-	ASSERT(mInputPorts[1] != nullptr, "Input wire 1 not set for AdderNode");
-	ASSERT(mOutputPorts[0] != nullptr, "Output wire 0 not set for AdderNode");
+	ASSERT(mInputPorts[Input1Index] != nullptr, "Input wire 1 not set for AdderNode");
+	ASSERT(mInputPorts[Input2Index] != nullptr, "Input wire 2 not set for AdderNode");
+	ASSERT(mOutputPorts[OutputIndex] != nullptr, "Output wire not set for AdderNode");
 
 	WireData lInput1 = GetWireData(Input1Index);
 	WireData lInput2 = GetWireData(Input2Index);
@@ -17,4 +17,28 @@ void Adder::ProcessInternal()
 	WireData lOutput = lInput1 + lInput2;
 
 	SetWireData(OutputIndex, lOutput);
+}
+
+std::string Adder::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case Input1Index:
+		return "Input 1";
+	case Input2Index:
+		return "Input 2";
+	default:
+		return "";
+	}
+}
+
+std::string Adder::GetOutputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case OutputIndex:
+		return "Output";
+	default:
+		return "";
+	}
 }

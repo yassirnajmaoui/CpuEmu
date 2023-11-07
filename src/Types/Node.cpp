@@ -43,7 +43,7 @@ void Node::DisplayInputs() const
 
 void Node::DisplayOutputs() const
 {
-	//std::cout << "For node \"" << mName << "\" :\n";
+	// std::cout << "For node \"" << mName << "\" :\n";
 	for (int i = 0; i < mOutputPorts.size(); i++)
 	{
 		std::cout << "Output " << i << ": "
@@ -114,11 +114,12 @@ std::shared_ptr<Wire> Node::ConnectNodes(std::shared_ptr<Node> ppSendingNode,
 		   "Receiving node input index out of bounds");
 
 	auto lpWire = std::make_shared<Wire>(ppReceivingNode, pNumBits);
-	auto lpOutputPort = std::make_shared<Port>(lpWire);
-	auto lpInputPort = std::make_shared<Port>(lpWire);
+	auto lpOutputPort = std::make_shared<Port>(lpWire,ppSendingNode->GetOutputPortName(pSendingNodeOutputIndex));
+	auto lpInputPort = std::make_shared<Port>(lpWire,ppReceivingNode->GetInputPortName(pReceivingNodeInputIndex));
 
 	ppSendingNode->mOutputPorts[pSendingNodeOutputIndex] = lpOutputPort;
 	ppReceivingNode->mInputPorts[pReceivingNodeInputIndex] = lpInputPort;
+
 	return lpWire;
 }
 
@@ -136,6 +137,7 @@ std::shared_ptr<Wire> Node::CreateInputWire(std::shared_ptr<Node> ppReceivingNod
 	auto lpInputPort = std::make_shared<Port>(lpWire);
 
 	ppReceivingNode->mInputPorts[pReceivingNodeInputIndex] = lpInputPort;
+
 	return lpWire;
 }
 
@@ -147,10 +149,31 @@ Node::CreateOutputWire(std::shared_ptr<Node> ppSendingNode, size_t pSendingNodeO
 
 	auto lpWire = std::make_shared<Wire>(nullptr, pNumBits);
 
-	auto lpOutputPort = std::make_shared<Port>(lpWire);
+	auto lpOutputPort = std::make_shared<Port>(lpWire,ppSendingNode->GetOutputPortName(pSendingNodeOutputIndex));
 
 	ppSendingNode->mOutputPorts[pSendingNodeOutputIndex] = lpOutputPort;
+
 	return lpWire;
+}
+
+const Port& Node::GetInputPort(unsigned int pInputPortId) const
+{
+	return *mInputPorts[pInputPortId];
+}
+
+const Port& Node::GetOutputPort(unsigned int pOutputPortId) const
+{
+	return *mOutputPorts[pOutputPortId];
+}
+
+std::shared_ptr<Port> Node::GetInputPort(unsigned int pInputPortId)
+{
+	return mInputPorts[pInputPortId];
+}
+
+std::shared_ptr<Port> Node::GetOutputPort(unsigned int pOutputPortId)
+{
+	return mOutputPorts[pOutputPortId];
 }
 
 std::string Node::GetName() const

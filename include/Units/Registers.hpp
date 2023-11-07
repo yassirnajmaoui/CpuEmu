@@ -24,6 +24,9 @@ public:
 
 	WireData GetRegisterValue(size_t pRegisterIndex) const;
 
+	std::string GetInputPortName(unsigned int pIndex) const override;
+	std::string GetOutputPortName(unsigned int pIndex) const override;
+
 protected:
 	void ProcessInternal() override;
 

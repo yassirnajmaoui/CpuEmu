@@ -32,3 +32,29 @@ WireData Registers::GetRegisterValue(size_t pRegisterIndex) const
 {
 	return mRegisters[pRegisterIndex];
 }
+
+std::string Registers::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case ReadRegister1Index:
+		return "Read Register 1";
+	case ReadRegister2Index:
+		return "Read Register 2";
+	default:
+		return "";
+	}
+}
+
+std::string Registers::GetOutputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case ReadData1Index:
+		return "Read Data 1";
+	case ReadData2Index:
+		return "Read Data 2";
+	default:
+		return "";
+	}
+}

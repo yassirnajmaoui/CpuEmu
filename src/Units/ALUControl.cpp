@@ -98,3 +98,29 @@ void ALUControl::ProcessInternal()
 
 	SetWireData(ALUSelectIndex, lALUSelect);
 }
+
+std::string ALUControl::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case ALUOpIndex:
+		return "ALU Op";
+	case Funct3Index:
+		return "funct3";
+	case SignBitIndex:
+		return "sign_bit";
+	default:
+		return "";
+	}
+}
+
+std::string ALUControl::GetOutputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case ALUSelectIndex:
+		return "ALU Select";
+	default:
+		return "";
+	}
+}

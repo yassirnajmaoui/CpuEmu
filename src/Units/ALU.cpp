@@ -87,3 +87,31 @@ void ALU::ProcessInternal()
 	SetWireData(ALUResultIndex, lResult);
 	SetWireData(ALUZeroIndex, lZero);
 }
+
+std::string ALU::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case RD1Index:
+		return "rd1";
+	case RD2Index:
+		return "rd2";
+	case ALUSelectIndex:
+		return "ALU Select";
+	default:
+		return "";
+	}
+}
+
+std::string ALU::GetOutputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case ALUResultIndex:
+		return "ALU Result";
+	case ALUZeroIndex:
+		return "ALU Zero";
+	default:
+		return "";
+	}
+}

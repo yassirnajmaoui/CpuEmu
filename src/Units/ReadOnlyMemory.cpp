@@ -21,3 +21,25 @@ void ReadOnlyMemory::SetMemory(std::vector<WireData> pmMemory)
 {
 	mMemory = pmMemory;
 }
+
+std::string ReadOnlyMemory::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case ReadAddressIndex:
+		return "Read address";
+	default:
+		return "";
+	}
+}
+
+std::string ReadOnlyMemory::GetOutputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case OutputDataIndex:
+		return "Output";
+	default:
+		return "";
+	}
+}

@@ -17,14 +17,16 @@ void NodesDisplay::DisplayNode(const Node& prNode, int pId)
 	size_t id = 0;
 	for (size_t i = 0; i < lNumInputs; i++)
 	{
-		ImNodes::BeginInputAttribute(id++);
-		ImGui::Text((std::string("Input ") + std::to_string(i)).c_str());
+		auto lrInputPort = prNode.GetInputPort(i);
+		ImNodes::BeginInputAttribute(lrInputPort.GetId());
+		ImGui::Text(lrInputPort.GetName().c_str());
 		ImNodes::EndInputAttribute();
 	}
 	for (size_t i = 0; i < lNumOutputs; i++)
 	{
-		ImNodes::BeginOutputAttribute(id++);
-		ImGui::Text((std::string("Output ") + std::to_string(i)).c_str());
+		auto lrOutputPort = prNode.GetOutputPort(i);
+		ImNodes::BeginOutputAttribute(lrOutputPort.GetId());
+		ImGui::Text(lrOutputPort.GetName().c_str());
 		ImNodes::EndOutputAttribute();
 	}
 	ImNodes::EndNode();

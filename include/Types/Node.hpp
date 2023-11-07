@@ -26,6 +26,8 @@ public:
 	size_t GetNumberOfOutputWires() const { return mOutputPorts.size(); }
 
 	std::string GetName() const;
+	const Port& GetInputPort(unsigned int pInputPortId) const;
+	const Port& GetOutputPort(unsigned int pOutputPortId) const;
 
 	static std::shared_ptr<Wire> ConnectNodes(std::shared_ptr<Node> ppSendingNode,
 											  size_t pSendingNodeOutputIndex,
@@ -39,11 +41,17 @@ public:
 	static std::shared_ptr<Wire>
 	CreateOutputWire(std::shared_ptr<Node> ppSendingNode, size_t pSendingNodeOutputIndex, unsigned int pNumBits = 32);
 
+	virtual std::string GetInputPortName(unsigned int pIndex) const = 0;
+	virtual std::string GetOutputPortName(unsigned int pIndex) const = 0;
+
 protected:
 	virtual void ProcessInternal() = 0;
 
 	WireData GetWireData(size_t pIndex) const;
 	void SetWireData(size_t pIndex, WireData pWireData);
+
+	std::shared_ptr<Port> GetInputPort(unsigned int pInputPortId);
+	std::shared_ptr<Port> GetOutputPort(unsigned int pOutputPortId);
 
 protected:
 	// TODO: create a vector of input ports and a vector of output ports

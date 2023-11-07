@@ -22,3 +22,22 @@ void RegistersWriter::ProcessInternal()
 		mpRegistersNode->mRegisters[lWriteRegister] = lWriteData;
 	}
 }
+
+std::string RegistersWriter::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case RegWriteIndex:
+		return "RegWrite";
+	case WriteRegisterIndex:
+		return "Write Register";
+	case WriteDataIndex:
+		return "Write Data";
+	default:
+		return "";
+	}
+}
+std::string RegistersWriter::GetOutputPortName(unsigned int pIndex) const
+{
+	return "";
+}

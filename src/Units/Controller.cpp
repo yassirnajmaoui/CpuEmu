@@ -106,3 +106,43 @@ void Controller::ProcessInternal()
 	SetWireData(LinkIndex, lLink);
 	SetWireData(AUIPCIndex, lAUIPC);
 }
+
+std::string Controller::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case OpcodeIndex:
+		return "opcode";
+	default:
+		return "";
+	}
+}
+
+std::string Controller::GetOutputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case BranchIndex:
+		return "Branch";
+	case MemReadIndex:
+		return "MemRead";
+	case MemToRegIndex:
+		return "MemToReg";
+	case ALUOpIndex:
+		return "ALUOp";
+	case MemWriteIndex:
+		return "MemWrite";
+	case ALUSrcIndex:
+		return "ALUSrc";
+	case RegWriteIndex:
+		return "RegWrite";
+	case LinkIndex:
+		return "Link";
+	case JumpRegIndex:
+		return "JumpReg";
+	case AUIPCIndex:
+		return "AUIPC";
+	default:
+		return "";
+	}
+}

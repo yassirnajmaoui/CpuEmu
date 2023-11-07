@@ -56,7 +56,7 @@ void Memory::ProcessInternal()
 			Byte lMemData2 = GetMemoryData(lAddress + 2);
 			Byte lMemData3 = GetMemoryData(lAddress + 3);
 			WireData lOut = static_cast<WireData>(lMemData0);
-			BitUtils::SetBits(lOut, 15, 8,  static_cast<WireData>(lMemData1));
+			BitUtils::SetBits(lOut, 15, 8, static_cast<WireData>(lMemData1));
 			BitUtils::SetBits(lOut, 23, 16, static_cast<WireData>(lMemData2));
 			BitUtils::SetBits(lOut, 31, 24, static_cast<WireData>(lMemData3));
 			SetWireData(ReadDataIndex, lOut);
@@ -86,14 +86,44 @@ void Memory::ProcessInternal()
 		if (lFunct3 == 0b001) // SH
 		{
 			mMemory[lAddress] = BitUtils::TruncateBits(lWriteData, 7, 0);
-			mMemory[lAddress+1] = BitUtils::TruncateBits(lWriteData, 15, 8);
+			mMemory[lAddress + 1] = BitUtils::TruncateBits(lWriteData, 15, 8);
 		}
 		if (lFunct3 == 0b010) // SW
 		{
-			mMemory[lAddress]   = BitUtils::TruncateBits(lWriteData, 7, 0);
-			mMemory[lAddress+1] = BitUtils::TruncateBits(lWriteData, 15, 8);
-			mMemory[lAddress+2] = BitUtils::TruncateBits(lWriteData, 23, 16);
-			mMemory[lAddress+3] = BitUtils::TruncateBits(lWriteData, 31, 24);
+			mMemory[lAddress] = BitUtils::TruncateBits(lWriteData, 7, 0);
+			mMemory[lAddress + 1] = BitUtils::TruncateBits(lWriteData, 15, 8);
+			mMemory[lAddress + 2] = BitUtils::TruncateBits(lWriteData, 23, 16);
+			mMemory[lAddress + 3] = BitUtils::TruncateBits(lWriteData, 31, 24);
 		}
+	}
+}
+
+std::string Memory::GetInputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case MemWriteIndex:
+		return "Mem Write";
+	case AddressIndex:
+		return "Address";
+	case WriteDataIndex:
+		return "Write Data";
+	case MemReadIndex:
+		return "Mem Read";
+	case Funct3Index:
+		return "Funct3";
+	default:
+		return "";
+	}
+}
+
+std::string Memory::GetOutputPortName(unsigned int pIndex) const
+{
+	switch (pIndex)
+	{
+	case ReadDataIndex:
+		return "ReadData";
+	default:
+		return "";
 	}
 }

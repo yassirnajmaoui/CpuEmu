@@ -21,6 +21,24 @@ public:
 
 	Multiplier(std::string pName = "Multiplier") : Node(1, NOutputs, pName) {}
 
+	std::string GetInputPortName(unsigned int pIndex) const override
+	{
+		if(pIndex == InputIndex)
+		{
+			return "In";
+		}
+		return "";
+	}
+
+	std::string GetOutputPortName(unsigned int pIndex) const override
+	{
+		if(pIndex < GetNumberOfOutputWires())
+		{
+			return "Out " + std::to_string(pIndex);
+		}
+		return "";
+	}
+
 protected:
 	void ProcessInternal() override
 	{

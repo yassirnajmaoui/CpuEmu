@@ -24,6 +24,26 @@ public:
 	{
 	}
 
+	std::string GetInputPortName(unsigned int pIndex) const override
+	{
+		switch (pIndex)
+		{
+		case InputIndex:
+			return "Input";
+		default:
+			return "";
+		}
+	}
+	std::string GetOutputPortName(unsigned int pIndex) const override{
+		switch (pIndex)
+		{
+		case OutputIndex:
+			return "Output";
+		default:
+			return "";
+		}
+	}
+
 protected:
 	void ProcessInternal() override { SetWireData(OutputIndex, mWireFunction(GetWireData(InputIndex))); }
 

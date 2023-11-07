@@ -20,6 +20,28 @@ public:
 
 	Multiplexer(std::string pName = "Multiplexer") : Node(NInputs + 1, 1, pName) {}
 
+	std::string GetInputPortName(unsigned int pIndex) const override
+	{
+		if(pIndex == InputSelectionIndex)
+		{
+			return "Select";
+		}
+		else if(pIndex < GetNumberOfInputWires())
+		{
+			return "Input " + std::to_string(pIndex + 1);
+		}
+		return "";
+	}
+
+	std::string GetOutputPortName(unsigned int pIndex) const override
+	{
+		if(pIndex == OutputIndex)
+		{
+			return "Output";
+		}
+		return "";
+	}
+
 protected:
 	void ProcessInternal() override
 	{

@@ -7,5 +7,6 @@ class NodesDisplay
 {
 public:
 	static void DisplayNode(const Node& prNode, int pId);
+	//static void DisplayWire(const Node& prNode, int pId);
 	static void DisplaySystem(const System& prSystem);
 };
