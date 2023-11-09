@@ -19,6 +19,9 @@ public:
 	virtual void SetDataReady( bool pDataReady = true );
 	virtual bool IsDataReady() const { return mDataReady; }
 
+	int GetSendingPortId() const;
+	int GetReceivingPortId() const;
+
 	virtual unsigned int GetNumBits() const {return mNumBits;}
 
 protected:

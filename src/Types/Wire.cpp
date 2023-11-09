@@ -26,6 +26,24 @@ void Wire::SetDataReady(bool pDataReady)
 	}
 }
 
+int Wire::GetSendingPortId() const
+{
+	if(mpSendingPort==nullptr)
+	{
+		return -1;
+	}
+	return mpSendingPort->GetId();
+}
+
+int Wire::GetReceivingPortId() const
+{
+	if(mpReceivingPort==nullptr)
+	{
+		return -1;
+	}
+	return mpReceivingPort->GetId();
+}
+
 AlwaysReadyWire::AlwaysReadyWire(std::shared_ptr<Port> ppReceivingPort, unsigned int pNumBits) :
 	Wire(nullptr, ppReceivingPort, pNumBits)
 {

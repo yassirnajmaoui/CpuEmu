@@ -32,11 +32,26 @@ void NodesDisplay::DisplayNode(const Node& prNode, int pId)
 	ImNodes::EndNode();
 }
 
+void NodesDisplay::DisplayWire(const Wire& prWire, int pId)
+{
+	int lSendingPortId = prWire.GetSendingPortId();
+	int lReceivingPortId = prWire.GetReceivingPortId();
+	if (lSendingPortId >= 0 && lReceivingPortId >= 0)
+	{
+		ImNodes::Link(pId, lSendingPortId, lReceivingPortId);
+	}
+}
+
 void NodesDisplay::DisplaySystem(const System& prSystem)
 {
-	size_t lNumNodes = prSystem.GetNumNodes();
-	for(int i=0;i<lNumNodes;++i)
+	const size_t lNumNodes = prSystem.GetNumNodes();
+	const size_t lNumWires = prSystem.GetNumWires();
+	for (int i = 0; i < lNumNodes; ++i)
 	{
-		NodesDisplay::DisplayNode(prSystem.GetNode(i), i+15);
+		NodesDisplay::DisplayNode(prSystem.GetNode(i), i + 15);
+	}
+	for (int i = 0; i < lNumWires; ++i)
+	{
+		NodesDisplay::DisplayWire(prSystem.GetWire(i), i + 15 + lNumNodes);
 	}
 }
