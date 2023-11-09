@@ -206,7 +206,6 @@ void RISCV::SetDataMemory(std::vector<Byte> pDataMemmory)
 	mpDataMemory->SetMemory(pDataMemmory);
 }
 
-
 std::shared_ptr<ReadOnlyMemory> RISCV::GetInstructionsNode()
 {
 	return mpInstructionMemory;

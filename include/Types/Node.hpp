@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Types/Port.hpp"
+#include "Types/Wire.hpp"
 
 #include <memory>
 #include <string>
@@ -54,9 +55,6 @@ protected:
 	std::shared_ptr<Port> GetOutputPort(unsigned int pOutputPortId);
 
 protected:
-	// TODO: create a vector of input ports and a vector of output ports
-	// TODO: create a class InputPort that would have a name, an id, and a wire (same for OutputPort)
-	// a Wire should connect an OutputPort to an InputPort
 	std::vector<std::shared_ptr<Port>> mInputPorts;
 	std::vector<std::shared_ptr<Port>> mOutputPorts;
 

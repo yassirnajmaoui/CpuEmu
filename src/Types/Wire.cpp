@@ -1,10 +1,9 @@
-#include "Types/Node.hpp"
 #include "Types/Wire.hpp"
 
 #include "BitUtils.hpp"
 
-Wire::Wire(std::shared_ptr<Node> ppReceivingNode, unsigned int pNumBits) :
-	mpReceivingNode(ppReceivingNode), mDataReady(false), mNumBits(pNumBits)
+Wire::Wire(std::shared_ptr<Port> ppSendingPort, std::shared_ptr<Port> ppReceivingPort, unsigned int pNumBits):
+	mpSendingPort(ppSendingPort), mpReceivingPort(ppReceivingPort), mDataReady(false), mNumBits(pNumBits)
 {
 }
 
@@ -21,13 +20,13 @@ void Wire::SetData(WireData pWireData)
 void Wire::SetDataReady(bool pDataReady)
 {
 	mDataReady = pDataReady;
-	if (mpReceivingNode != nullptr && pDataReady)
+	if (mpReceivingPort != nullptr && pDataReady)
 	{
-		mpReceivingNode->NotifyDataReady();
+		mpReceivingPort->NotifyDataReady();
 	}
 }
 
-AlwaysReadyWire::AlwaysReadyWire(std::shared_ptr<Node> ppReceivingNode, unsigned int pNumBits) :
-	Wire(ppReceivingNode, pNumBits)
+AlwaysReadyWire::AlwaysReadyWire(std::shared_ptr<Port> ppReceivingPort, unsigned int pNumBits) :
+	Wire(nullptr, ppReceivingPort, pNumBits)
 {
 }

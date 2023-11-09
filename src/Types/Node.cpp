@@ -96,12 +96,11 @@ WireData Node::GetWireData(size_t pIndex) const
 
 void Node::SetWireData(size_t pIndex, WireData pWireData)
 {
-	auto lpInputPort = mOutputPorts[pIndex];
-	ASSERT(lpInputPort != nullptr, ("Input port " + std::to_string(pIndex) + " is undefined").c_str());
-	lpInputPort->GetWire()->SetData(pWireData);
+	auto lpOutputPort = mOutputPorts[pIndex];
+	ASSERT(lpOutputPort != nullptr, ("Output port " + std::to_string(pIndex) + " is undefined").c_str());
+	lpOutputPort->GetWire()->SetData(pWireData);
 }
 
-// Add a function like this with a template for creating a wire with a specific number of bits
 std::shared_ptr<Wire> Node::ConnectNodes(std::shared_ptr<Node> ppSendingNode,
 										 size_t pSendingNodeOutputIndex,
 										 std::shared_ptr<Node> ppReceivingNode,
@@ -113,9 +112,14 @@ std::shared_ptr<Wire> Node::ConnectNodes(std::shared_ptr<Node> ppSendingNode,
 	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->GetNumberOfInputWires(),
 		   "Receiving node input index out of bounds");
 
-	auto lpWire = std::make_shared<Wire>(ppReceivingNode, pNumBits);
-	auto lpOutputPort = std::make_shared<Port>(lpWire,ppSendingNode->GetOutputPortName(pSendingNodeOutputIndex));
-	auto lpInputPort = std::make_shared<Port>(lpWire,ppReceivingNode->GetInputPortName(pReceivingNodeInputIndex));
+	auto lpOutputPort = std::make_shared<Port>(ppSendingNode->GetOutputPortName(pSendingNodeOutputIndex));
+	auto lpInputPort = std::make_shared<Port>(ppReceivingNode->GetInputPortName(pReceivingNodeInputIndex));
+	auto lpWire = std::make_shared<Wire>(lpOutputPort, lpInputPort, pNumBits);
+
+	lpOutputPort->SetWire(lpWire);
+	lpOutputPort->SetNode(ppSendingNode);
+	lpInputPort->SetWire(lpWire);
+	lpInputPort->SetNode(ppReceivingNode);
 
 	ppSendingNode->mOutputPorts[pSendingNodeOutputIndex] = lpOutputPort;
 	ppReceivingNode->mInputPorts[pReceivingNodeInputIndex] = lpInputPort;
@@ -131,10 +135,13 @@ std::shared_ptr<Wire> Node::CreateInputWire(std::shared_ptr<Node> ppReceivingNod
 	ASSERT(pReceivingNodeInputIndex < ppReceivingNode->GetNumberOfInputWires(),
 		   "Receiving node input index out of bounds");
 
-	auto lpWire = pAlwaysReady ? std::make_shared<AlwaysReadyWire>(ppReceivingNode, pNumBits)
-							   : std::make_shared<Wire>(ppReceivingNode, pNumBits);
+	auto lpInputPort = std::make_shared<Port>(ppReceivingNode->GetInputPortName(pReceivingNodeInputIndex));
 
-	auto lpInputPort = std::make_shared<Port>(lpWire);
+	auto lpWire = pAlwaysReady ? std::make_shared<AlwaysReadyWire>(lpInputPort, pNumBits)
+							   : std::make_shared<Wire>(nullptr, lpInputPort, pNumBits);
+
+	lpInputPort->SetWire(lpWire);
+	lpInputPort->SetNode(ppReceivingNode);
 
 	ppReceivingNode->mInputPorts[pReceivingNodeInputIndex] = lpInputPort;
 
@@ -147,9 +154,12 @@ Node::CreateOutputWire(std::shared_ptr<Node> ppSendingNode, size_t pSendingNodeO
 	ASSERT(pSendingNodeOutputIndex < ppSendingNode->GetNumberOfOutputWires(),
 		   "Sending node output index out of bounds");
 
-	auto lpWire = std::make_shared<Wire>(nullptr, pNumBits);
+	auto lpOutputPort = std::make_shared<Port>(ppSendingNode->GetOutputPortName(pSendingNodeOutputIndex));
 
-	auto lpOutputPort = std::make_shared<Port>(lpWire,ppSendingNode->GetOutputPortName(pSendingNodeOutputIndex));
+	auto lpWire = std::make_shared<Wire>(lpOutputPort, nullptr, pNumBits);
+
+	lpOutputPort->SetWire(lpWire);
+	lpOutputPort->SetNode(ppSendingNode);
 
 	ppSendingNode->mOutputPorts[pSendingNodeOutputIndex] = lpOutputPort;
 

@@ -9,10 +9,6 @@
 #include <iostream>
 #include <memory>
 
-/* TODOs:
- * test LUI and AUIPC
- */
-
 int main()
 {
 	// ================== Instructions ==================

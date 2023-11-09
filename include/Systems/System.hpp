@@ -16,7 +16,6 @@ class System
 {
 public:
 	System();
-	System(std::vector<std::shared_ptr<Node>>&& ppNodes, std::vector<std::shared_ptr<Wire>>&& ppWires);
 
 	const Node& GetNode(int pIndex) const;
 	const Wire& GetWire(int pIndex) const;

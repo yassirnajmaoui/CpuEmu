@@ -5,20 +5,26 @@
 #include <memory>
 #include <string>
 
+class Node;
+
 class Port
 {
 public:
-//	TODO: Change this: it was to have a Node here. Add a getter to the node. Do not stock the wire
-	Port(std::shared_ptr<Wire> pWire, std::string pName = "Unnamed port");
+	Port(std::string pName = "Unnamed port");
 
-	std::shared_ptr<Wire>& GetWire();
 	const std::shared_ptr<Wire>& GetWire() const;
+	std::shared_ptr<Wire> GetWire();
 	std::string GetName() const;
 	void SetName(std::string pName);
+	void SetWire(std::shared_ptr<Wire> ppWire);
+	void SetNode(std::shared_ptr<Node> ppNode);
 	int GetId() const;
 
+	void NotifyDataReady();
+
 private:
-	std::shared_ptr<Wire> mWire;
+	std::shared_ptr<Wire> mpWire;
+	std::shared_ptr<Node> mpNode;
 	std::string mName;
 	int mId;
 
